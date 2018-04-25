@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shuzhongchen.foodordersystem.MainActivity"
-    android:background="@drawable/food_background_logo">
-
+    android:background="@drawable/food_background">
 
     <LinearLayout
         android:layout_alignParentBottom="true"
@@ -16,14 +15,14 @@
         android:weightSum="2">
 
         <Button
-        android:id="@+id/btnSignIn"
-        android:text="@string/sign_in"
-        android:textColor="@android:color/white"
-        android:layout_margin="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/btnSignIn"    />
+            android:id="@+id/btnSignIn"
+            android:text="@string/sign_in"
+            android:textColor="@android:color/white"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/btnLogIn"  />
 
         <Button
             android:id="@+id/btnSignUp"
