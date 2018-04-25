@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Food Order System</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
