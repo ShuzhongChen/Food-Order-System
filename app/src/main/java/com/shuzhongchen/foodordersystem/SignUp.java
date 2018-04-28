@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -45,6 +46,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 registerUser();
+                edtPassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
 
