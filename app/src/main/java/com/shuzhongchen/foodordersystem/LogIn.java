@@ -43,6 +43,7 @@ public class LogIn extends AppCompatActivity {
 
         });
 
+
     }
 
     private void initControls() {
@@ -59,11 +60,13 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                     //code
+                //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onCancel() {
-                
+
             }
 
             @Override
