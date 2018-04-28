@@ -1,13 +1,16 @@
 package com.shuzhongchen.foodordersystem;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -16,6 +19,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 
@@ -30,16 +37,23 @@ public class LogIn extends AppCompatActivity {
     private EditText editEmail;
     private EditText editPassword;
 
+    FirebaseAuth myAuth;
+    ProgressBar loginprogBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        myAuth = FirebaseAuth.getInstance();
+
         initControls();
         loginWithFB();
 
         btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                editPassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 customerType = customerTypeSwitch.isChecked();
 
                 if (customerType) {
@@ -68,6 +82,54 @@ public class LogIn extends AppCompatActivity {
 
     private void CheckCustomerLogin() {
 
+        String userEmail = editEmail.getText().toString().trim();
+        String userPW = editPassword.getText().toString().trim();
+
+        if(TextUtils.isEmpty(userEmail)) {
+            //email is empty
+            editEmail.setError("Email is required");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+            editEmail.setError("Please enter a valid email");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(userPW)) {
+
+            editPassword.setError("Password is required");
+            editPassword.requestFocus();
+            return;
+        }
+
+
+        if(userPW.length() < 6) {
+            editPassword.setError("Password should be at least 6 characters");
+            editPassword.requestFocus();
+            return;
+        }
+
+        loginprogBar.setVisibility(View.VISIBLE);
+
+        myAuth.signInWithEmailAndPassword(userEmail, userPW).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                loginprogBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                        //jump to order page
+
+                    Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        
     }
 
     private void initControls() {
@@ -79,6 +141,8 @@ public class LogIn extends AppCompatActivity {
         editPassword = (EditText)findViewById(R.id.edtPassword);
 
         customerTypeSwitch = (Switch)findViewById(R.id.CutomerTypeSwitch);
+
+        loginprogBar = findViewById(R.id.logInBar);
     }
 
     private void loginWithFB() {
