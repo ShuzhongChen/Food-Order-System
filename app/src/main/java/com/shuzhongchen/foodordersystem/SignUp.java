@@ -53,11 +53,18 @@ public class SignUp extends AppCompatActivity {
 
         if(TextUtils.isEmpty(email)) {
             //email is empty
-            Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_SHORT).show();
+            edtEmail.setError("Email can't be empty");
             return;
         }
         if(TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
+            edtPassword.setError("Password can't be empty");
+            return;
+        }
+
+        if(password.length() < 6) {
+            edtPassword.setError("Password should be at least 6 characters");
             return;
         }
 
