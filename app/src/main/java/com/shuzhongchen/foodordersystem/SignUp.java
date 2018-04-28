@@ -1,15 +1,19 @@
 package com.shuzhongchen.foodordersystem;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.login.Login;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +27,7 @@ public class SignUp extends AppCompatActivity {
     EditText edtFirstName, edtLastName, edtEmail, edtPassword;
     Button btnRegister;
     FirebaseAuth firebaseAuth;
+    ProgressBar progressBar;
 
 
     @Override
@@ -38,6 +43,8 @@ public class SignUp extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
 
+        progressBar = findViewById(R.id.progress_bar);
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,29 +57,60 @@ public class SignUp extends AppCompatActivity {
     private void registerUser() {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
+        String firstName = edtFirstName.getText().toString();
+        String lastName = edtLastName.getText().toString();
+
+        if(TextUtils.isEmpty(firstName)) {
+            edtFirstName.setError("First name is required");
+            edtFirstName.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(lastName)) {
+            edtLastName.setError("First name is required");
+            edtLastName.requestFocus();
+            return;
+        }
 
         if(TextUtils.isEmpty(email)) {
             //email is empty
-            //Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_SHORT).show();
-            edtEmail.setError("Email can't be empty");
-            return;
-        }
-        if(TextUtils.isEmpty(password)) {
-            //Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
-            edtPassword.setError("Password can't be empty");
+            edtEmail.setError("Email is required");
+            edtEmail.requestFocus();
             return;
         }
 
-        if(password.length() < 6) {
-            edtPassword.setError("Password should be at least 6 characters");
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Please enter a valid email");
+            edtEmail.requestFocus();
             return;
         }
+
+        if(TextUtils.isEmpty(password)) {
+
+            edtPassword.setError("Password is required");
+            edtPassword.requestFocus();
+            return;
+        }
+
+
+        if(password.length() < 6) {
+            edtPassword.setError("Password should be at least 6 characters");
+            edtPassword.requestFocus();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
 
        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+                    //jump to log in page
                     Toast.makeText(getApplicationContext(), "Register Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LogIn.class);
+                    startActivity(intent);
+
                 }else {
                     FirebaseAuthException e = (FirebaseAuthException) task.getException();
                     Log.e("LoginActivity", "Failed Registration", e);
@@ -81,4 +119,6 @@ public class SignUp extends AppCompatActivity {
             }
         });
     }
+
+
 }
