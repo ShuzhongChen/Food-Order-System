@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import java.security.Signature;
 
@@ -111,11 +112,18 @@ public class SignUp extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LogIn.class);
                     startActivity(intent);
 
-                }else {
-                    FirebaseAuthException e = (FirebaseAuthException) task.getException();
-                    Log.e("LoginActivity", "Failed Registration", e);
-                    Toast.makeText(getApplicationContext(), "Register fail", Toast.LENGTH_SHORT).show();
                 }
+                else {
+
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
     }
