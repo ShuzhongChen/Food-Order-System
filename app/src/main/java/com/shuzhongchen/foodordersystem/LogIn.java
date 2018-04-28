@@ -54,7 +54,6 @@ public class LogIn extends AppCompatActivity {
     }
 
     private void CheckAdminLogin() {
-        System.out.println("check admin");
         if (editEmail.getText().toString().equalsIgnoreCase("admin")
             && editPassword.getText().toString().equalsIgnoreCase("admin")) {
 

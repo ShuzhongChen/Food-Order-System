@@ -9,21 +9,15 @@
     android:orientation="vertical"
     tools:context="com.shuzhongchen.foodordersystem.Admin">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_menu"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:background="@drawable/custome_border"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/addImageButton"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="300dp"
-            android:layout_marginStart="300dp"
-            android:layout_weight="1"
-            android:src="@drawable/add" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" >
+        
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/MenuListView"
