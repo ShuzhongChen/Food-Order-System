@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -26,7 +27,8 @@ public class LogIn extends AppCompatActivity {
     private boolean customerType = false;
     private Button btnLogin;
     private Switch customerTypeSwitch;
-
+    private EditText editEmail;
+    private EditText editPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,32 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 customerType = customerTypeSwitch.isChecked();
+
+                if (customerType) {
+                    CheckCustomerLogin();
+                } else {
+                    CheckAdminLogin();
+                }
             }
 
         });
 
+
+    }
+
+    private void CheckAdminLogin() {
+        System.out.println("check admin");
+        if (editEmail.getText().toString().equalsIgnoreCase("admin")
+            && editPassword.getText().toString().equalsIgnoreCase("admin")) {
+
+            System.out.println("email" + editEmail.getText().toString() + "\n" + "password" + editPassword.getText().toString());
+            Intent goAdminActivity = new Intent(this, AdminDashboardActivity.class);
+            startActivity(goAdminActivity);
+            finish();
+        }
+    }
+
+    private void CheckCustomerLogin() {
 
     }
 
@@ -51,6 +75,8 @@ public class LogIn extends AppCompatActivity {
         fbLoginButton = findViewById(R.id.fbLogin);
         btnLogin = (Button)findViewById(R.id.btnLogin);
         fbLoginButton.setReadPermissions(Arrays.asList(EMAIL));
+        editEmail = (EditText)findViewById(R.id.edtEmail);
+        editPassword = (EditText)findViewById(R.id.edtPassword);
 
         customerTypeSwitch = (Switch)findViewById(R.id.CutomerTypeSwitch);
     }
