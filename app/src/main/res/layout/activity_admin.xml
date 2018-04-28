@@ -15,15 +15,14 @@
         android:background="@drawable/custome_border"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/addImageView"
+        <ImageButton
+            android:id="@+id/addImageButton"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="300dp"
             android:layout_marginStart="300dp"
             android:layout_weight="1"
-            android:onClick="OnItemAdded"
-            app:srcCompat="@drawable/add" />
+            android:src="@drawable/add" />
     </LinearLayout>
 
     <ListView

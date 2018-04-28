@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 /**
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private ImageView addImage;
+    private ImageButton addImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +23,22 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         initial();
 
+        addImage.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.MainContainer,new addMenuItemFragment());
+                System.out.print("executed replace function");
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        }));
+
     }
 
     private void initial() {
-        addImage = (ImageView) findViewById(R.id.addImageView);
-    }
-
-    public void OnItemAdded(View view) {
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.MainContainer,new addMenuItemFragment());
-        System.out.print("executed replace function");
-        transaction.addToBackStack(null);
-        transaction.commit();
+        addImage = (ImageButton) findViewById(R.id.addImageButton);
     }
 
 }
