@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "790906021704-g47sdmuis53agaec2ld378vvcpi76h14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shuzhongchen.foodordersystem",
+            "certificate_hash": "ccce442e2f832dc1c8b73d1b4927b581d0e99f1e"
+          }
+        },
+        {
+          "client_id": "790906021704-g8ffe1b0k2udu6osgvbns77b11sjdhoh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shuzhongchen.foodordersystem",
+            "certificate_hash": "8acbca810be797ffd995b41ff3ca6e926317c02d"
+          }
+        },
+        {
           "client_id": "790906021704-vbr0o95vpqidq7rmbngrltpujolhluva.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790906021704-vbr0o95vpqidq7rmbngrltpujolhluva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
