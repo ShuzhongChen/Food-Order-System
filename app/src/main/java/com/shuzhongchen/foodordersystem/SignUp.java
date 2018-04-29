@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUp extends AppCompatActivity {
 
@@ -106,6 +109,7 @@ public class SignUp extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     //jump to log in page
                     Toast.makeText(getApplicationContext(), "Register Successfully", Toast.LENGTH_SHORT).show();
+                    saveUserInfo();
                     Intent intent = new Intent(SignUp.this, LogIn.class);
                     startActivity(intent);
 
@@ -123,6 +127,27 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void saveUserInfo() {
+        String firstName = edtFirstName.getText().toString();
+        String lastName = edtLastName.getText().toString();
+        String displayName = firstName + " " + lastName;
+
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user != null) {
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).build();
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("sign up", "onComplete: " + user.getDisplayName());
+                    }
+                }
+            });
+
+        }
+
     }
 
 
