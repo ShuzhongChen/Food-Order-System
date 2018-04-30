@@ -5,7 +5,7 @@
     android:layout_height="140dp">
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/menu_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginLeft="25dp"
@@ -33,12 +33,11 @@
                 android:text="ID:" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/menu_id_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,8 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,12 +71,11 @@
                 android:text="Category:" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/menu_category_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,12 +90,11 @@
                 android:text="UnitPrice:" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/menu_unit_price_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -114,12 +110,11 @@
                 android:text="Calories:" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/menu_calories_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,12 +129,11 @@
                 android:text="PrepTime:" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/menu_preptime_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp"
-                android:text="TextView" />
+                android:paddingLeft="30dp" />
         </LinearLayout>
 
     </LinearLayout>
