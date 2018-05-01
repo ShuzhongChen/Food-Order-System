@@ -17,7 +17,6 @@ import android.widget.ListView;
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private ImageButton addImage;
-    private ListView listView;
     String[] menuName = {"test1", "test2", "test3", "test4"};
     String[] menuCategory = {"category1", "category2", "category3", "category4"};
     int[] menuCalories = {1,2,3,4};
@@ -33,9 +32,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         initial();
 
-        listView = (ListView) findViewById(R.id.MenuListView);
+        //listView = (ListView) findViewById(R.id.MenuListView);
         CustomListView customListView = new CustomListView(this, menuName, menuCategory, menuUnitPrice, menuCalories, menuPrepTime);
-        listView.setAdapter(customListView);
+        //listView.setAdapter(customListView);
 
 
 //        addImage.setOnClickListener ((new View.OnClickListener() {
