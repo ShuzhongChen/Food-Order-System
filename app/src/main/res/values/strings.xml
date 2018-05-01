@@ -8,7 +8,13 @@
     <string name="password">Password</string>
     <string name="register">Sign Up</string>
     <string name="login_email">Login Email</string>
-    
+
     <string name="facebook_app_id">197988354324216</string>
     <string name="fb_login_protocol_scheme">fb197988354324216</string>
+    <string name="title_activity_customer_home">CustomerHome</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
