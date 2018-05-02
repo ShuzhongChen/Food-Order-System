@@ -1,9 +1,11 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.shuzhongchen.foodordersystem.R;
 
 public class SignUp extends AppCompatActivity {
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
     android:orientation="vertical"
-    tools:context="com.shuzhongchen.foodordersystem.Admin">
+    tools:context="com.shuzhongchen.foodordersystem.models.Admin">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_menu"

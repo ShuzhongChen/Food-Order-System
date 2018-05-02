@@ -1,4 +1,4 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.models;
 
 /**
  * Created by jinchengcheng on 4/30/18.
@@ -6,21 +6,12 @@ package com.shuzhongchen.foodordersystem;
 
 public class Menu {
 
-    private int id;
     private String name;
     private String category;
     private int calories;
-    private int unitPrice;
-    private int prepTime;
+    private int unitprice;
+    private int preptime;
 
-    public int getId() {
-        return id;
-    }
-
-    public Menu setId(int id) {
-        this.id = id;
-        return this;
-    }
 
     public String getName() {
         return name;
@@ -50,20 +41,20 @@ public class Menu {
     }
 
     public int getUnitPrice() {
-        return unitPrice;
+        return unitprice;
     }
 
     public Menu setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
+        this.unitprice = unitPrice;
         return this;
     }
 
     public int getPrepTime() {
-        return prepTime;
+        return preptime;
     }
 
     public Menu setPrepTime(int prepTime) {
-        this.prepTime = prepTime;
+        this.preptime = prepTime;
         return this;
     }
 }

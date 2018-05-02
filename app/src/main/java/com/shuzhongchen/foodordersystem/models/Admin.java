@@ -1,4 +1,4 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.models;
 
 /**
  * Created by jinchengcheng on 4/27/18.

@@ -1,9 +1,7 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,8 +22,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import info.hoang8f.widget.FButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.shuzhongchen.foodordersystem.holders.CustomListView;
+import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.models.Menu;
 
 
 /**
@@ -47,12 +47,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
 
     FirebaseDatabase firebaseDatabase;
+    FirebaseFirestore fs;
     DatabaseReference menu;
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
 
-    FirebaseRecyclerAdapter<Menu, MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Menu, CustomListView.MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
 
         initial();
+        loadAllMenu();
 
         CustomListView customListView = new CustomListView(this, menuName, menuCategory, menuUnitPrice, menuCalories, menuPrepTime);
 
@@ -81,37 +83,23 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 .setQuery(menu, Menu.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<Menu, MenuViewHolder>(allMenu) {
+        adapter = new FirebaseRecyclerAdapter<Menu, CustomListView.MenuViewHolder>(allMenu) {
             @Override
-            protected void onBindViewHolder(@NonNull MenuViewHolder holder, final int position, @NonNull final Menu model) {
+            protected void onBindViewHolder(@NonNull CustomListView.MenuViewHolder holder, final int position, @NonNull final Menu model) {
                 holder.nameTV.setText(model.getName());
                 holder.categoryTV.setText(model.getCategory());
                 holder.caloriesTV.setText(model.getCalories());
                 holder.UnitPriceTV.setText(model.getUnitPrice());
                 holder.PrepTimeTV.setText(model.getPrepTime());
 
-                holder.editButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showEditDialog(adapter.getRef(position).getKey(), model);
-                    }
-                });
-
-                holder.removeButton.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        removeMenu(adapter.getRef(position).getKey());
-                    }
-                });
             }
 
             @NonNull
             @Override
-            public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public CustomListView.MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemview = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.activity_admin, parent, false);
-                return new MenuViewHolder(itemview);
+                return new CustomListView.MenuViewHolder(itemview);
             }
         };
 
@@ -180,6 +168,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         menu = firebaseDatabase.getReference("menu");
+        System.out.print(menu.toString());
     }
 
     private void showCreateMenuLayout() {
