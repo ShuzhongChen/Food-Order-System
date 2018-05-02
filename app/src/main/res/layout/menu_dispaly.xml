@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="140dp">
+    android:layout_height="180dp">
 
     <ImageButton
         android:id="@+id/menu_image"
@@ -23,14 +23,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ID:" />
+                android:text="@string/id" />
 
             <TextView
                 android:id="@+id/menu_id_textView"
@@ -49,7 +49,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Name:" />
+                android:text="@string/name" />
 
             <TextView
                 android:id="@+id/menu_name_textView"
@@ -68,7 +68,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Category:" />
+                android:text="@string/category" />
 
             <TextView
                 android:id="@+id/menu_category_textview"
@@ -87,7 +87,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="UnitPrice:" />
+                android:text="@string/unit_price" />
 
             <TextView
                 android:id="@+id/menu_unit_price_textView"
@@ -107,7 +107,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Calories:" />
+                android:text="@string/calories" />
 
             <TextView
                 android:id="@+id/menu_calories_textView"
@@ -126,7 +126,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="PrepTime:" />
+                android:text="@string/prepTime" />
 
             <TextView
                 android:id="@+id/menu_preptime_textView"
@@ -137,4 +137,36 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/edit_fbutton"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="140dp"
+            android:background="@color/cardview_light_background"
+            android:text="@string/edit"
+            android:textColorLink="@color/cardview_dark_background"
+            app:cornerRadius="0dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/remove_fbutton"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="140dp"
+            android:background="@color/cardview_light_background"
+            android:text="@string/remove"
+            app:cornerRadius="0dp" />
+    </LinearLayout>
+
 </RelativeLayout>
