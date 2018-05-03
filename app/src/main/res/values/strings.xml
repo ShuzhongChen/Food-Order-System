@@ -8,6 +8,9 @@
     <string name="password">Password</string>
     <string name="register">Sign Up</string>
     <string name="login_email">Login Email</string>
+
+    <string name="order">Order Food</string>
+    <string name="history">Order History</string>
     
     <string name="facebook_app_id">197988354324216</string>
     <string name="fb_login_protocol_scheme">fb197988354324216</string>

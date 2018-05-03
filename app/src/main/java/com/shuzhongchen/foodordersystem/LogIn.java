@@ -174,8 +174,10 @@ public class LogIn extends AppCompatActivity {
                 loginprogBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                         //jump to order page
-
-                    Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+                    Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
+                    startActivity(goCustomerActivity);
+                    finish();
+                    //Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
