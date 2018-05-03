@@ -1,5 +1,7 @@
 package com.shuzhongchen.foodordersystem.models;
 
+import java.net.URL;
+
 /**
  * Created by jinchengcheng on 4/30/18.
  */
@@ -11,6 +13,7 @@ public class Menu {
     private int calories;
     private int unitprice;
     private int preptime;
+    private String image;
 
 
     public String getName() {
@@ -56,5 +59,14 @@ public class Menu {
     public Menu setPrepTime(int prepTime) {
         this.preptime = prepTime;
         return this;
+    }
+
+    public Menu setImage(String image) {
+        this.image = image;
+        return this;
+    }
+
+    public String getImage() {
+        return this.image;
     }
 }

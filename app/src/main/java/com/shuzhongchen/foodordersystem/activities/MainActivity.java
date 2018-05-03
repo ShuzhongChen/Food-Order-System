@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignUp;
     private Button btnSignIn;
 
-
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference menu;
 
 
     @Override

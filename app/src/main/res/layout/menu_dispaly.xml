@@ -143,7 +143,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <info.hoang8f.widget.FButton
+        <Button
             android:id="@+id/edit_fbutton"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
@@ -154,9 +154,9 @@
             android:background="@color/cardview_light_background"
             android:text="@string/edit"
             android:textColorLink="@color/cardview_dark_background"
-            app:cornerRadius="0dp" />
+            />
 
-        <info.hoang8f.widget.FButton
+        <Button
             android:id="@+id/remove_fbutton"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
@@ -165,8 +165,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="140dp"
             android:background="@color/cardview_light_background"
-            android:text="@string/remove"
-            app:cornerRadius="0dp" />
+            android:text="@string/remove" />
     </LinearLayout>
 
 </RelativeLayout>

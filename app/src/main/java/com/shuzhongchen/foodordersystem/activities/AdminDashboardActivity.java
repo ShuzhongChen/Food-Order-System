@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.shuzhongchen.foodordersystem.holders.CustomListView;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 
 
@@ -35,11 +36,6 @@ import com.shuzhongchen.foodordersystem.models.Menu;
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private ImageButton addImage;
-    String[] menuName = {"test1", "test2", "test3", "test4"};
-    String[] menuCategory = {"category1", "category2", "category3", "category4"};
-    int[] menuCalories = {1,2,3,4};
-    int[] menuUnitPrice = {1,2,3,4};
-    int[] menuPrepTime = {1,2,3,4};
 
     private Activity content;
 
@@ -47,28 +43,43 @@ public class AdminDashboardActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
 
     FirebaseDatabase firebaseDatabase;
-    FirebaseFirestore fs;
-    DatabaseReference menu;
+    DatabaseReference test;
+    DatabaseReference menuDB;
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
 
-    FirebaseRecyclerAdapter<Menu, CustomListView.MenuViewHolder> adapter;
+    FirebaseRecyclerAdapter<Menu, MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        initial();
-        loadAllMenu();
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_menu);
+        layoutManager = new LinearLayoutManager(this);
 
-        CustomListView customListView = new CustomListView(this, menuName, menuCategory, menuUnitPrice, menuCalories, menuPrepTime);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        menuDB = firebaseDatabase.getReference("menu");
+        test = firebaseDatabase.getReference();
+
+        loadAllMenu();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
+                System.out.print("firebase: "  + firebaseDatabase.toString() + "\n");
+                //System.out.print("menu: "  + test.child("menu") + "\n");
+                //System.out.print("name: "  + test.child("menu").child("01").child("name") + "\n");
+               // System.out.print("category: "  + test.child("menu").child("01").child("category") + "\n");
+                //System.out.print("calories: "  + test.child("menu").child("01").child("calories") + "\n");
+                System.out.print("menu: "  + menuDB.toString() + "\n");
+                System.out.print("menu key: "  + menuDB.getKey() + "\n");
+                System.out.print("menu child: "  + menuDB.child("01").toString() + "\n");
+
+
                showCreateMenuLayout();
             }
         });
@@ -79,28 +90,31 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
     private void loadAllMenu() {
-        final FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menu, Menu.class)
+        
+        FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
+                .setQuery(menuDB, Menu.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<Menu, CustomListView.MenuViewHolder>(allMenu) {
-            @Override
-            protected void onBindViewHolder(@NonNull CustomListView.MenuViewHolder holder, final int position, @NonNull final Menu model) {
-                holder.nameTV.setText(model.getName());
-                holder.categoryTV.setText(model.getCategory());
-                holder.caloriesTV.setText(model.getCalories());
-                holder.UnitPriceTV.setText(model.getUnitPrice());
-                holder.PrepTimeTV.setText(model.getPrepTime());
-
-            }
+        adapter = new FirebaseRecyclerAdapter<Menu, MenuViewHolder>(allMenu) {
 
             @NonNull
             @Override
-            public CustomListView.MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemview = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.activity_admin, parent, false);
-                return new CustomListView.MenuViewHolder(itemview);
+                        .inflate(R.layout.menu_dispaly, parent, false);
+                return new MenuViewHolder(itemview);
             }
+
+            @Override
+            protected void onBindViewHolder(@NonNull MenuViewHolder holder, final int position, @NonNull final Menu model) {
+
+                holder.nameTV.setText(model.getName());
+                holder.categoryTV.setText(model.getCategory());
+                holder.caloriesTV.setText(model.getCalories() + "");
+                holder.UnitPriceTV.setText(model.getUnitPrice() + "");
+                holder.PrepTimeTV.setText(model.getPrepTime() + "");
+            }
+
         };
 
         adapter.startListening();
@@ -129,6 +143,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setCategory("testFunction")
                         .setPrepTime(100)
                         .setUnitPrice(100);
+
+                // to do : update information to firebase
             }
         });
 
@@ -144,7 +160,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 
     private void removeMenu(String key) {
-        menu.child(key)
+        menuDB.child(key)
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -162,14 +178,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
 
-    private void initial() {
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_menu);
-        layoutManager = new LinearLayoutManager(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        menu = firebaseDatabase.getReference("menu");
-        System.out.print(menu.toString());
-    }
 
     private void showCreateMenuLayout() {
         AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder(AdminDashboardActivity.this);
@@ -191,6 +199,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setCategory("testFunction")
                         .setPrepTime(100)
                         .setUnitPrice(100);
+
+
             }
         });
 

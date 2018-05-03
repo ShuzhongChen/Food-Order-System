@@ -80,7 +80,7 @@
             android:textColor="@color/cardview_light_background" />
 
         <TextView
-            android:id="@+id/unitPriceTextView2"
+            android:id="@+id/caloriesTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -130,7 +130,7 @@
             android:textColor="@color/cardview_light_background" />
 
         <TextView
-            android:id="@+id/unitPriceTextView3"
+            android:id="@+id/prepTimeTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -162,30 +162,5 @@
         android:alpha="0.3"
         android:onClick="AddPhoto"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_marginBottom="26dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginStart="42dp"
-        android:layout_toEndOf="@+id/imageButton"
-        android:layout_toRightOf="@+id/imageButton"
-        android:text="ID"
-        android:textColor="@color/cardview_light_background" />
-
-    <TextView
-        android:id="@+id/IDTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_marginLeft="21dp"
-        android:layout_marginStart="21dp"
-        android:layout_toEndOf="@+id/textView4"
-        android:layout_toRightOf="@+id/textView4"
-        android:text="TextView" />
 
 </RelativeLayout>
