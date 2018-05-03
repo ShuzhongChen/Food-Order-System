@@ -25,7 +25,6 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         public TextView idTV;
 
         public ImageButton imageButton;
-        public Button editButton;
         public Button removeButton;
 
 
@@ -42,7 +41,6 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             PrepTimeTV = (TextView) view.findViewById(R.id.menu_preptime_textView);
             imageButton = (ImageButton) view.findViewById(R.id.menu_image);
 
-            editButton = (Button)view.findViewById(R.id.edit_fbutton);
             removeButton = (Button) view.findViewById(R.id.remove_fbutton);
 
         }

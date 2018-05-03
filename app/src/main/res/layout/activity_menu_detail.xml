@@ -11,10 +11,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="310dp"
         android:orientation="horizontal">
 
         <TextView
@@ -22,6 +22,7 @@
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="15dp"
             android:text="Category"
             android:textColor="@color/cardview_light_background" />
 
@@ -40,10 +41,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="350dp"
         android:orientation="horizontal">
 
         <TextView
@@ -51,24 +52,24 @@
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="15dp"
             android:text="Unit Price ($)"
             android:textColor="@color/cardview_light_background" />
 
-        <TextView
+        <EditText
             android:id="@+id/UnitPriceTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="370dp"
+        android:layout_marginTop="390dp"
         android:orientation="horizontal">
 
         <TextView
@@ -76,49 +77,50 @@
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="15dp"
             android:text="Calories (cal)"
             android:textColor="@color/cardview_light_background" />
 
-        <TextView
+        <EditText
             android:id="@+id/caloriesTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="270dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView44"
             android:layout_width="10dp"
             android:layout_height="match_parent"
+            android:layout_gravity="bottom|left|center_vertical"
             android:layout_weight="1"
+            android:paddingTop="15dp"
             android:text="Name"
             android:textColor="@color/cardview_light_background" />
 
-        <TextView
+        <EditText
             android:id="@+id/MenuNameTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="410dp"
+        android:layout_marginTop="430dp"
         android:orientation="horizontal">
 
         <TextView
@@ -126,41 +128,28 @@
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingTop="15dp"
             android:text="Prep Time (min)"
             android:textColor="@color/cardview_light_background" />
 
-        <TextView
+        <EditText
             android:id="@+id/prepTimeTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="60dp"
         app:srcCompat="@mipmap/ic_launcher" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageButton"
-        android:layout_alignEnd="@+id/imageButton"
-        android:layout_alignLeft="@+id/imageButton"
-        android:layout_alignRight="@+id/imageButton"
-        android:layout_alignStart="@+id/imageButton"
-        android:layout_alignTop="@+id/imageButton"
-        android:alpha="0.3"
-        android:onClick="AddPhoto"
-        app:srcCompat="@android:drawable/ic_input_add" />
 
 </RelativeLayout>

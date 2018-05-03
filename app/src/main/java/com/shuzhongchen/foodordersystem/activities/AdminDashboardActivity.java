@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -39,18 +40,18 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private Activity content;
 
-
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference test;
     DatabaseReference menuDB;
-    int id;
+    static int id;
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Menu, MenuViewHolder> adapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
-        test = firebaseDatabase.getReference();
-        id = 1;
+
 
         loadAllMenu();
 
@@ -72,16 +72,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                System.out.print("firebase: "  + firebaseDatabase.toString() + "\n");
-                //System.out.print("menu: "  + test.child("menu") + "\n");
-                //System.out.print("name: "  + test.child("menu").child("01").child("name") + "\n");
-               // System.out.print("category: "  + test.child("menu").child("01").child("category") + "\n");
-                //System.out.print("calories: "  + test.child("menu").child("01").child("calories") + "\n");
-                System.out.print("menu: "  + menuDB.toString() + "\n");
-                System.out.print("menu key: "  + menuDB.getKey() + "\n");
-                System.out.print("menu child: "  + menuDB.child("01").toString() + "\n");
-
-
                showCreateMenuLayout();
             }
         });
@@ -92,13 +82,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
     private void loadAllMenu() {
-        
+
+        id = 1;
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
                 .setQuery(menuDB, Menu.class)
                 .build();
 
         adapter = new FirebaseRecyclerAdapter<Menu, MenuViewHolder>(allMenu) {
-
             @NonNull
             @Override
             public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -113,9 +103,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 holder.idTV.setText("" + id++);
                 holder.nameTV.setText(model.getName());
                 holder.categoryTV.setText(model.getCategory());
-                holder.caloriesTV.setText(model.getCalories() + "");
-                holder.UnitPriceTV.setText(model.getUnitPrice() + "");
-                holder.PrepTimeTV.setText(model.getPrepTime() + "");
+                holder.caloriesTV.setText("" + model.getCalories());
+                holder.UnitPriceTV.setText("" + model.getUnitPrice());
+                holder.PrepTimeTV.setText("" + model.getPrepTime());
+
+                holder.removeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        removeMenu(adapter.getRef(position).getKey());
+                    }
+                });
             }
 
         };
@@ -139,13 +136,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-
-                Menu menu = new Menu();
-                menu.setName("testFunction")
-                        .setCalories(100)
-                        .setCategory("testFunction")
-                        .setPrepTime(100)
-                        .setUnitPrice(100);
 
                 // to do : update information to firebase
             }
@@ -176,34 +166,54 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 Toast.makeText(AdminDashboardActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        id = 1;
         adapter.notifyDataSetChanged();
-
     }
 
 
-
     private void showCreateMenuLayout() {
+
         AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder(AdminDashboardActivity.this);
         create_menu_dialog.setTitle("Create Menu");
 
         LayoutInflater layoutInflater = this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.activity_menu_detail,null);
+        final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
-        create_menu_dialog.setView(view);
+        create_menu_dialog.setView(CreateView);
+        create_menu_dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
 
         create_menu_dialog.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+
+                EditText createName = (EditText)CreateView.findViewById(R.id.MenuNameTextView);
+                EditText createCalories = (EditText)CreateView.findViewById(R.id.caloriesTextView);
+                EditText createUnitPrice = (EditText)CreateView.findViewById(R.id.UnitPriceTextView);
+                EditText createPrepTime = (EditText)CreateView.findViewById(R.id.prepTimeTextView);
 
                 Menu menu = new Menu();
-                menu.setName("testFunction")
-                        .setCalories(100)
-                        .setCategory("testFunction")
-                        .setPrepTime(100)
-                        .setUnitPrice(100);
+                menu.setName(createName.getText().toString())
+                        .setImage("test")
+                        .setCategory("test")
+                        .setCalories(Integer.parseInt(createCalories.getText().toString()))
+                        .setUnitPrice(Integer.parseInt(createUnitPrice.getText().toString()))
+                        .setPrepTime(Integer.parseInt(createPrepTime.getText().toString()));
 
+                menuDB.child(String.valueOf(id))
+                        .setValue(menu)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AdminDashboardActivity.this, "menu created!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminDashboardActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+                dialogInterface.dismiss();
             }
         });
 

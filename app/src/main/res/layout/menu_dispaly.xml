@@ -150,20 +150,8 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/edit_fbutton"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="140dp"
-            android:background="@color/cardview_light_background"
-            android:text="@string/edit"
-            android:textColorLink="@color/cardview_dark_background" />
-
-        <Button
             android:id="@+id/remove_fbutton"
-            android:layout_width="210dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
