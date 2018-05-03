@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.CardView android:layout_width="match_parent"
+    android:layout_height="180dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="180dp">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_margin="7dp"
+    android:id="@+id/menu_card"
+    card_view:cardCornerRadius="7dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <ImageButton
         android:id="@+id/menu_image"
@@ -153,8 +159,7 @@
             android:layout_marginTop="140dp"
             android:background="@color/cardview_light_background"
             android:text="@string/edit"
-            android:textColorLink="@color/cardview_dark_background"
-            />
+            android:textColorLink="@color/cardview_dark_background" />
 
         <Button
             android:id="@+id/remove_fbutton"
@@ -168,4 +173,4 @@
             android:text="@string/remove" />
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.CardView>

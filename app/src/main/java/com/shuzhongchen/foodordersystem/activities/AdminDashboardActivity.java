@@ -45,6 +45,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference test;
     DatabaseReference menuDB;
+    int id;
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
@@ -63,6 +64,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
         test = firebaseDatabase.getReference();
+        id = 1;
 
         loadAllMenu();
 
@@ -108,6 +110,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder holder, final int position, @NonNull final Menu model) {
 
+                holder.idTV.setText("" + id++);
                 holder.nameTV.setText(model.getName());
                 holder.categoryTV.setText(model.getCategory());
                 holder.caloriesTV.setText(model.getCalories() + "");

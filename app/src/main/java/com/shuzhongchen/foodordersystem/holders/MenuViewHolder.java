@@ -22,6 +22,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         public TextView caloriesTV;
         public TextView UnitPriceTV;
         public TextView PrepTimeTV;
+        public TextView idTV;
 
         public ImageButton imageButton;
         public Button editButton;
@@ -33,6 +34,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         public MenuViewHolder(View view) {
             super(view);
+            idTV = (TextView)view.findViewById(R.id.menu_id_textView);
             nameTV = (TextView)view.findViewById(R.id.menu_name_textView);
             categoryTV = (TextView)view.findViewById(R.id.menu_category_textview);
             caloriesTV = (TextView) view.findViewById(R.id.menu_calories_textView);
