@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shuzhongchen.foodordersystem.R;
@@ -24,7 +25,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         public TextView PrepTimeTV;
         public TextView idTV;
 
-        public ImageButton imageButton;
+        public ImageView imageButton;
         public Button removeButton;
 
 
@@ -39,7 +40,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             caloriesTV = (TextView) view.findViewById(R.id.menu_calories_textView);
             UnitPriceTV = (TextView) view.findViewById(R.id.menu_unit_price_textView);
             PrepTimeTV = (TextView) view.findViewById(R.id.menu_preptime_textView);
-            imageButton = (ImageButton) view.findViewById(R.id.menu_image);
+            imageButton = (ImageView) view.findViewById(R.id.menu_image);
 
             removeButton = (Button) view.findViewById(R.id.remove_fbutton);
 
