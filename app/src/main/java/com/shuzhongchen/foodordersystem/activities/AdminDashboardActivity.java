@@ -15,9 +15,12 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -36,6 +39,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URL;
 
 
@@ -60,8 +64,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     FirebaseRecyclerAdapter<Menu, MenuViewHolder> adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
-
 
         loadAllMenu();
 
@@ -118,7 +119,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
-                
+
                 holder.removeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -191,6 +192,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = this.getLayoutInflater();
         final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
+        String[] items = new String[]{"--please choose--", "Drink", "Appetizer", "Main Course", "Desert"};
+        final Spinner categorySpinner = (Spinner)CreateView.findViewById(R.id.categorySpinner);
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(AdminDashboardActivity.this, android.R.layout.simple_spinner_item, items);
+        ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(ArrayAdapter);
+        categorySpinner.setSelection(0);
+
+
         create_menu_dialog.setView(CreateView);
         create_menu_dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
 
@@ -198,19 +207,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                EditText createName = (EditText)CreateView.findViewById(R.id.MenuNameTextView);
-                EditText createCalories = (EditText)CreateView.findViewById(R.id.caloriesTextView);
-                EditText createUnitPrice = (EditText)CreateView.findViewById(R.id.UnitPriceTextView);
-                EditText createPrepTime = (EditText)CreateView.findViewById(R.id.prepTimeTextView);
+
+                EditText createName = (EditText) CreateView.findViewById(R.id.MenuNameTextView);
+                EditText createCalories = (EditText) CreateView.findViewById(R.id.caloriesTextView);
+                EditText createUnitPrice = (EditText) CreateView.findViewById(R.id.UnitPriceTextView);
+                EditText createPrepTime = (EditText) CreateView.findViewById(R.id.prepTimeTextView);
 
                 Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
                         .setImage("test")
-                        .setCategory("test")
+                        .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
                         .setUnitPrice(Integer.parseInt(createUnitPrice.getText().toString()))
                         .setPrepTime(Integer.parseInt(createPrepTime.getText().toString()));
-
+                
                 menuDB.child(String.valueOf(id))
                         .setValue(menu)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -229,13 +239,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
+
+
         create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-
+        adapter.notifyDataSetChanged();
         create_menu_dialog.show();
+
     }
 }

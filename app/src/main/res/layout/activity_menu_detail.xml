@@ -12,8 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="310dp"
         android:orientation="horizontal">
 
@@ -35,15 +35,16 @@
             android:layout_alignTop="@+id/textView3"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="2"
+            android:focusable="auto" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="350dp"
         android:orientation="horizontal">
 
@@ -53,22 +54,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingTop="15dp"
-            android:text="Unit Price ($)"
+            android:text="UnitPrice ($)"
             android:textColor="@color/cardview_light_background" />
 
         <EditText
             android:id="@+id/UnitPriceTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="390dp"
         android:orientation="horizontal">
 
@@ -85,15 +86,15 @@
             android:id="@+id/caloriesTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="270dp"
         android:orientation="horizontal">
 
@@ -111,15 +112,15 @@
             android:id="@+id/MenuNameTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="430dp"
         android:orientation="horizontal">
 
@@ -129,14 +130,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingTop="15dp"
-            android:text="Prep Time (min)"
+            android:text="PrepTime(min)"
             android:textColor="@color/cardview_light_background" />
 
         <EditText
             android:id="@+id/prepTimeTextView"
             android:layout_width="20dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
     </LinearLayout>
 
