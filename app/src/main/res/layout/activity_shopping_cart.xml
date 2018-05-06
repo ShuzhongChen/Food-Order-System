@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/itemPic"
-        android:layout_width="365dp"
-        android:layout_height="299dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/mediumMargin"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mediumMargin"
-        app:srcCompat="@color/cardview_dark_background"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:textAlignment="center"
+        android:text="Order Summary"
+        android:textSize="@dimen/largeTextSize" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/smallMargin">
+
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,17 +34,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mediumMargin"
-            android:text="Category"
+            android:text="Pick Up Time"
             android:textSize="@dimen/mediumTextSize" />
 
-        <TextView
-            android:id="@+id/txtCategory"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="txtCategory"
-            android:textSize="@dimen/mediumTextSize" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/selectDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mediumMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:background="@color/btnGrey"
+                android:padding="@dimen/smallMargin"
+                android:text="Select Date"
+                android:textSize="@dimen/mediumTextSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/selectTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mediumMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:background="@color/btnGrey"
+                android:padding="@dimen/smallMargin"
+                android:text="Select Time"
+                android:textSize="@dimen/mediumTextSize"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -46,73 +74,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/largeMargin"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="Name"
-            android:textSize="@dimen/mediumTextSize" />
+            android:layout_height="match_parent"
+            android:background="@color/btnGrey"
+            android:text="Cancel" />
 
-        <TextView
-            android:id="@+id/txtName"
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="txtName"
-            android:textSize="@dimen/mediumTextSize" />
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:text="Submit" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mediumMargin"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="Price"
-            android:textSize="@dimen/mediumTextSize" />
-
-        <TextView
-            android:id="@+id/txtPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="txtPrice"
-            android:textSize="@dimen/mediumTextSize" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mediumMargin"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="Calories"
-            android:textSize="@dimen/mediumTextSize" />
-
-        <TextView
-            android:id="@+id/txtCalories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="txtCalories"
-            android:textSize="@dimen/mediumTextSize" />
-
-    </LinearLayout>
-
 
 </LinearLayout>

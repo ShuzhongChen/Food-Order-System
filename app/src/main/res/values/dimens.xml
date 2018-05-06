@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="mediumTextSize">24sp</dimen>
+    <dimen name="largeTextSize">36sp</dimen>
+
+    <dimen name="largeMargin">48dp</dimen>
     <dimen name="mediumMargin">24dp</dimen>
     <dimen name="smallMargin">12dp</dimen>
 </resources>
