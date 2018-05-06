@@ -15,12 +15,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.model.Shot;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +42,9 @@ public class ShotListFragment extends Fragment {
     public static final int LIST_TYPE_POPULAR = 1;
     public static final int LIST_TYPE_LIKED = 2;
     public static final int LIST_TYPE_BUCKET = 3;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference menuDB;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -85,13 +92,25 @@ public class ShotListFragment extends Fragment {
 
         swipeRefreshLayout.setEnabled(false);
 
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        menuDB = firebaseDatabase.getReference("menu");
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
-        adapter = new ShotListAdapter(this, new ArrayList<Shot>());
+        adapter = new ShotListAdapter(mockData());
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @NonNull
+    private List<Shot> mockData() {
+        List<Shot> list = new ArrayList<>();
+        for (int i = 0; i < 10; ++i) {
+            list.add(new Shot("todo " + i));
+        }
+        return list;
     }
 }
