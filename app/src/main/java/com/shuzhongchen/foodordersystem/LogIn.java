@@ -174,9 +174,8 @@ public class LogIn extends AppCompatActivity {
                 loginprogBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                         //jump to order page
-                    Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
-                    startActivity(goCustomerActivity);
-                    finish();
+
+
                     //Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -239,10 +238,10 @@ public class LogIn extends AppCompatActivity {
 //    }
 
     // to customer order page
-    private void updateUI(FirebaseUser currentUser) {
-
-       Toast.makeText(getApplicationContext(), "You are already logged in. email: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
-
+    private void updateUI() {
+        Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
+        startActivity(goCustomerActivity);
+        finish();
     }
 
 
@@ -279,12 +278,12 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleSignIn", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
                             //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            //updateUI(null);
                         }
 
                         // ...
@@ -306,13 +305,13 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FacebookLog", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FacebookLog", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LogIn.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            //updateUI(null);
                         }
 
                         // ...

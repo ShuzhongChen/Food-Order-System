@@ -8,5 +8,5 @@
     <color name="btnLogIn">#f4ad42</color>
     <color name="btnSignUp">#f47a41</color>
 
-
+    <color name="place_holder_bg">#33000000</color>
 </resources>
