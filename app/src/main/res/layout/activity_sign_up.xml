@@ -55,7 +55,7 @@
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/password"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"/>
+            android:textColorHint="@android:color/white" />
 
         <Button
             android:id="@+id/btnRegister"
@@ -70,6 +70,14 @@
 
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/logInBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
 
 
 

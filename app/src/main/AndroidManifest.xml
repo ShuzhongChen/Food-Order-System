@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".activities.SignUp" />
         <activity android:name=".activities.LogIn"></activity>
+        <activity android:name=".activities.CustomerActivity" />
         <activity android:name=".activities.AdminDashboardActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
