@@ -125,7 +125,7 @@ public class LogIn extends AppCompatActivity {
     private void CheckAdminLogin() {
         System.out.println("check admin");
         if (editEmail.getText().toString().equalsIgnoreCase("admin")
-            && editPassword.getText().toString().equalsIgnoreCase("admin")) {
+                && editPassword.getText().toString().equalsIgnoreCase("admin")) {
 
             System.out.println("email" + editEmail.getText().toString() + "\n" + "password" + editPassword.getText().toString());
             Intent goAdminActivity = new Intent(this, AdminDashboardActivity.class);
@@ -173,10 +173,8 @@ public class LogIn extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 loginprogBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                        //jump to order page
-                    Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
-                    startActivity(goCustomerActivity);
-                    finish();
+                    //jump to order page
+                    updateUI(mAuth.getCurrentUser());
                     //Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -208,7 +206,7 @@ public class LogIn extends AppCompatActivity {
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    //code
+                //code
                 //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                 Log.d("FacebookLog", "facebook: onSuccess" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -240,8 +238,10 @@ public class LogIn extends AppCompatActivity {
 
     // to customer order page
     private void updateUI(FirebaseUser currentUser) {
-
-       Toast.makeText(getApplicationContext(), "You are already logged in. email: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+        Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
+        startActivity(goCustomerActivity);
+        finish();
+        //Toast.makeText(getApplicationContext(), "You are already logged in. email: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
 
     }
 
