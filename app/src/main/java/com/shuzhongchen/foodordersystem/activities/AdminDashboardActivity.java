@@ -37,11 +37,6 @@ import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.net.URL;
-
 
 /**
  * Created by jinchengcheng on 4/27/18.
@@ -49,14 +44,12 @@ import java.net.URL;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
-    private ImageButton addImage;
-
     private Activity content;
 
     private FloatingActionButton floatingActionButton;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference menuDB;
+    DatabaseReference menuDatabase;
     static int id;
 
     public RecyclerView recyclerView;
@@ -74,7 +67,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        menuDB = firebaseDatabase.getReference("menu");
+        menuDatabase = firebaseDatabase.getReference("menu");
 
         loadAllMenu();
 
@@ -82,7 +75,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-               showCreateMenuLayout();
+                showCreateMenuLayout();
             }
         });
 
@@ -95,7 +88,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         id = 1;
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menuDB, Menu.class)
+                .setQuery(menuDatabase, Menu.class)
                 .build();
 
         adapter = new FirebaseRecyclerAdapter<Menu, MenuViewHolder>(allMenu) {
@@ -110,12 +103,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder holder, final int position, @NonNull final Menu model) {
 
-                holder.idTV.setText("" + id++);
+                holder.idTV.setText("" + adapter.getRef(position).getKey());
                 holder.nameTV.setText(model.getName());
                 holder.categoryTV.setText(model.getCategory());
                 holder.caloriesTV.setText("" + model.getCalories());
-                holder.UnitPriceTV.setText("" + model.getUnitPrice());
-                holder.PrepTimeTV.setText("" + model.getPrepTime());
+                holder.UnitPriceTV.setText("" + model.getUnitprice());
+                holder.PrepTimeTV.setText("" + model.getPreptime());
 
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
@@ -166,7 +159,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 
     private void removeMenu(String key) {
-        menuDB.child(key)
+        menuDatabase.child(key)
                 .removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -218,10 +211,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setImage("test")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
-                        .setUnitPrice(Integer.parseInt(createUnitPrice.getText().toString()))
-                        .setPrepTime(Integer.parseInt(createPrepTime.getText().toString()));
-                
-                menuDB.child(String.valueOf(id))
+                        .setUnitprice(Integer.parseInt(createUnitPrice.getText().toString()))
+                        .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
+
+                menuDatabase.child(String.valueOf(id))
                         .setValue(menu)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

@@ -19,40 +19,40 @@ import info.hoang8f.widget.FButton;
 
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView nameTV;
-        public TextView categoryTV;
-        public TextView caloriesTV;
-        public TextView UnitPriceTV;
-        public TextView PrepTimeTV;
-        public TextView idTV;
+    public TextView nameTV;
+    public TextView categoryTV;
+    public TextView caloriesTV;
+    public TextView UnitPriceTV;
+    public TextView PrepTimeTV;
+    public TextView idTV;
 
-        public ImageView imageButton;
-        public Button removeButton;
+    public ImageView imageButton;
+    public Button removeButton;
 
 
 
-        private ItemClickListener itemClickListener;
+    private ItemClickListener itemClickListener;
 
-        public MenuViewHolder(View view) {
-            super(view);
-            idTV = (TextView)view.findViewById(R.id.menu_id_textView);
-            nameTV = (TextView)view.findViewById(R.id.menu_name_textView);
-            categoryTV = (TextView)view.findViewById(R.id.menu_category_textview);
-            caloriesTV = (TextView) view.findViewById(R.id.menu_calories_textView);
-            UnitPriceTV = (TextView) view.findViewById(R.id.menu_unit_price_textView);
-            PrepTimeTV = (TextView) view.findViewById(R.id.menu_preptime_textView);
-            imageButton = (ImageView) view.findViewById(R.id.menu_image);
+    public MenuViewHolder(View view) {
+        super(view);
+        idTV = (TextView)view.findViewById(R.id.menu_id_textView);
+        nameTV = (TextView)view.findViewById(R.id.menu_name_textView);
+        categoryTV = (TextView)view.findViewById(R.id.menu_category_textview);
+        caloriesTV = (TextView) view.findViewById(R.id.menu_calories_textView);
+        UnitPriceTV = (TextView) view.findViewById(R.id.menu_unit_price_textView);
+        PrepTimeTV = (TextView) view.findViewById(R.id.menu_preptime_textView);
+        imageButton = (ImageView) view.findViewById(R.id.menu_image);
 
-            removeButton = (Button) view.findViewById(R.id.remove_fbutton);
+        removeButton = (Button) view.findViewById(R.id.remove_fbutton);
 
-        }
+    }
 
-        public void setItemClickListener(ItemClickListener itemClickListener) {
-            this.itemClickListener = itemClickListener;
-        }
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
-        @Override
-        public void onClick(View view) {
-            itemClickListener.onClick(view, getAdapterPosition(), false);
-        }
+    @Override
+    public void onClick(View view) {
+        itemClickListener.onClick(view, getAdapterPosition(), false);
+    }
 }
