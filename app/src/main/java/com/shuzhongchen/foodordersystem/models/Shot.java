@@ -1,9 +1,4 @@
-package com.shuzhongchen.foodordersystem.model;
-
-import android.support.annotation.Nullable;
-
-import java.util.Date;
-import java.util.Map;
+package com.shuzhongchen.foodordersystem.models;
 
 /**
  * Created by shuzhongchen on 5/6/18.

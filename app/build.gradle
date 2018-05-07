@@ -20,6 +20,9 @@ android {
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/andanhm3/maven'
+    }
 }
 
 dependencies {
@@ -57,7 +60,7 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
+    compile 'com.andanhm.quantitypicker:quantitypicker:1.1.0'
 
 }
 
