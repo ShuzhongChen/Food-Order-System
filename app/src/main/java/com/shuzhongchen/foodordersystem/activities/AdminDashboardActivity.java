@@ -3,19 +3,15 @@ package com.shuzhongchen.foodordersystem.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -86,7 +82,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     private void loadAllMenu() {
 
-        id = 1;
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
                 .setQuery(menuDatabase, Menu.class)
                 .build();
@@ -172,7 +167,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 Toast.makeText(AdminDashboardActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        id = 1;
         adapter.notifyDataSetChanged();
     }
 
@@ -185,7 +179,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = this.getLayoutInflater();
         final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
-        String[] items = new String[]{"--please choose--", "Drink", "Appetizer", "Main Course", "Desert"};
+        String[] items = new String[]{"--- choose ---", "Drink", "Appetizer", "Main Course", "Desert"};
         final Spinner categorySpinner = (Spinner)CreateView.findViewById(R.id.categorySpinner);
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(AdminDashboardActivity.this, android.R.layout.simple_spinner_item, items);
         ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -214,7 +208,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setUnitprice(Integer.parseInt(createUnitPrice.getText().toString()))
                         .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
 
-                menuDatabase.child(String.valueOf(id))
+                Long tsLong = System.currentTimeMillis()/1000;
+                String uniqueId = tsLong.toString();
+
+                menuDatabase.child(uniqueId)
                         .setValue(menu)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

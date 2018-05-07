@@ -131,7 +131,6 @@ public class ShotListFragment extends Fragment {
                         .into(holder.image);
 
             }
-
         };
 
         adapter.startListening();
