@@ -15,7 +15,7 @@
         android:textSize="@dimen/largeTextSize" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/shopping_cart_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/mediumMargin"
@@ -23,6 +23,30 @@
         android:layout_marginTop="@dimen/smallMargin">
 
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Total Price: "
+            android:textSize="@dimen/mediumTextSize" />
+
+        <TextView
+            android:id="@+id/txtTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:text="totalPrice"
+            android:textSize="@dimen/mediumTextSize" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

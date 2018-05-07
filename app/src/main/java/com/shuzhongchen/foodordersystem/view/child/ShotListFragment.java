@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
-import com.shuzhongchen.foodordersystem.model.Shot;
+import com.shuzhongchen.foodordersystem.models.Shot;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
 import com.squareup.picasso.Picasso;
