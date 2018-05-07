@@ -53,8 +53,9 @@
                 android:layout_weight="1"
                 android:paddingLeft="100dp"
                 android:paddingTop="10dp"
-                android:text="customer"
+                android:text="Customer"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="@color/cardview_light_background" />
 
             <Switch
@@ -62,20 +63,20 @@
                 android:layout_width="8dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
-                android:layout_weight="1"
-                android:checked="true"
-                tools:checked="true" />
+                android:layout_marginTop="5dp"
+                android:layout_weight="1" />
 
 
             <TextView
                 android:id="@+id/adminTextView"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
-                android:text="admin"
+                android:text="Admin"
+                android:textStyle="bold"
                 android:textColor="@color/cardview_light_background"
                 android:textSize="15sp"
                 android:textColorLink="@color/cardview_light_background" />
