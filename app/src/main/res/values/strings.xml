@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Food Order System</string>
+    <string name="sign_in">Login</string>
+    <string name="sign_up">Get Started</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="register">Sign Up</string>
+    <string name="login_email">Login Email</string>
+    <string name="name">Name:</string>
+    <string name="id">ID:</string>
+    <string name="category">Category:</string>
+    <string name="calories">Calories:</string>
+    <string name="unit_price">UnitPrice:</string>
+    <string name="prepTime">PrepTime:</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+
+
+    <string name="order">Order Food</string>
+    <string name="history">Order History</string>
+    <string name="logout">Logout</string>
+
+    <string name="facebook_app_id">197988354324216</string>
+    <string name="fb_login_protocol_scheme">fb197988354324216</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="capture_button">Click to capture photo</string>
+    <string name="desc">Capture image holder</string>
 </resources>

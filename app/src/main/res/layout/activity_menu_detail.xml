@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:orientation="vertical"
+    tools:context="com.shuzhongchen.foodordersystem.models.Admin">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="310dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:text="Category"
+            android:textColor="@color/cardview_light_background" />
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/textView3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="0dp"
+            android:layout_weight="2"
+            android:focusable="auto" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="350dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:text="UnitPrice ($)"
+            android:textColor="@color/cardview_light_background" />
+
+        <EditText
+            android:id="@+id/UnitPriceTextView"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="390dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:text="Calories (cal)"
+            android:textColor="@color/cardview_light_background" />
+
+        <EditText
+            android:id="@+id/caloriesTextView"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="270dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|left|center_vertical"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:text="Name"
+            android:textColor="@color/cardview_light_background" />
+
+        <EditText
+            android:id="@+id/MenuNameTextView"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="430dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:text="PrepTime(min)"
+            android:textColor="@color/cardview_light_background" />
+
+        <EditText
+            android:id="@+id/prepTimeTextView"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="60dp"
+        android:background="@color/cardview_shadow_end_color"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+</RelativeLayout>

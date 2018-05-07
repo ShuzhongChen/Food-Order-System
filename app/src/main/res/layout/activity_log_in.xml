@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context="com.shuzhongchen.foodordersystem.activities.LogIn">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="@string/login_email"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/CustomerTextView"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="100dp"
+                android:paddingTop="10dp"
+                android:text="Customer"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/cardview_light_background" />
+
+            <Switch
+                android:id="@+id/CutomerTypeSwitch"
+                android:layout_width="8dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1" />
+
+
+            <TextView
+                android:id="@+id/adminTextView"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:text="Admin"
+                android:textStyle="bold"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="15sp"
+                android:textColorLink="@color/cardview_light_background" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
+            android:text="@string/sign_in"
+            android:textColor="@color/btnLogIn"
+            android:textSize="20sp" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/fbLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleSignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/logInBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
+
+
+
+</RelativeLayout>
