@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -33,6 +34,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.shuzhongchen.foodordersystem.holders.CustomListView;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
@@ -55,6 +59,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDatabase;
+
+    StorageReference storageRef;
+
     static int id;
 
     public RecyclerView recyclerView;
@@ -76,6 +83,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDatabase = firebaseDatabase.getReference("menu");
+        // Create a storage reference from our app
+        storageRef = FirebaseStorage.getInstance().getReference();
+
 
         loadAllMenu();
 
@@ -100,20 +110,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             this.bitmap = (Bitmap)data.getExtras().get("data");
             imageButton.setImageBitmap(bitmap);
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-            //encodeBitmapAndSaveToFirebase(bitmap, "test");
 
         }
     }
 
-    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap, String id) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        DatabaseReference ref = menuDatabase
-                .child(id)
-                .child("image");
-        ref.setValue(imageEncoded);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -271,8 +271,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 EditText createUnitPrice = (EditText) CreateView.findViewById(R.id.UnitPriceTextView);
                 EditText createPrepTime = (EditText) CreateView.findViewById(R.id.prepTimeTextView);
 
-                Menu menu = new Menu();
+                final Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
+                        .setImage("https://firebasestorage.googleapis.com/v0/b/foodordersystem-68732.appspot.com/o/foodicon.png?alt=media&token=da6db255-a8bc-4e6b-8a97-c3ab71db2e06")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
                         .setUnitprice(Integer.parseInt(createUnitPrice.getText().toString()))
@@ -280,14 +281,52 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 
                 Long tsLong = System.currentTimeMillis()/1000;
-                String uniqueId = tsLong.toString();
+                final String uniqueId = tsLong.toString();
 
                 menuDatabase.child(uniqueId)
                         .setValue(menu)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(AdminDashboardActivity.this, "menu created!", Toast.LENGTH_SHORT).show();
+
+                                final String imageID = uniqueId + ".jpg";
+                                StorageReference mountainsRef = storageRef.child(imageID);
+
+                                imageButton.setDrawingCacheEnabled(true);
+                                imageButton.buildDrawingCache();
+
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] data = baos.toByteArray();
+
+                                UploadTask uploadTask = mountainsRef.putBytes(data);
+                                uploadTask.addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle unsuccessful uploads
+                                    }
+                                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                        storageRef.child(imageID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+
+                                                menuDatabase.child(uniqueId).child("image").setValue(uri.toString());
+                                                Toast.makeText(AdminDashboardActivity.this, "menu created!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                exception.printStackTrace();
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                                //Toast.makeText(AdminDashboardActivity.this, "menu created!", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
