@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -49,6 +50,8 @@ public class ShotListFragment extends Fragment {
     public static final int LIST_TYPE_LIKED = 2;
     public static final int LIST_TYPE_BUCKET = 3;
 
+    String[] category = new String[]{"drink", "appetizer", "main course", "desert"};
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;
 
@@ -57,7 +60,7 @@ public class ShotListFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    SwipeRefreshLayout swipeRefreshLayout;
+
 
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
@@ -91,33 +94,23 @@ public class ShotListFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        listType = getArguments().getInt(KEY_LIST_TYPE);
+        listType = getArguments().getInt(POSITION_KEY);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
-        loadAllMenu();
+        loadAllMenu(listType);
 
     }
 
-    @NonNull
-    private List<Shot> mockData() {
-        List<Shot> list = new ArrayList<>();
-        for (int i = 0; i < 10; ++i) {
-            list.add(new Shot("todo " + i));
-        }
-        return list;
-    }
-
-    private void loadAllMenu() {
+    private void loadAllMenu(final int listType) {
 
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menuDB, Menu.class)
+                .setQuery(menuDB.orderByChild("category").equalTo(category[listType]), Menu.class)
                 .build();
 
         adapter = new FirebaseRecyclerAdapter<Menu, ShotViewHolder>(allMenu) {
@@ -132,10 +125,8 @@ public class ShotListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
 
-                holder.price.setText(model.getName());
-                holder.title.setText(model.getCategory());
-
-
+                holder.price.setText(model.getUnitPrice() + "");
+                holder.title.setText(model.getName());
                 Picasso.get().load(model.getImage())
                         .into(holder.image);
 
