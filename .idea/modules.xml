@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Food-Order-System.iml" filepath="$PROJECT_DIR$/Food-Order-System.iml" />
       <module fileurl="file://$PROJECT_DIR$/FoodApp.iml" filepath="$PROJECT_DIR$/FoodApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/FoodOrderSystem.iml" filepath="$PROJECT_DIR$/FoodOrderSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
