@@ -180,7 +180,7 @@ public class LogIn extends AppCompatActivity {
                 loginprogBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     //jump to order page
-                    updateUI(mAuth.getCurrentUser());
+                    updateUI();
                     //Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -243,7 +243,7 @@ public class LogIn extends AppCompatActivity {
 //    }
 
     // to customer order page
-    private void updateUI(FirebaseUser currentUser) {
+    private void updateUI() {
         Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
         startActivity(goCustomerActivity);
         finish();
