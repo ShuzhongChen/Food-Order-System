@@ -24,4 +24,8 @@
 
     <string name="facebook_app_id">197988354324216</string>
     <string name="fb_login_protocol_scheme">fb197988354324216</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="capture_button">Click to capture photo</string>
+    <string name="desc">Capture image holder</string>
 </resources>

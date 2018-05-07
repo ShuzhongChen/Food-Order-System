@@ -3,13 +3,18 @@ package com.shuzhongchen.foodordersystem.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +29,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +38,8 @@ import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -43,6 +51,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Activity content;
 
     private FloatingActionButton floatingActionButton;
+    private final int requestCode = 20;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDatabase;
@@ -52,6 +61,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
     public RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Menu, MenuViewHolder> adapter;
+
+    private Bitmap bitmap;
+    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +91,52 @@ public class AdminDashboardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(this.requestCode == requestCode && resultCode == RESULT_OK){
+            this.bitmap = (Bitmap)data.getExtras().get("data");
+            imageButton.setImageBitmap(bitmap);
+            imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+            //encodeBitmapAndSaveToFirebase(bitmap, "test");
+
+        }
+    }
+
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap, String id) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        DatabaseReference ref = menuDatabase
+                .child(id)
+                .child("image");
+        ref.setValue(imageEncoded);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void loadAllMenu() {
 
@@ -190,6 +248,19 @@ public class AdminDashboardActivity extends AppCompatActivity {
         create_menu_dialog.setView(CreateView);
         create_menu_dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
 
+
+        imageButton = (ImageButton) CreateView.findViewById(R.id.imageButton);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("button clicked" + "\n");
+                Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(photoCaptureIntent, requestCode);
+
+            }
+        });
+
         create_menu_dialog.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -202,11 +273,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
-                        .setImage("test")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
                         .setUnitprice(Integer.parseInt(createUnitPrice.getText().toString()))
                         .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
+
 
                 Long tsLong = System.currentTimeMillis()/1000;
                 String uniqueId = tsLong.toString();
