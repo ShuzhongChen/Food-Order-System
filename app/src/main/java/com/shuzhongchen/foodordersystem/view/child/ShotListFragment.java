@@ -16,11 +16,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
+import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.model.Shot;
+import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -46,12 +52,12 @@ public class ShotListFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;
 
+    FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     SwipeRefreshLayout swipeRefreshLayout;
-
-    private ShotListAdapter adapter;
 
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
@@ -86,7 +92,7 @@ public class ShotListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         listType = getArguments().getInt(KEY_LIST_TYPE);
-        
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
 
@@ -95,8 +101,7 @@ public class ShotListFragment extends Fragment {
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
-        adapter = new ShotListAdapter(mockData());
-        recyclerView.setAdapter(adapter);
+        loadAllMenu();
 
     }
 
@@ -107,5 +112,38 @@ public class ShotListFragment extends Fragment {
             list.add(new Shot("todo " + i));
         }
         return list;
+    }
+
+    private void loadAllMenu() {
+
+        FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
+                .setQuery(menuDB, Menu.class)
+                .build();
+
+        adapter = new FirebaseRecyclerAdapter<Menu, ShotViewHolder>(allMenu) {
+            @NonNull
+            @Override
+            public ShotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View itemview = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_iterm_shot, parent, false);
+                return new ShotViewHolder(itemview);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
+
+                holder.price.setText(model.getName());
+                holder.title.setText(model.getCategory());
+
+
+                Picasso.get().load(model.getImage())
+                        .into(holder.image);
+
+            }
+
+        };
+
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
     }
 }
