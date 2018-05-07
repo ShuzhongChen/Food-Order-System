@@ -1,14 +1,23 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 /**
  * Created by shuzhongchen on 4/30/18.
@@ -17,6 +26,8 @@ import android.view.View;
 public class CustomerActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
+    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +35,11 @@ public class CustomerActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+
+
+
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -35,16 +51,42 @@ public class CustomerActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    // set item as selected to persist highlight
-                    menuItem.setChecked(true);
-                    // close drawer when item is tapped
-                    mDrawerLayout.closeDrawers();
+                public boolean onNavigationItemSelected(MenuItem item) {
+                    if (item.isChecked()) {
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
 
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
 
-                    return true;
+                    Fragment fragment = null;
+                    switch (item.getItemId()) {
+                        case R.id.nav_order:
+                            fragment = BaseFragment.newInstance();
+                            setTitle(R.string.order);
+                            break;
+                        case R.id.nav_history:
+                            fragment = BaseFragment.newInstance();
+                            setTitle(R.string.history);
+                            break;
+                        case R.id.nav_logout:
+                            fragment = BaseFragment.newInstance();
+                            setTitle(R.string.logout);
+                            break;
+                    }
+
+                    mDrawerLayout.closeDrawers();
+
+                    if (fragment != null) {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .commit();
+                        return true;
+                    }
+
+                    return false;
                 }
             }
         );
