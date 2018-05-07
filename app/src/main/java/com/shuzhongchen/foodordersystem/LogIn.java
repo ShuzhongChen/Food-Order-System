@@ -79,7 +79,7 @@ public class LogIn extends AppCompatActivity {
                 editPassword.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 customerType = customerTypeSwitch.isChecked();
 
-                if (customerType) {
+                if (!customerType) {
                     CheckCustomerLogin();
                 } else {
                     CheckAdminLogin();
