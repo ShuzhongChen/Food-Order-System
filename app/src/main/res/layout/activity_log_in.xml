@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-    tools:context="com.shuzhongchen.foodordersystem.LogIn">
+    tools:context="com.shuzhongchen.foodordersystem.activities.LogIn">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -48,6 +48,8 @@
                 android:id="@+id/CustomerTextView"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:paddingLeft="100dp"
                 android:paddingTop="10dp"
@@ -60,7 +62,9 @@
                 android:layout_width="8dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:checked="true"
+                tools:checked="true" />
 
 
             <TextView

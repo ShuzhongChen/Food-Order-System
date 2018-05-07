@@ -1,12 +1,14 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -21,6 +23,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.activities.AdminDashboardActivity;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -38,6 +44,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
 
 import java.util.Arrays;
 
@@ -123,9 +130,8 @@ public class LogIn extends AppCompatActivity {
 
 
     private void CheckAdminLogin() {
-        System.out.println("check admin");
         if (editEmail.getText().toString().equalsIgnoreCase("admin")
-            && editPassword.getText().toString().equalsIgnoreCase("admin")) {
+                && editPassword.getText().toString().equalsIgnoreCase("admin")) {
 
             System.out.println("email" + editEmail.getText().toString() + "\n" + "password" + editPassword.getText().toString());
             Intent goAdminActivity = new Intent(this, AdminDashboardActivity.class);
@@ -173,9 +179,9 @@ public class LogIn extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 loginprogBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                        //jump to order page
-
-                    Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
+                    //jump to order page
+                    updateUI();
+                    //Toast.makeText(getApplicationContext(), "Log in successfully", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -206,7 +212,7 @@ public class LogIn extends AppCompatActivity {
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    //code
+                //code
                 //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                 Log.d("FacebookLog", "facebook: onSuccess" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
@@ -237,9 +243,11 @@ public class LogIn extends AppCompatActivity {
 //    }
 
     // to customer order page
-    private void updateUI(FirebaseUser currentUser) {
-
-       Toast.makeText(getApplicationContext(), "You are already logged in. email: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+    private void updateUI() {
+        Intent goCustomerActivity = new Intent(LogIn.this, CustomerActivity.class);
+        startActivity(goCustomerActivity);
+        finish();
+        //Toast.makeText(getApplicationContext(), "You are already logged in. email: " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
 
     }
 
@@ -277,12 +285,12 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleSignIn", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
                             //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            //updateUI(null);
                         }
 
                         // ...
@@ -304,13 +312,13 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FacebookLog", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FacebookLog", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LogIn.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            //updateUI(null);
                         }
 
                         // ...

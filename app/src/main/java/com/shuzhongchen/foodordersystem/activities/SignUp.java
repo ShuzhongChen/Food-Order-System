@@ -1,4 +1,4 @@
-package com.shuzhongchen.foodordersystem;
+package com.shuzhongchen.foodordersystem.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import com.shuzhongchen.foodordersystem.R;
 
 public class SignUp extends AppCompatActivity {
 

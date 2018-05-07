@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:textAlignment="center"
+        android:text="Order Summary"
+        android:textSize="@dimen/largeTextSize" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/smallMargin">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Pick Up Time"
+            android:textSize="@dimen/mediumTextSize" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/selectDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mediumMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:background="@color/btnGrey"
+                android:padding="@dimen/smallMargin"
+                android:text="Select Date"
+                android:textSize="@dimen/mediumTextSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/selectTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/mediumMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:background="@color/btnGrey"
+                android:padding="@dimen/smallMargin"
+                android:text="Select Time"
+                android:textSize="@dimen/mediumTextSize"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/largeMargin"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/btnGrey"
+            android:text="Cancel" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+</LinearLayout>
