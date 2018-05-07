@@ -1,5 +1,6 @@
 package com.shuzhongchen.foodordersystem.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -71,8 +72,12 @@ public class CustomerActivity extends AppCompatActivity {
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:
-                            fragment = BaseFragment.newInstance();
-                            setTitle(R.string.logout);
+//                            fragment = BaseFragment.newInstance();
+//                            setTitle(R.string.logout);
+                            mAuth.signOut();
+                            finish();
+                            Intent backToHome = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(backToHome);
                             break;
                     }
 
