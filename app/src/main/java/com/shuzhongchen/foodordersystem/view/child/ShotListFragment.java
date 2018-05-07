@@ -125,7 +125,7 @@ public class ShotListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
 
-                holder.price.setText(model.getUnitPrice() + "");
+                holder.price.setText(model.getUnitprice() + "");
                 holder.title.setText(model.getName());
                 Picasso.get().load(model.getImage())
                         .into(holder.image);
