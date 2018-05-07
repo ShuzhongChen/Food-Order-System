@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView android:layout_width="match_parent"
-    android:layout_height="180dp"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:layout_margin="7dp"
     android:id="@+id/menu_card"
-    card_view:cardCornerRadius="7dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_margin="7dp"
+    android:background="@drawable/login_background"
+    card_view:cardCornerRadius="7dp">
 
 
     <ImageView
