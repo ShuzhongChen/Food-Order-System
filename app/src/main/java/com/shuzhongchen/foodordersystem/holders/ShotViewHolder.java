@@ -20,11 +20,11 @@ public class ShotViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public ImageView image;
     public ImageButton btn;
 
-
+    public Boolean isAdd;
 
     public ShotViewHolder(View view) {
         super(view);
-
+        isAdd = true;
         price = (TextView) view.findViewById(R.id.customer_menu_price);
         title = (TextView) view.findViewById(R.id.customer_menu_title);
         image = (ImageView) view.findViewById(R.id.customer_menu_image);

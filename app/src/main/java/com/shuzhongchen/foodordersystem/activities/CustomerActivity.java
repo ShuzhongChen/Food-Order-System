@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 
@@ -30,7 +31,7 @@ import static android.webkit.ConsoleMessage.MessageLevel.LOG;
  * Created by shuzhongchen on 4/30/18.
  */
 
-public class CustomerActivity extends AppCompatActivity {
+public class CustomerActivity extends AppCompatActivity implements FragmentCommunication {
     private DrawerLayout mDrawerLayout;
 
     FirebaseAuth mAuth;
@@ -80,11 +81,6 @@ public class CustomerActivity extends AppCompatActivity {
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
-                    if (item.isChecked()) {
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
 
@@ -157,6 +153,15 @@ public class CustomerActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void passIndex(ArrayList<String> list) {
+        foodList = new ArrayList<>(list);
+    }
+
+    public ArrayList<String> getFoodList() {
+        return foodList;
     }
 
 }

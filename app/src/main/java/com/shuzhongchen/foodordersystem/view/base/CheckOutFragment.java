@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ public class CheckOutFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Menu, MenuOrderViewHolder> adapter;
 
+    ArrayList<String> foodList;
+
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
 
@@ -57,13 +60,14 @@ public class CheckOutFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_recycler_view, container, false);
         ButterKnife.bind(this, view);
+
+        foodList = new ArrayList<>(getArguments().getStringArrayList("food_list"));
         return view;
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        listType = getArguments().getInt(POSITION_KEY);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDB = firebaseDatabase.getReference("menu");
@@ -72,15 +76,19 @@ public class CheckOutFragment extends Fragment {
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
-        loadAllMenu(listType);
+        loadAllMenu();
     }
 
 
-    private void loadAllMenu(final int listType) {
+    private void loadAllMenu() {
 
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menuDB.orderByChild("category").equalTo("drink"), Menu.class)
+                .setQuery(menuDB, Menu.class)
                 .build();
+
+        for (int i = 0; i < foodList.size(); i++) {
+            Log.d("Shuzhong debug foodlist", foodList.get(i));
+        }
 
         adapter = new FirebaseRecyclerAdapter<Menu, MenuOrderViewHolder>(allMenu) {
             @NonNull
@@ -93,10 +101,12 @@ public class CheckOutFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull MenuOrderViewHolder holder, final int position, @NonNull final Menu model) {
-
-                holder.order_food_price.setText(model.getUnitprice() + "");
-                holder.order_food_name.setText(model.getName());
-
+                if (foodList.contains(model.getName())) {
+                    holder.order_food_price.setText(model.getUnitprice() + "");
+                    holder.order_food_name.setText(model.getName());
+                } else {
+                    return;
+                }
             }
         };
 
