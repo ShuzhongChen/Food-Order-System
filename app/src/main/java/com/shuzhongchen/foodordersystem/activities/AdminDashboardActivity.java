@@ -73,6 +73,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private ImageButton imageButton;
 
+    private int maxKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +88,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         menuDatabase = firebaseDatabase.getReference("menu");
         // Create a storage reference from our app
         storageRef = FirebaseStorage.getInstance().getReference();
-
+        maxKey = 0;
 
         loadAllMenu();
 
@@ -163,6 +165,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 holder.caloriesTV.setText("" + model.getCalories());
                 holder.UnitPriceTV.setText("" + model.getUnitprice());
                 holder.PrepTimeTV.setText("" + model.getPreptime());
+
+                maxKey = Math.max(maxKey, Integer.parseInt(adapter.getRef(position).getKey()));
 
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
@@ -282,8 +286,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
 
 
-                Long tsLong = System.currentTimeMillis()/1000;
-                final String uniqueId = tsLong.toString();
+                //Long tsLong = System.currentTimeMillis()/1000;
+                final String uniqueId = String.valueOf(maxKey + 1);
 
                 menuDatabase.child(uniqueId)
                         .setValue(menu)
