@@ -26,6 +26,7 @@ import com.shuzhongchen.foodordersystem.activities.CustomerActivity;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Shot;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
@@ -50,7 +51,7 @@ public class ShotListFragment extends Fragment {
     DatabaseReference menuDB;
 
     FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
-    ArrayList<String> foodList;
+    ArrayList<FoodInOrder> foodList;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -111,11 +112,22 @@ public class ShotListFragment extends Fragment {
             protected void onBindViewHolder(@NonNull final ShotViewHolder holder, final int position, @NonNull final Menu model) {
 
                 final String name = model.getName();
-                holder.price.setText(model.getUnitprice() + "");
+                final String price = model.getUnitprice() + "";
+                holder.price.setText(price);
                 holder.title.setText(name);
                 Picasso.get().load(model.getImage())
                         .into(holder.image);
-                if (foodList.contains(name)) {
+
+                boolean containsFood = false;
+
+                for (int i = 0; i < foodList.size(); i++) {
+                    if (foodList.get(i).name.equals(name)) {
+                        containsFood = true;
+                        break;
+                    }
+                }
+
+                if (containsFood) {
                     holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
                 } else {
                     holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
@@ -123,12 +135,21 @@ public class ShotListFragment extends Fragment {
                 holder.btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (foodList.contains(name)) {
-                            foodList.remove(name);
+                        boolean containsFood = false;
+                        int index = 0;
+                        for (int i = 0; i < foodList.size(); i++) {
+                            if (foodList.get(i).name.equals(name)) {
+                                containsFood = true;
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (containsFood) {
+                            foodList.remove(index);
                             ((FragmentCommunication) getActivity()).passIndex(foodList);
                             holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
                         } else {
-                            foodList.add(name);
+                            foodList.add(new FoodInOrder("", name, price, 1));
                             ((FragmentCommunication) getActivity()).passIndex(foodList);
                             holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
                         }
