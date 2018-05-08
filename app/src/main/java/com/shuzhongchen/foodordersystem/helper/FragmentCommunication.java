@@ -1,5 +1,7 @@
 package com.shuzhongchen.foodordersystem.helper;
 
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+
 import java.util.ArrayList;
 
 /**
@@ -7,5 +9,5 @@ import java.util.ArrayList;
  */
 
 public interface FragmentCommunication {
-    public void passIndex(ArrayList<String> list);
+    public void passIndex(ArrayList<FoodInOrder> list);
 }
