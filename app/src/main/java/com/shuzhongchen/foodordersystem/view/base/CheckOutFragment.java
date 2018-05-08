@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
@@ -22,9 +24,16 @@ import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Menu;
+import com.shuzhongchen.foodordersystem.models.Order;
+import com.shuzhongchen.foodordersystem.models.OrderContent;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +50,8 @@ public class CheckOutFragment extends Fragment {
     Button checkout;
 
     ArrayList<FoodInOrder> foodList;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference orderDatabase;
 
     public static CheckOutFragment newInstance(ArrayList<FoodInOrder> list) {
         Bundle args = new Bundle();
@@ -58,15 +69,51 @@ public class CheckOutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_recycler_view, container, false);
         ButterKnife.bind(this, view);
 
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        orderDatabase = firebaseDatabase.getReference("Orders");
+        foodList = getArguments().getParcelableArrayList("food_list");
+
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                OrderContent orderContent = new OrderContent();
+                List<FoodInOrder> foodInOrderList = new ArrayList<>();
+                int totalPrice = 0;
 
+                for (FoodInOrder foodInOrder : foodList) {
+                    totalPrice += foodInOrder.price * foodInOrder.num;
+                    foodInOrderList.add(foodInOrder);
+                }
+
+                orderContent.setOrderItems(foodInOrderList);
+
+                Order order = new Order();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+                Date date = new Date();
+
+                order.setOrderContent(orderContent)
+                        .setOrderPlaceTime(dateFormat.format(date).toString())
+                        .setPickupTime("to be set")
+                        .setReadyTime("to be set")
+                        .setStartTime("to be set")
+                        .setStatus(String.valueOf(Order.Status.queued))
+                        .setTotalPrice(totalPrice);
+
+                Long tsLong = System.currentTimeMillis() / 1000;
+                String uniqueID = tsLong.toString();
+
+                orderDatabase.child(uniqueID)
+                        .setValue(order)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getContext(), "order placed!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
-
-        foodList = getArguments().getParcelableArrayList("food_list");
         return view;
     }
 

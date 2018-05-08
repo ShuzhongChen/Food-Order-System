@@ -1,5 +1,6 @@
 package com.shuzhongchen.foodordersystem.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,13 +9,17 @@ import java.util.List;
 
 public class OrderContent {
 
-    private List<OrderItem> orderItems;
+    private List<FoodInOrder> orderItems;
 
-    public List<OrderItem> getOrderItems() {
+    public OrderContent() {
+        orderItems = new ArrayList<>();
+    }
+
+    public List<FoodInOrder> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    public void setOrderItems(List<FoodInOrder> orderItems) {
         this.orderItems = orderItems;
     }
 

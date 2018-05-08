@@ -8,9 +8,19 @@ public class Order {
     private String orderPlaceTime;
     private String pickupTime;
     private String readyTime;
+    private String startTime;
     private String status;
     private int totalPrice;
     private OrderContent orderContent;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public Order setStartTime(String startTime) {
+        this.startTime = startTime;
+        return this;
+    }
 
     public String getOrderPlaceTime() {
         return orderPlaceTime;
@@ -65,4 +75,13 @@ public class Order {
         this.orderContent = orderContent;
         return this;
     }
+
+
+    public enum Status {
+        queued,
+        beingPrepared,
+        fulfilled,
+        abandoned;
+    }
 }
+
