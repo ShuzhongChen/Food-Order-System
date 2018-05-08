@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 
@@ -38,7 +39,7 @@ public class CustomerActivity extends AppCompatActivity implements FragmentCommu
 
     ImageButton addToCart;
 
-    ArrayList<String> foodList = new ArrayList<>();
+    ArrayList<FoodInOrder> foodList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +157,11 @@ public class CustomerActivity extends AppCompatActivity implements FragmentCommu
     }
 
     @Override
-    public void passIndex(ArrayList<String> list) {
+    public void passIndex(ArrayList<FoodInOrder> list) {
         foodList = new ArrayList<>(list);
     }
 
-    public ArrayList<String> getFoodList() {
+    public ArrayList<FoodInOrder> getFoodList() {
         return foodList;
     }
 
