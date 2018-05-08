@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.configuration.SendMail;
 
 public class SignUp extends AppCompatActivity {
 
@@ -58,7 +59,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String email = edtEmail.getText().toString().trim();
+        final String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
         String firstName = edtFirstName.getText().toString();
         String lastName = edtLastName.getText().toString();
@@ -112,6 +113,7 @@ public class SignUp extends AppCompatActivity {
                     //jump to log in page
                     Toast.makeText(getApplicationContext(), "Register Successfully", Toast.LENGTH_SHORT).show();
                     saveUserInfo();
+                    sendWelcomeEmail(email);
                     Intent intent = new Intent(SignUp.this, LogIn.class);
                     startActivity(intent);
 
@@ -129,6 +131,13 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendWelcomeEmail(String email) {
+        String subject = "Welcome to Ifood";
+        String message = "I’m so glad you decided to try out Ifood App. Please enjoy your food!";
+        SendMail sm = new SendMail(this, email, subject, message);
+        sm.execute();
     }
 
     private void saveUserInfo() {
