@@ -112,8 +112,10 @@ public class ShotListFragment extends Fragment {
             protected void onBindViewHolder(@NonNull final ShotViewHolder holder, final int position, @NonNull final Menu model) {
 
                 final String name = model.getName();
-                final String price = model.getUnitprice() + "";
-                holder.price.setText(price);
+                final int price = model.getUnitprice();
+                final String id = model.getUUID();
+                final int preptime = model.getPreptime();
+                holder.price.setText(price + "");
                 holder.title.setText(name);
                 Picasso.get().load(model.getImage())
                         .into(holder.image);
@@ -149,7 +151,7 @@ public class ShotListFragment extends Fragment {
                             ((FragmentCommunication) getActivity()).passIndex(foodList);
                             holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
                         } else {
-                            foodList.add(new FoodInOrder("", name, price, 1));
+                            foodList.add(new FoodInOrder(id, name, price, 1, preptime));
                             ((FragmentCommunication) getActivity()).passIndex(foodList);
                             holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
                         }

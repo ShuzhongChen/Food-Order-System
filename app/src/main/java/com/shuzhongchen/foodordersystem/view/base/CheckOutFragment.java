@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -37,6 +38,8 @@ public class CheckOutFragment extends Fragment {
     @BindView(R.id.order_recycler_view)
     RecyclerView recyclerView;
 
+    Button checkout;
+
     ArrayList<FoodInOrder> foodList;
 
     public static CheckOutFragment newInstance(ArrayList<FoodInOrder> list) {
@@ -54,6 +57,14 @@ public class CheckOutFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_recycler_view, container, false);
         ButterKnife.bind(this, view);
+
+        checkout = view.findViewById(R.id.order_checkout_btn);
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         foodList = getArguments().getParcelableArrayList("food_list");
         return view;

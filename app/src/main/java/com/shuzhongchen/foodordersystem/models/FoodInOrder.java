@@ -14,22 +14,25 @@ public class FoodInOrder implements Parcelable {
 
     public String id;
     public String name;
-    public String price;
+    public int price;
+    private int preptime;
     public int num;
 
 
-    public FoodInOrder(String id, String name, String price, int num) {
+    public FoodInOrder(String id, String name, int price, int num, int preptime) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.num = num;
+        this.preptime = preptime;
     }
 
     protected FoodInOrder(Parcel in) {
         id = in.readString();
         name = in.readString();
-        price = in.readString();
+        price = in.readInt();
         num = in.readInt();
+        preptime = in.readInt();
     }
 
     public static final Creator<FoodInOrder> CREATOR = new Creator<FoodInOrder>() {
@@ -53,7 +56,8 @@ public class FoodInOrder implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(name);
-        parcel.writeString(price);
+        parcel.writeInt(price);
         parcel.writeInt(num);
+        parcel.writeInt(preptime);
     }
 }
