@@ -18,7 +18,20 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <ImageButton
+                android:id="@+id/toolbar_add_to_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_shopping_cart_black_24dp"
+                android:layout_gravity="right"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+
+
 
         <FrameLayout
             android:id="@+id/fragment_container"
