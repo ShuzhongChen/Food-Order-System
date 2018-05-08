@@ -14,6 +14,17 @@ public class Menu {
     private int preptime;
     private String image;
 
+    public String getUUID() {
+        return UUID;
+    }
+
+    public Menu setUUID(String UUID) {
+        this.UUID = UUID;
+        return this;
+    }
+
+    private String UUID;
+
     public int getOrdertimes() {
         return ordertimes;
     }
