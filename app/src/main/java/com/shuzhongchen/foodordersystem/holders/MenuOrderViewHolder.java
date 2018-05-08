@@ -13,7 +13,6 @@ import com.shuzhongchen.foodordersystem.R;
 public class MenuOrderViewHolder extends RecyclerView.ViewHolder {
     public TextView order_food_name;
     public TextView order_food_price;
-    
 
     public int num;
     public String id;
