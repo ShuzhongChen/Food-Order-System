@@ -272,6 +272,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 EditText createPrepTime = (EditText) CreateView.findViewById(R.id.prepTimeTextView);
 
                 final Menu menu = new Menu();
+
+                //default value for image
                 menu.setName(createName.getText().toString())
                         .setImage("https://firebasestorage.googleapis.com/v0/b/foodordersystem-68732.appspot.com/o/foodicon.png?alt=media&token=da6db255-a8bc-4e6b-8a97-c3ab71db2e06")
                         .setCategory(categorySpinner.getSelectedItem().toString())
@@ -280,8 +282,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
 
 
-                Long tsLong = System.currentTimeMillis()/1000;
-                final String uniqueId = tsLong.toString();
+                Long tsLong = System.currentTimeMillis();
+                final String uniqueId = tsLong.toString().substring(10);
 
                 menuDatabase.child(uniqueId)
                         .setValue(menu)
