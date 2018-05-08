@@ -104,6 +104,7 @@ public class CheckOutFragment extends Fragment {
                 if (foodList.contains(model.getName())) {
                     holder.order_food_price.setText(model.getUnitprice() + "");
                     holder.order_food_name.setText(model.getName());
+
                 } else {
                     return;
                 }

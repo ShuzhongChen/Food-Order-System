@@ -44,6 +44,7 @@ import com.shuzhongchen.foodordersystem.models.Menu;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 
 /**
@@ -237,7 +238,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = this.getLayoutInflater();
         final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
-        String[] items = new String[]{"--- choose ---", "Drink", "Appetizer", "Main Course", "Desert"};
+        String[] items = new String[]{"--- choose ---", "drink", "appetizer", "main course", "desert"};
         final Spinner categorySpinner = (Spinner)CreateView.findViewById(R.id.categorySpinner);
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(AdminDashboardActivity.this, android.R.layout.simple_spinner_item, items);
         ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -273,6 +274,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 final Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
+                        .setUUID(UUID.randomUUID().toString())
                         .setImage("https://firebasestorage.googleapis.com/v0/b/foodordersystem-68732.appspot.com/o/foodicon.png?alt=media&token=da6db255-a8bc-4e6b-8a97-c3ab71db2e06")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
