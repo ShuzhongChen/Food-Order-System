@@ -19,7 +19,7 @@ public class OrderHistory extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseAuth firebaseAuth;
 
-   // FirebaseRecyclerAdapter<T, OrderViewHolder> adapter;
+   // FirebaseRecyclerAdapter<T, MenuOrderViewHolder> adapter;
 
 
 
@@ -50,9 +50,9 @@ public class OrderHistory extends AppCompatActivity {
 
 //    private void loadOrder(String uid) {
 //
-//        adapter = new FirebaseRecyclerAdapter<T, OrderViewHolder>() {
+//        adapter = new FirebaseRecyclerAdapter<T, MenuOrderViewHolder>() {
 //            @Override
-//            protected void populateViewHolder(OrderViewHolder viewHolder, T model, int position) {
+//            protected void populateViewHolder(MenuOrderViewHolder viewHolder, T model, int position) {
 //
 //            }
 //        };

@@ -1,62 +1,51 @@
-package com.shuzhongchen.foodordersystem.view.child;
+package com.shuzhongchen.foodordersystem.view.base;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shuzhongchen.foodordersystem.R;
-import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
+import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
-import com.shuzhongchen.foodordersystem.models.Shot;
 import com.shuzhongchen.foodordersystem.models.Menu;
-import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
 import com.squareup.picasso.Picasso;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * The child fragment is no different than any other fragment other than it is now being maintained by
- * a child FragmentManager.
- */
-public class ShotListFragment extends Fragment {
 
-    String[] category = new String[]{"drink", "appetizer", "main course", "desert"};
+/**
+ * Created by shuzhongchen on 5/8/18.
+ */
+
+public class CheckOutFragment extends Fragment {
+    @BindView(R.id.order_recycler_view)
+    RecyclerView recyclerView;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;
 
-    FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
-
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    FirebaseRecyclerAdapter<Menu, MenuOrderViewHolder> adapter;
 
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
 
-    public static ShotListFragment newInstance(Bundle args) {
-        ShotListFragment fragment = new ShotListFragment();
+    public static CheckOutFragment newInstance(ArrayList<String> list) {
+        Bundle args = new Bundle();
+        args.putStringArrayList("food_list", list);
+        CheckOutFragment fragment = new CheckOutFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,10 +55,11 @@ public class ShotListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_swipe_recycler_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_order_recycler_view, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -83,37 +73,29 @@ public class ShotListFragment extends Fragment {
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
         loadAllMenu(listType);
-
     }
+
 
     private void loadAllMenu(final int listType) {
 
         FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menuDB.orderByChild("category").equalTo(category[listType]), Menu.class)
+                .setQuery(menuDB.orderByChild("category").equalTo("drink"), Menu.class)
                 .build();
 
-        adapter = new FirebaseRecyclerAdapter<Menu, ShotViewHolder>(allMenu) {
+        adapter = new FirebaseRecyclerAdapter<Menu, MenuOrderViewHolder>(allMenu) {
             @NonNull
             @Override
-            public ShotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public MenuOrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemview = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_iterm_shot, parent, false);
-                return new ShotViewHolder(itemview);
+                        .inflate(R.layout.shopping_cart_item, parent, false);
+                return new MenuOrderViewHolder(itemview);
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
+            protected void onBindViewHolder(@NonNull MenuOrderViewHolder holder, final int position, @NonNull final Menu model) {
 
-                holder.price.setText(model.getUnitprice() + "");
-                holder.title.setText(model.getName());
-                Picasso.get().load(model.getImage())
-                        .into(holder.image);
-                holder.btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
+                holder.order_food_price.setText(model.getUnitprice() + "");
+                holder.order_food_name.setText(model.getName());
 
             }
         };
@@ -121,4 +103,6 @@ public class ShotListFragment extends Fragment {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
     }
+
+
 }

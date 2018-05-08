@@ -14,11 +14,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
+import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
+
+import java.util.ArrayList;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -31,12 +35,17 @@ public class CustomerActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
 
+    ImageButton addToCart;
+
+    ArrayList<String> foodList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -44,6 +53,19 @@ public class CustomerActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        addToCart = findViewById(R.id.toolbar_add_to_cart);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = CheckOutFragment.newInstance(foodList);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+                setTitle(R.string.history);
+            }
+        });
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
