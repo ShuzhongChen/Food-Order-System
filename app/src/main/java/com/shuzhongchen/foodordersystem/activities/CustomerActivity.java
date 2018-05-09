@@ -28,6 +28,8 @@ import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,8 @@ public class CustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
 
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         List<FoodInOrder> foodList = ModelUtils.read(this,
@@ -61,6 +65,8 @@ public class CustomerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);

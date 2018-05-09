@@ -98,7 +98,11 @@ public class OrderHistoryFragment extends Fragment {
                             Snackbar snackbar = Snackbar.make(getView(), "Sorry, the order can't be canceled!", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
-                        else {
+                        else if (orderStatus.equals((String.valueOf(Order.Status.abandoned)))) {
+                            Snackbar snackbar = Snackbar.make(getView(), "The order was already canceled!", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                        else{
                             AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                             dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
                             dialog.setTitle("Cancel Order");
