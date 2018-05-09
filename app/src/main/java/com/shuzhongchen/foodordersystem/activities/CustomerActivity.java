@@ -73,7 +73,7 @@ public class CustomerActivity extends AppCompatActivity {
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
                         .commit();
-                setTitle(R.string.history);
+                setTitle(R.string.summary);
             }
         });
 

@@ -1,5 +1,8 @@
 package com.shuzhongchen.foodordersystem.view.base;
 
+import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -54,6 +59,9 @@ public class CheckOutFragment extends Fragment {
     RecyclerView recyclerView;
 
     Button checkout;
+    Button pickdate;
+    Button picktime;
+    DatePickerDialog datePickerDialog;
 
     private String MODEL_FOODLIST = "food_list";
 
@@ -125,6 +133,33 @@ public class CheckOutFragment extends Fragment {
                         });
             }
         });
+
+        pickdate = view.findViewById(R.id.selectDate);
+        pickdate.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                pickdate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        picktime = view.findViewById(R.id.selectTime);
 
         loadAllOrder();
 
