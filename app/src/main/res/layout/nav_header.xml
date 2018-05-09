@@ -12,7 +12,7 @@
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My header title"
+        android:text="Food Order System"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

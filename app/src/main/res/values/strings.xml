@@ -28,4 +28,9 @@
     <string name="action_settings">Settings</string>
     <string name="capture_button">Click to capture photo</string>
     <string name="desc">Capture image holder</string>
+
+    <string name="statusReport">Status Report</string>
+    <string name="popularityReport">Popularity Report</string>
+    <string name="resetOrder">Reset Order</string>
+
 </resources>
