@@ -78,14 +78,17 @@ public class CheckOutFragment extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         orderDatabase = firebaseDatabase.getReference("Orders");
-        final List<FoodInOrder> foodList = ModelUtils.read(getContext(),
-                MODEL_FOODLIST,
-                new TypeToken<List<FoodInOrder>>(){});
+
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                        MODEL_FOODLIST,
+                        new TypeToken<List<FoodInOrder>>(){});
+
                 OrderContent orderContent = new OrderContent();
                 List<FoodInOrder> foodInOrderList = new ArrayList<>();
                 int totalPrice = 0;
