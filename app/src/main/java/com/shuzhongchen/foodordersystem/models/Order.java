@@ -10,6 +10,7 @@ public class Order {
     private String readyTime;
     private String startTime;
     private String status;
+    private String uid;
     private int totalPrice;
     private OrderContent orderContent;
 
@@ -76,6 +77,13 @@ public class Order {
         return this;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public enum Status {
         queued,

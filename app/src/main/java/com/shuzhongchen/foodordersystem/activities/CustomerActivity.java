@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.reflect.TypeToken;
+import com.shuzhongchen.foodordersystem.OrderHistory;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
@@ -100,7 +101,9 @@ public class CustomerActivity extends AppCompatActivity {
                             setTitle(R.string.order);
                             break;
                         case R.id.nav_history:
-                            fragment = BaseFragment.newInstance();
+                            //fragment = BaseFragment.newInstance();
+                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
+                            startActivity(history);
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:
