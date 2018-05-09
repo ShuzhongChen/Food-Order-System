@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -70,6 +72,8 @@ public class CheckOutFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
 
+    private String OrderPickupTime;
+
     public static CheckOutFragment newInstance() {
         Bundle args = new Bundle();
         CheckOutFragment fragment = new CheckOutFragment();
@@ -85,15 +89,29 @@ public class CheckOutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_recycler_view, container, false);
         ButterKnife.bind(this, view);
 
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         orderDatabase = firebaseDatabase.getReference("Orders");
-
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String pickupDate = pickdate.getText().toString();
+                String pickupTime = picktime.getText().toString();
+
+                String[] str = pickupTime.split(":");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(pickupDate);
+
+                for (String s : str) {
+                    sb.append("/");
+                    sb.append(s);
+                }
+
+                System.out.println("pickup date: " + pickupDate + "\n");
+                System.out.println("pickup time: " + pickupTime + "\n");
+
 
                 List<FoodInOrder> foodList = ModelUtils.read(getContext(),
                         MODEL_FOODLIST,
@@ -102,23 +120,27 @@ public class CheckOutFragment extends Fragment {
                 OrderContent orderContent = new OrderContent();
                 List<FoodInOrder> foodInOrderList = new ArrayList<>();
                 int totalPrice = 0;
+                int totalPrepTime = 0;
 
                 for (FoodInOrder foodInOrder : foodList) {
-                    totalPrice += foodInOrder.price * foodInOrder.num;
+                    totalPrepTime += foodInOrder.getPreptime() * foodInOrder.getNum();
+                    totalPrice += foodInOrder.getPrice() * foodInOrder.getNum();
                     foodInOrderList.add(foodInOrder);
                 }
+
+                String startTime = calculateStartTime(pickupDate, pickupTime, totalPrepTime);
 
                 orderContent.setOrderItems(foodInOrderList);
 
                 Order order = new Order();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/HH/mm/ss");
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
                 Date date = new Date();
 
                 order.setOrderContent(orderContent)
                         .setOrderPlaceTime(dateFormat.format(date).toString())
-                        .setPickupTime("to be set")
-                        .setReadyTime("to be set")
-                        .setStartTime("to be set")
+                        .setPickupTime(sb.toString())
+                        .setReadyTime(sb.toString())
+                        .setStartTime(startTime)
                         .setStatus(String.valueOf(Order.Status.queued))
                         .setTotalPrice(totalPrice);
 
@@ -135,6 +157,8 @@ public class CheckOutFragment extends Fragment {
                                 ModelUtils.save(getContext(), MODEL_FOODLIST, newList);
                             }
                         });
+
+
             }
         });
 
@@ -183,7 +207,8 @@ public class CheckOutFragment extends Fragment {
             }
         });
 
-        loadAllOrder();
+        // loadAllOrder();
+
 
         return view;
     }
@@ -221,5 +246,21 @@ public class CheckOutFragment extends Fragment {
         });
     }
 
+
+    private String calculateStartTime(String pickupDate, String pickuptime, int totalPrepTime) {
+        int minute = totalPrepTime % 60;
+
+        String[] str = pickuptime.split(":");
+        int currentMin = Integer.parseInt(str[1]);
+        int currentHour = Integer.parseInt(str[0]);
+
+        currentMin = currentMin > minute ? currentMin - minute : currentMin + 60 - minute;
+        currentHour = currentMin > minute ? currentHour : currentHour - 1;
+
+        StringBuilder sb = new StringBuilder();
+        return sb.append(pickupDate).append("/").append(String.valueOf(currentHour))
+                .append("/").append(String.valueOf(currentMin)).toString();
+
+    }
 
 }
