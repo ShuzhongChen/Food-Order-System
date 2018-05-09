@@ -42,14 +42,7 @@ public class MenuOrderAdapter extends RecyclerView.Adapter {
         ((MenuOrderViewHolder) holder).num = fo.num;
         ((MenuOrderViewHolder) holder).id = fo.id;
         ((MenuOrderViewHolder) holder).quantityPicker.setQuantitySelected(fo.num);
-
-
-        /*((MenuOrderViewHolder) holder).quantityPicker.setOnQuantityChangeListener(new QuantityPicker.OnQuantityChangeListener() {
-            @Override
-            public void onValueChanged(int quantity) {
-
-            }
-        });*/
+        ((MenuOrderViewHolder) holder).quantityPicker.setPosition(position);
     }
 
     @Override

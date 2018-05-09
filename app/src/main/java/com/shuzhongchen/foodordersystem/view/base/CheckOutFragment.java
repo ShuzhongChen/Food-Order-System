@@ -31,6 +31,7 @@ import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.models.OrderContent;
+import com.shuzhongchen.foodordersystem.models.QuantityPicker;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
