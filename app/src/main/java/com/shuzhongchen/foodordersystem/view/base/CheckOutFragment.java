@@ -131,6 +131,8 @@ public class CheckOutFragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getContext(), "order placed!", Toast.LENGTH_SHORT).show();
+                                List<FoodInOrder> newList = new ArrayList<FoodInOrder>();
+                                ModelUtils.save(getContext(), MODEL_FOODLIST, newList);
                             }
                         });
             }
