@@ -26,6 +26,7 @@ import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
+import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +103,13 @@ public class CustomerActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_history:
                             //fragment = BaseFragment.newInstance();
-                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
-                            startActivity(history);
+//                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
+//                            startActivity(history);
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, new OrderHistoryFragment())
+                                    .addToBackStack(null)
+                                    .commit();
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:
