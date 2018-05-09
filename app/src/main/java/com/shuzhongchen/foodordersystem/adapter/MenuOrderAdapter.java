@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+import com.shuzhongchen.foodordersystem.models.QuantityPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,9 @@ import java.util.List;
 
 public class MenuOrderAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<FoodInOrder> data;
+    private List<FoodInOrder> data;
 
-    public MenuOrderAdapter(@NonNull ArrayList<FoodInOrder> data) {
+    public MenuOrderAdapter(@NonNull List<FoodInOrder> data) {
         this.data = data;
     }
 
@@ -40,6 +41,8 @@ public class MenuOrderAdapter extends RecyclerView.Adapter {
         ((MenuOrderViewHolder) holder).order_food_price.setText("" + fo.price);
         ((MenuOrderViewHolder) holder).num = fo.num;
         ((MenuOrderViewHolder) holder).id = fo.id;
+        ((MenuOrderViewHolder) holder).quantityPicker.setQuantitySelected(fo.num);
+        ((MenuOrderViewHolder) holder).quantityPicker.setPosition(position);
     }
 
     @Override

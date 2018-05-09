@@ -18,13 +18,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -32,14 +35,13 @@ import static android.webkit.ConsoleMessage.MessageLevel.LOG;
  * Created by shuzhongchen on 4/30/18.
  */
 
-public class CustomerActivity extends AppCompatActivity implements FragmentCommunication {
+public class CustomerActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
+    private String MODEL_FOODLIST = "food_list";
 
     FirebaseAuth mAuth;
 
     ImageButton addToCart;
-
-    ArrayList<FoodInOrder> foodList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,12 @@ public class CustomerActivity extends AppCompatActivity implements FragmentCommu
         setContentView(R.layout.activity_customer);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        List<FoodInOrder> foodList = ModelUtils.read(this,
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
+        List<FoodInOrder> newList = foodList == null ? new ArrayList<FoodInOrder>() : foodList;
+        ModelUtils.save(this, MODEL_FOODLIST, newList);
 
         setSupportActionBar(toolbar);
 
@@ -60,12 +68,12 @@ public class CustomerActivity extends AppCompatActivity implements FragmentCommu
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = CheckOutFragment.newInstance(foodList);
+                Fragment fragment = CheckOutFragment.newInstance();
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
                         .commit();
-                setTitle(R.string.history);
+                setTitle(R.string.summary);
             }
         });
 
@@ -156,13 +164,5 @@ public class CustomerActivity extends AppCompatActivity implements FragmentCommu
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void passIndex(ArrayList<FoodInOrder> list) {
-        foodList = new ArrayList<>(list);
-    }
-
-    public ArrayList<FoodInOrder> getFoodList() {
-        return foodList;
-    }
 
 }

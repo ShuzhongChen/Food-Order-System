@@ -1,5 +1,9 @@
 package com.shuzhongchen.foodordersystem.view.base;
 
+import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,21 +15,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.models.OrderContent;
+import com.shuzhongchen.foodordersystem.models.QuantityPicker;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -48,14 +60,18 @@ public class CheckOutFragment extends Fragment {
     RecyclerView recyclerView;
 
     Button checkout;
+    Button pickdate;
+    Button picktime;
+    DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
 
-    ArrayList<FoodInOrder> foodList;
+    private String MODEL_FOODLIST = "food_list";
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
 
-    public static CheckOutFragment newInstance(ArrayList<FoodInOrder> list) {
+    public static CheckOutFragment newInstance() {
         Bundle args = new Bundle();
-        args.putParcelableArrayList("food_list", list);
         CheckOutFragment fragment = new CheckOutFragment();
         fragment.setArguments(args);
         return fragment;
@@ -72,12 +88,17 @@ public class CheckOutFragment extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         orderDatabase = firebaseDatabase.getReference("Orders");
-        foodList = getArguments().getParcelableArrayList("food_list");
+
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                        MODEL_FOODLIST,
+                        new TypeToken<List<FoodInOrder>>(){});
+
                 OrderContent orderContent = new OrderContent();
                 List<FoodInOrder> foodInOrderList = new ArrayList<>();
                 int totalPrice = 0;
@@ -110,10 +131,60 @@ public class CheckOutFragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getContext(), "order placed!", Toast.LENGTH_SHORT).show();
+                                List<FoodInOrder> newList = new ArrayList<FoodInOrder>();
+                                ModelUtils.save(getContext(), MODEL_FOODLIST, newList);
                             }
                         });
             }
         });
+
+        pickdate = view.findViewById(R.id.selectDate);
+        pickdate.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                pickdate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
+        picktime = view.findViewById(R.id.selectTime);
+        picktime.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                // spinner mode, build in theme: android.R.style.Theme_Holo_Light_Dialog
+                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        picktime.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+
+                timePickerDialog.show();
+            }
+        });
+
+        loadAllOrder();
+
         return view;
     }
 
@@ -121,14 +192,33 @@ public class CheckOutFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MenuOrderAdapter(foodList));
 
     }
 
 
-    private void loadAllMenu() {
+    private void loadAllOrder() {
+        orderDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Order order = postSnapshot.getValue(Order.class);
+                    System.out.println("Shuzhong debug order: " + order.toString() + "\n");
+                    System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
+                    System.out.println("Shuzhong debug order total time: " + order.getTotalPrice() + "\n");
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
     }
 
 

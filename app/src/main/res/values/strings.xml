@@ -20,6 +20,7 @@
 
     <string name="order">Order Food</string>
     <string name="history">Order History</string>
+    <string name="summary">Order Summary</string>
     <string name="logout">Logout</string>
 
     <string name="facebook_app_id">197988354324216</string>

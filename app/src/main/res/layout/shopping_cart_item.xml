@@ -30,17 +30,16 @@
             android:layout_weight="0.25"
             android:textSize="@dimen/mediumTextSize" />
 
-        <com.andanhm.quantitypicker.QuantityPicker
+        <com.shuzhongchen.foodordersystem.models.QuantityPicker
             xmlns:app="http://schemas.android.com/apk/res-auto/"
             android:id="@+id/quantityPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             app:minQuantity="1"
-            app:maxQuantity="5"
+            app:maxQuantity="99"
             app:textStyle="bold"
             app:quantityColor="@color/colorPrimary"
-            app:buttonColor="@color/colorAccent"/>
+            app:buttonColor="@color/colorAccent" />
 
     </LinearLayout>
 

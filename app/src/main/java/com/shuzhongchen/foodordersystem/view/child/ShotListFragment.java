@@ -21,9 +21,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.activities.CustomerActivity;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
@@ -49,9 +51,8 @@ public class ShotListFragment extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;
-
+    private String MODEL_FOODLIST = "food_list";
     FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
-    ArrayList<FoodInOrder> foodList;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -87,7 +88,6 @@ public class ShotListFragment extends Fragment {
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
         CustomerActivity activity = (CustomerActivity) getActivity();
-        foodList = new ArrayList<>(activity.getFoodList());
 
         loadAllMenu(listType);
 
@@ -122,6 +122,10 @@ public class ShotListFragment extends Fragment {
 
                 boolean containsFood = false;
 
+                List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                        MODEL_FOODLIST,
+                        new TypeToken<List<FoodInOrder>>(){});
+
                 for (int i = 0; i < foodList.size(); i++) {
                     if (foodList.get(i).name.equals(name)) {
                         containsFood = true;
@@ -139,20 +143,30 @@ public class ShotListFragment extends Fragment {
                     public void onClick(View view) {
                         boolean containsFood = false;
                         int index = 0;
+
+                        List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                                MODEL_FOODLIST,
+                                new TypeToken<List<FoodInOrder>>(){});
+
                         for (int i = 0; i < foodList.size(); i++) {
-                            if (foodList.get(i).name.equals(name)) {
+                            if (foodList.get(i).id.equals(id)) {
                                 containsFood = true;
                                 index = i;
                                 break;
                             }
                         }
+
+
+
                         if (containsFood) {
                             foodList.remove(index);
-                            ((FragmentCommunication) getActivity()).passIndex(foodList);
+
+                            ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
                             holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
                         } else {
                             foodList.add(new FoodInOrder(id, name, price, 1, preptime));
-                            ((FragmentCommunication) getActivity()).passIndex(foodList);
+
+                            ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
                             holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
                         }
                     }
