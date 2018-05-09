@@ -2,6 +2,7 @@ package com.shuzhongchen.foodordersystem.view.base;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -62,6 +63,7 @@ public class CheckOutFragment extends Fragment {
     Button pickdate;
     Button picktime;
     DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
 
     private String MODEL_FOODLIST = "food_list";
 
@@ -160,6 +162,24 @@ public class CheckOutFragment extends Fragment {
         });
 
         picktime = view.findViewById(R.id.selectTime);
+        picktime.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                // spinner mode, build in theme: android.R.style.Theme_Holo_Light_Dialog
+                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        picktime.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+
+                timePickerDialog.show();
+            }
+        });
 
         loadAllOrder();
 
