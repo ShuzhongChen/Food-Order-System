@@ -16,8 +16,11 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
@@ -118,6 +121,9 @@ public class CheckOutFragment extends Fragment {
                         });
             }
         });
+
+        loadAllOrder();
+
         return view;
     }
 
@@ -134,8 +140,24 @@ public class CheckOutFragment extends Fragment {
     }
 
 
-    private void loadAllMenu() {
+    private void loadAllOrder() {
+        orderDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Order order = postSnapshot.getValue(Order.class);
+                    System.out.println("Shuzhong debug order: " + order.toString() + "\n");
+                    System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
+                    System.out.println("Shuzhong debug order total time: " + order.getTotalPrice() + "\n");
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
     }
 
 

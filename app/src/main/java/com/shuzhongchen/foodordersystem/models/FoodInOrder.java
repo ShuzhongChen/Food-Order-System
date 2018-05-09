@@ -18,6 +18,50 @@ public class FoodInOrder implements Parcelable {
     private int preptime;
     public int num;
 
+    public FoodInOrder() {
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPreptime() {
+        return preptime;
+    }
+
+    public void setPreptime(int preptime) {
+        this.preptime = preptime;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
 
     public FoodInOrder(String id, String name, int price, int num, int preptime) {
         this.id = id;
