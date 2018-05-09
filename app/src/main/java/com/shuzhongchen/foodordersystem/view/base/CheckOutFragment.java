@@ -18,8 +18,10 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
@@ -49,13 +51,13 @@ public class CheckOutFragment extends Fragment {
 
     Button checkout;
 
-    ArrayList<FoodInOrder> foodList;
+    private String MODEL_FOODLIST = "food_list";
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
 
-    public static CheckOutFragment newInstance(ArrayList<FoodInOrder> list) {
+    public static CheckOutFragment newInstance() {
         Bundle args = new Bundle();
-        args.putParcelableArrayList("food_list", list);
         CheckOutFragment fragment = new CheckOutFragment();
         fragment.setArguments(args);
         return fragment;
@@ -72,7 +74,9 @@ public class CheckOutFragment extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         orderDatabase = firebaseDatabase.getReference("Orders");
-        foodList = getArguments().getParcelableArrayList("food_list");
+        final List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,9 @@ public class CheckOutFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MenuOrderAdapter(foodList));
 

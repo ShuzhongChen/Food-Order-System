@@ -21,9 +21,9 @@ import java.util.List;
 
 public class MenuOrderAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<FoodInOrder> data;
+    private List<FoodInOrder> data;
 
-    public MenuOrderAdapter(@NonNull ArrayList<FoodInOrder> data) {
+    public MenuOrderAdapter(@NonNull List<FoodInOrder> data) {
         this.data = data;
     }
 
