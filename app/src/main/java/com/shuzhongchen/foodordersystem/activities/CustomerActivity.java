@@ -88,6 +88,9 @@ public class CustomerActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
+        TextView nav_user = hView.findViewById(R.id.headerTitle);
+        nav_user.setText(mAuth.getCurrentUser().getDisplayName());
 
         //set base fragment as default
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
