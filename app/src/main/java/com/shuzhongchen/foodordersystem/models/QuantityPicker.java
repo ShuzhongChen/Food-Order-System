@@ -7,13 +7,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
+
+import java.util.List;
 
 /**
  * Created by syrhuang on 5/8/18.
@@ -29,6 +34,7 @@ public class QuantityPicker extends LinearLayout {
     public static final String ITALIC = "italic";
     public static final String BOLD_ITALIC = "bold_italic";
     public static final String NORMAL = "normal";
+    private String MODEL_FOODLIST = "food_list";
 
     private Context mContext;
     private ImageButton mImageIncrement, mImageDecrement;
@@ -38,6 +44,7 @@ public class QuantityPicker extends LinearLayout {
 
     private float mTextSize = 20f;
     private OnQuantityChangeListener onQuantityChangeListener;
+    private int position = 0;
 
     public QuantityPicker(Context context) {
         super(context);
@@ -251,6 +258,9 @@ public class QuantityPicker extends LinearLayout {
         else
             mTextViewQuantity.setText(String.valueOf(quantity));
     }
+    public void setPosition(int pos) {
+        position = pos;
+    }
     /**
      * To set the maximum value of the quantity picker |(default Max Quantity : 10 )
      * @param quantity Maximum value that need to set
@@ -262,20 +272,28 @@ public class QuantityPicker extends LinearLayout {
     OnClickListener clickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            final List<FoodInOrder> foodList = ModelUtils.read(getContext(), MODEL_FOODLIST,
+                    new TypeToken<List<FoodInOrder>>(){});
+
             int quantity = getQuantity();
             int i = v.getId();
             if (i == R.id.imageButtonIncrement) {
                 if (minQuantity >= 0 && quantity < maxQuantity) {
                     setQuantitySelected(quantity + 1);
+                    foodList.get(position).num = quantity + 1;
                 }
             } else if (i == R.id.imageButtonDecrement) {
                 if (minQuantity >= 0 && quantity <= maxQuantity) {
                     setQuantitySelected(quantity - 1);
+                    foodList.get(position).num = quantity - 1;
                 }
             }
             if (onQuantityChangeListener != null) {
                 onQuantityChangeListener.onValueChanged(getQuantity());
             }
+
+            ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
+            Log.d("items", "" + getQuantity());
         }
 
     };

@@ -87,20 +87,10 @@ public class CheckOutFragment extends Fragment {
                 List<FoodInOrder> foodInOrderList = new ArrayList<>();
                 int totalPrice = 0;
 
-                int position = 0;
                 for (FoodInOrder foodInOrder : foodList) {
-                    QuantityPicker qp = ((QuantityPicker) recyclerView.findViewHolderForAdapterPosition(position)
-                            .itemView.findViewById(R.id.quantityPicker));
-                    int num = qp.getQuantity();
-                    foodInOrder.num = num;
-                    position++;
-                    Log.d("items", foodInOrder.name + ": " + foodInOrder.num);
-
                     totalPrice += foodInOrder.price * foodInOrder.num;
                     foodInOrderList.add(foodInOrder);
                 }
-
-                ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
 
                 orderContent.setOrderItems(foodInOrderList);
 
