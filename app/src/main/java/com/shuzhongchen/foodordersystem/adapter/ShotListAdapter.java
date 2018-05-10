@@ -3,6 +3,7 @@ package com.shuzhongchen.foodordersystem.adapter;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
@@ -48,7 +51,7 @@ public class ShotListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        Menu menu = data.get(position);
+        final Menu menu = data.get(position);
 
         final String name = menu.getName();
         final int price = menu.getUnitprice();
@@ -62,20 +65,46 @@ public class ShotListAdapter extends RecyclerView.Adapter {
                 .into(((ShotViewHolder) holder).image);
 
 
-       /* ((ShotViewHolder) holder).image.setOnClickListener(new View.OnClickListener() {
+        ((ShotViewHolder) holder).image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder();
-                create_menu_dialog.setTitle("Create Menu");
+                AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder(context);
+                create_menu_dialog.setTitle(menu.getName());
 
-                LayoutInflater layoutInflater = .getLayoutInflater();
-                final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View CreateView = layoutInflater.inflate(R.layout.activity_item_details,null);
 
                 create_menu_dialog.setView(CreateView);
-                create_menu_dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
+
+                ImageView imageView = CreateView.findViewById(R.id.itemPic);
+                Picasso.get().load(menu.getImage())
+                        .into(imageView);
+
+                TextView txtCategory = CreateView.findViewById(R.id.txtCategory);
+                String str = menu.getCategory();
+                str = str.substring(0, 1).toUpperCase() + str.substring(1);
+                txtCategory.setText(str);
+
+                TextView txtName = CreateView.findViewById(R.id.txtName);
+                txtName.setText(menu.getName());
+
+                TextView txtPrice = CreateView.findViewById(R.id.txtPrice);
+                txtPrice.setText(menu.getUnitprice() + "");
+
+                TextView txtCalories = CreateView.findViewById(R.id.txtCalories);
+                txtCalories.setText(menu.getCalories() + "");
+
+                create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                create_menu_dialog.show();
             }
         });
-*/
+
 
 
 
@@ -114,9 +143,7 @@ public class ShotListAdapter extends RecyclerView.Adapter {
                         break;
                     }
                 }
-
-
-
+                
                 if (containsFood) {
                     foodList.remove(index);
 
