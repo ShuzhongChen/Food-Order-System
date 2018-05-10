@@ -24,6 +24,11 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <FrameLayout
+        android:id="@+id/admin_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_menu"
@@ -44,6 +49,9 @@
         app:backgroundTint="@color/btnSignUp"
         app:fabSize="normal" />
 
+    </FrameLayout>
+
+
 </RelativeLayout>
 
     <android.support.design.widget.NavigationView
@@ -54,4 +62,5 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/admin_drawer_view"
         app:headerLayout="@layout/nav_header" />
+
 </android.support.v4.widget.DrawerLayout>

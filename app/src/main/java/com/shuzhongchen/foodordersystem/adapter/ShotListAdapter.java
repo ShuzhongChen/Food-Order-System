@@ -91,7 +91,6 @@ public class ShotListAdapter extends RecyclerView.Adapter {
                 }
 
 
-
                 if (containsFood) {
                     foodList.remove(index);
 
