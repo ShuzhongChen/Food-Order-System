@@ -130,11 +130,11 @@ public class ShotListFragment extends Fragment {
             }
         }
 
-        sortList(newList, pos);
+        newList = sortList(new ArrayList<>(newList), pos);
         recyclerView.setAdapter(new ShotListAdapter(newList));
     }
 
-    private void sortList(List<Menu> newList, int p) {
+    private List<Menu> sortList(List<Menu> newList, int p) {
         switch (p) {
             case 0:
                 Collections.sort(newList, new Comparator<Menu>() {
@@ -163,6 +163,8 @@ public class ShotListFragment extends Fragment {
                 });
                 break;
         }
+
+        return newList;
 
     }
 }
