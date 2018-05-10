@@ -251,7 +251,7 @@ public class CustomerActivity extends AppCompatActivity {
         intent.putExtra("email", email);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         assert alarmManager != null;
-        alarmManager.set(AlarmManager.RTC_WAKEUP, milliseconds, pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, milliseconds, pendingIntent);
     }
 
 

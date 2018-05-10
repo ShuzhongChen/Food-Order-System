@@ -24,6 +24,7 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/login_email"
+            android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />
 
