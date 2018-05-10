@@ -56,19 +56,19 @@ public class BaseFragment extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title = "Drink";
+            String title = "Appetizer";
 
             switch (position) {
                 case 0:
                     break;
                 case 1:
-                    title = "Appetizer";
+                    title = "Dessert";
                     break;
                 case 2:
-                    title = "Main Course";
+                    title = "Drink";
                     break;
                 default:
-                    title = "Dessert";
+                    title = "Main Course";
             }
 
             return title;
