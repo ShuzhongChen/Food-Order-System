@@ -33,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
+import com.shuzhongchen.foodordersystem.helper.RangeTimePickerDialog;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
@@ -65,7 +66,7 @@ public class CheckOutFragment extends Fragment {
     Button pickdate;
     Button picktime;
     DatePickerDialog datePickerDialog;
-    TimePickerDialog timePickerDialog;
+    RangeTimePickerDialog timePickerDialog;
 
     private String MODEL_FOODLIST = "food_list";
 
@@ -183,6 +184,13 @@ public class CheckOutFragment extends Fragment {
 
                             }
                         }, mYear, mMonth, mDay);
+
+
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_WEEK, +7);
+                datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+
                 datePickerDialog.show();
             }
         });
@@ -196,13 +204,15 @@ public class CheckOutFragment extends Fragment {
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 // spinner mode, build in theme: android.R.style.Theme_Holo_Light_Dialog
-                timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                timePickerDialog = new RangeTimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         picktime.setText(selectedHour + ":" + selectedMinute);
                     }
                 }, hour, minute, true);//Yes 24 hour time
 
+                timePickerDialog.setMin(6,0);
+                timePickerDialog.setMax(21,0);
                 timePickerDialog.show();
             }
         });
