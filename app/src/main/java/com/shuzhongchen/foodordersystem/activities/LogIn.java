@@ -44,6 +44,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.shuzhongchen.foodordersystem.configuration.SendMail;
 
 
 import java.util.Arrays;
@@ -285,6 +286,7 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("GoogleSignIn", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            sendWelcomeEmail(user.getEmail());
                             updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -312,6 +314,7 @@ public class LogIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FacebookLog", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            sendWelcomeEmail(user.getEmail());
                             updateUI();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -324,5 +327,12 @@ public class LogIn extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    private void sendWelcomeEmail(String email) {
+        String subject = "Welcome to IFood";
+        String message = "I’m so glad you decided to try out Iood App. Please enjoy your food!";
+        SendMail sm = new SendMail(this, email, subject, message);
+        sm.execute();
     }
 }

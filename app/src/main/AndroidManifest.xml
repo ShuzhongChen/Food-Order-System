@@ -46,6 +46,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".OrderHistory"></activity>
+
+        <receiver android:name=".configuration.EmailAlarm"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
