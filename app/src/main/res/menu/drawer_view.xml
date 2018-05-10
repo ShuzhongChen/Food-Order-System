@@ -3,12 +3,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_order"
-            android:title="@string/order" />
+            android:title="@string/order"
+            android:icon="@drawable/ic_restaurant_menu_black_24dp"/>
         <item
             android:id="@+id/nav_history"
-            android:title="@string/history" />
+            android:title="@string/history"
+            android:icon="@drawable/ic_history_black_24dp"/>
         <item
             android:id="@+id/nav_logout"
-            android:title="@string/logout" />
+            android:title="@string/logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"/>
     </group>
 </menu>
