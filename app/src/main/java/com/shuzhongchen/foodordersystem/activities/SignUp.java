@@ -134,8 +134,8 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void sendWelcomeEmail(String email) {
-        String subject = "Welcome to Ifood";
-        String message = "I’m so glad you decided to try out Ifood App. Please enjoy your food!";
+        String subject = "Welcome to IFood";
+        String message = "I’m so glad you decided to try out IFood App. Please enjoy your food!";
         SendMail sm = new SendMail(this, email, subject, message);
         sm.execute();
     }
