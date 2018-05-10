@@ -135,6 +135,11 @@ public class CheckOutFragment extends Fragment {
                         MODEL_FOODLIST,
                         new TypeToken<List<FoodInOrder>>(){});
 
+                if (foodList == null || foodList.size() == 0) {
+                    Toast.makeText(getContext(), "Please add some items to cart!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 OrderContent orderContent = new OrderContent();
                 List<FoodInOrder> foodInOrderList = new ArrayList<>();
                 int totalPrice = 0;
@@ -166,7 +171,7 @@ public class CheckOutFragment extends Fragment {
                 }
 
                 if (conflict) {
-                    Toast.makeText(getContext(), "Time conflict!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select another time slot.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -195,12 +200,9 @@ public class CheckOutFragment extends Fragment {
                                 Fragment newFragment = new OrderHistoryFragment();
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack if needed
                                 transaction.replace(R.id.fragment_container, newFragment);
                                 transaction.addToBackStack(null);
 
-// Commit the transaction
                                 transaction.commit();
                             }
                         });
@@ -283,6 +285,9 @@ public class CheckOutFragment extends Fragment {
 
 
     private void loadAllOrder() {
+        startTimes = new ArrayList<>();
+        readyTimes = new ArrayList<>();
+
         orderDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -293,9 +298,11 @@ public class CheckOutFragment extends Fragment {
                     System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
                     System.out.println("Shuzhong debug order ready time: " + order.getReadyTime() + "\n");
 
+                    if (order.getStatus() == "queued") {
+                        startTimes.add(order.getStartTime());
+                        readyTimes.add(order.getReadyTime());
+                    }
 
-                    startTimes.add(order.getStartTime());
-                    readyTimes.add(order.getReadyTime());
                 }
             }
 
@@ -335,18 +342,18 @@ public class CheckOutFragment extends Fragment {
             }
         }
 
-        for (int i = 3; i <= 4; i++) {
-            int ns1 = Integer.parseInt(s1split[i]);
-            int nr1 = Integer.parseInt(r1split[i]);
-            int ns2 = Integer.parseInt(s2split[i]);
-            int nr2 = Integer.parseInt(r2split[i]);
 
-            if (ns1 <= nr2 && nr1 >= ns2){
-                return true;
-            }
+        int ns1 = Integer.parseInt(s1split[3]) * 60 + Integer.parseInt(s1split[4]);
+        int nr1 = Integer.parseInt(r1split[3]) * 60 + Integer.parseInt(s1split[4]);
+        int ns2 = Integer.parseInt(s2split[3]) * 60 + Integer.parseInt(s1split[4]);
+        int nr2 = Integer.parseInt(r2split[3]) * 60 + Integer.parseInt(s1split[4]);
+
+        if (nr1 < ns2 || nr2 < ns1){
+            return false;
         }
 
-        return false;
+
+        return true;
     }
 
 }
