@@ -19,12 +19,16 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.reflect.TypeToken;
+import com.shuzhongchen.foodordersystem.OrderHistory;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
+import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,8 @@ public class CustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
 
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         List<FoodInOrder> foodList = ModelUtils.read(this,
@@ -59,6 +65,8 @@ public class CustomerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -80,6 +88,9 @@ public class CustomerActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
+        TextView nav_user = hView.findViewById(R.id.headerTitle);
+        nav_user.setText(mAuth.getCurrentUser().getDisplayName());
 
         //set base fragment as default
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
@@ -100,7 +111,14 @@ public class CustomerActivity extends AppCompatActivity {
                             setTitle(R.string.order);
                             break;
                         case R.id.nav_history:
-                            fragment = BaseFragment.newInstance();
+                            //fragment = BaseFragment.newInstance();
+//                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
+//                            startActivity(history);
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, new OrderHistoryFragment())
+                                    .addToBackStack(null)
+                                    .commit();
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:

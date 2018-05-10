@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,6 +70,7 @@ public class CheckOutFragment extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
+    FirebaseAuth mAuth;
 
     public static CheckOutFragment newInstance() {
         Bundle args = new Bundle();
@@ -88,6 +90,9 @@ public class CheckOutFragment extends Fragment {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         orderDatabase = firebaseDatabase.getReference("Orders");
+
+        mAuth = FirebaseAuth.getInstance();
+
 
 
         checkout = view.findViewById(R.id.order_checkout_btn);
@@ -121,6 +126,8 @@ public class CheckOutFragment extends Fragment {
                         .setStartTime("to be set")
                         .setStatus(String.valueOf(Order.Status.queued))
                         .setTotalPrice(totalPrice);
+
+                order.setUid(mAuth.getCurrentUser().getUid());
 
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String uniqueID = tsLong.toString();
