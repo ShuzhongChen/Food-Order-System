@@ -38,7 +38,7 @@ public class MenuOrderAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         FoodInOrder fo = data.get(position);
         ((MenuOrderViewHolder) holder).order_food_name.setText(fo.name);
-        ((MenuOrderViewHolder) holder).order_food_price.setText("" + fo.price);
+        ((MenuOrderViewHolder) holder).order_food_price.setText("$" + fo.price);
         ((MenuOrderViewHolder) holder).num = fo.num;
         ((MenuOrderViewHolder) holder).id = fo.id;
         ((MenuOrderViewHolder) holder).quantityPicker.setQuantitySelected(fo.num);
