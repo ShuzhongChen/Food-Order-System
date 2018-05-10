@@ -69,6 +69,9 @@ public class CheckOutFragment extends Fragment {
     DatePickerDialog datePickerDialog;
     RangeTimePickerDialog timePickerDialog;
 
+    ArrayList<String> startTimes = new ArrayList<>();
+    ArrayList<String> readyTimes = new ArrayList<>();
+
     private String MODEL_FOODLIST = "food_list";
 
     FirebaseDatabase firebaseDatabase;
@@ -140,6 +143,22 @@ public class CheckOutFragment extends Fragment {
                 Order order = new Order();
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
                 Date date = new Date();
+
+
+                String readyTime = sb.toString();
+
+                boolean conflict = false;
+                for (int i = 0; i < startTimes.size(); i++) {
+                    if (isConflict(startTime, readyTime, startTimes.get(i), readyTimes.get(i))) {
+                        conflict = true;
+                        break;
+                    }
+                }
+
+                if (conflict) {
+                    Toast.makeText(getContext(), "Time conflict!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 order.setOrderContent(orderContent)
                         .setOrderPlaceTime(dateFormat.format(date).toString())
@@ -223,7 +242,7 @@ public class CheckOutFragment extends Fragment {
             }
         });
 
-        // loadAllOrder();
+        loadAllOrder();
 
 
         return view;
@@ -251,7 +270,11 @@ public class CheckOutFragment extends Fragment {
                     Order order = postSnapshot.getValue(Order.class);
                     System.out.println("Shuzhong debug order: " + order.toString() + "\n");
                     System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
-                    System.out.println("Shuzhong debug order total time: " + order.getTotalPrice() + "\n");
+                    System.out.println("Shuzhong debug order ready time: " + order.getReadyTime() + "\n");
+
+
+                    startTimes.add(order.getStartTime());
+                    readyTimes.add(order.getReadyTime());
                 }
             }
 
@@ -277,6 +300,32 @@ public class CheckOutFragment extends Fragment {
         return sb.append(pickupDate).append("/").append(String.valueOf(currentHour))
                 .append("/").append(String.valueOf(currentMin)).toString();
 
+    }
+
+    private boolean isConflict(String s1, String r1, String s2, String r2) {
+        String[] s1split = s1.split("/");
+        String[] r1split = r1.split("/");
+        String[] s2split = s2.split("/");
+        String[] r2split = r2.split("/");
+
+        for (int i = 0; i < 3; i++) {
+            if (!s1split[i].equals(s2split[i])){
+                return false;
+            }
+        }
+
+        for (int i = 3; i <= 4; i++) {
+            int ns1 = Integer.parseInt(s1split[i]);
+            int nr1 = Integer.parseInt(r1split[i]);
+            int ns2 = Integer.parseInt(s2split[i]);
+            int nr2 = Integer.parseInt(r2split[i]);
+
+            if (ns1 <= nr2 && nr1 >= ns2){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
