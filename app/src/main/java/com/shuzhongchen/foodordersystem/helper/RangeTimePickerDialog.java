@@ -38,15 +38,11 @@ public class RangeTimePickerDialog extends TimePickerDialog {
             boolean validTime;
             if(hourOfDay < minHour || hourOfDay > maxHour) {
                 validTime = false;
-            }
-
-            else if(hourOfDay == minHour) {
+            } else if(hourOfDay == minHour) {
                 validTime = minute >= minMinute;
-            }
-            else if(hourOfDay == maxHour) {
+            } else if(hourOfDay == maxHour) {
                 validTime = minute <= maxMinute;
-            }
-            else {
+            } else {
                 validTime = true;
             }
 
