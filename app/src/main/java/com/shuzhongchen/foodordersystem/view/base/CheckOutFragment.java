@@ -364,8 +364,8 @@ public class CheckOutFragment extends Fragment {
         int currentMin = Integer.parseInt(str[1]);
         int currentHour = Integer.parseInt(str[0]);
 
-        currentMin = currentMin > minute ? currentMin - minute : currentMin + 60 - minute;
-        currentHour = currentMin > minute ? currentHour : currentHour - 1;
+        currentMin = currentMin >= minute ? currentMin - minute : currentMin + 60 - minute;
+        currentHour = currentMin >= minute ? currentHour : currentHour - 1;
 
         StringBuilder sb = new StringBuilder();
         return sb.append(pickupDate).append("/").append(String.valueOf(currentHour))

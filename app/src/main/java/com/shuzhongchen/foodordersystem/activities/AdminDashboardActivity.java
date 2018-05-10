@@ -2,6 +2,8 @@ package com.shuzhongchen.foodordersystem.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -54,6 +56,8 @@ import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
+import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
+import com.shuzhongchen.foodordersystem.view.child.MenuSortFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -146,12 +150,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
                             case R.id.status_report:
-                                break;
 
+                                setTitle("Order Status Report");
+                                break;
                             case R.id.popularity_report:
+                                System.out.println("status report");
                                 break;
-
                             case R.id.reset_order:
+                                System.out.println("reset order");
                                 break;
 //                            fragment = BaseFragment.newInstance();
 //                            setTitle(R.string.logout);
@@ -167,7 +173,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
                                 break;
 
                         }
-
                         mDrawerLayout.closeDrawers();
 
                         return false;

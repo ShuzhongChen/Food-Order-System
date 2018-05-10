@@ -3,6 +3,7 @@ package com.shuzhongchen.foodordersystem.helper;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -50,10 +51,8 @@ public class RangeTimePickerDialog extends TimePickerDialog {
                 currentHour = hourOfDay;
                 currentMinute = minute;
             } else {
-                Calendar rightNow = Calendar.getInstance();
-                currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-                currentMinute = rightNow.get(Calendar.MINUTE);
-                updateTime(currentHour, currentMinute);
+                Toast.makeText(getContext(), "please choose time between 6:00am - 9:00pm", Toast.LENGTH_LONG).show();
+                updateTime(12, 0);
             }
         }
 
