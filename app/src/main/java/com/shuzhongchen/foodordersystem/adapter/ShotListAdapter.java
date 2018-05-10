@@ -1,5 +1,7 @@
 package com.shuzhongchen.foodordersystem.adapter;
 
+import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.activities.AdminDashboardActivity;
+import com.shuzhongchen.foodordersystem.activities.CustomerActivity;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
@@ -44,15 +49,35 @@ public class ShotListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         Menu menu = data.get(position);
-        Log.d("Shuzhong debug menu", menu.getName());
+
         final String name = menu.getName();
         final int price = menu.getUnitprice();
         final String id = menu.getUuid();
         final int preptime = menu.getPreptime();
+
         ((ShotViewHolder) holder).price.setText(price + "");
         ((ShotViewHolder) holder).title.setText(name);
+
         Picasso.get().load(menu.getImage())
                 .into(((ShotViewHolder) holder).image);
+
+
+       /* ((ShotViewHolder) holder).image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder();
+                create_menu_dialog.setTitle("Create Menu");
+
+                LayoutInflater layoutInflater = .getLayoutInflater();
+                final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
+
+                create_menu_dialog.setView(CreateView);
+                create_menu_dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
+            }
+        });
+*/
+
+
 
         boolean containsFood = false;
 
