@@ -57,7 +57,7 @@ import butterknife.ButterKnife;
  */
 public class ShotListFragment extends Fragment {
 
-    String[] category = new String[]{"drink", "appetizer", "main course", "dessert"};
+    String[] category = new String[]{"appetizer", "dessert", "drink", "main course"};
 
 
     private String MODEL_FOODLIST = "food_list";
