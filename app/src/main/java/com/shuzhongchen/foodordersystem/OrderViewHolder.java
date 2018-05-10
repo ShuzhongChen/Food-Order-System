@@ -10,11 +10,11 @@ import com.shuzhongchen.foodordersystem.interfaces.ItemClickListener;
  * Created by mengtongma on 5/3/18.
  */
 
-public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class OrderViewHolder extends RecyclerView.ViewHolder {
 
     public TextView txtOrderId, txtOrderStatus, txtOrderCancel;
 
-    private ItemClickListener itemClickListener;
+    //private ItemClickListener itemClickListener;
 
 
 
@@ -25,16 +25,16 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderStatus = itemView.findViewById(R.id.order_status);
         txtOrderCancel = itemView.findViewById(R.id.order_cancel);
 
-        itemView.setOnClickListener(this);
+//        itemView.setOnClickListener(this);
 
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    @Override
-    public void onClick(View view) {
-        itemClickListener.onClick(view, getAdapterPosition(), false);
-    }
+//    public void setItemClickListener(ItemClickListener itemClickListener) {
+//        this.itemClickListener = itemClickListener;
+//    }
+//
+//    @Override
+//    public void onClick(View view) {
+//        itemClickListener.onClick(view, getAdapterPosition(), false);
+//    }
 }
