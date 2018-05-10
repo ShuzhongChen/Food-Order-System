@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/customer_menu_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp" />
+            android:layout_marginLeft="25dp"/>
 
 
         <LinearLayout
@@ -28,14 +28,18 @@
 
             <TextView
                 android:id="@+id/customer_menu_title"
-                android:layout_width="130dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/id" />
+                android:textSize="25dp"
+                android:textColor="@color/black"
+                android:paddingLeft="30dp"/>
 
             <TextView
                 android:id="@+id/customer_menu_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="@color/black"
                 android:paddingLeft="30dp" />
 
         </LinearLayout>
@@ -44,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <ImageButton

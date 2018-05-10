@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
  */
 public class ShotListFragment extends Fragment {
 
-    String[] category = new String[]{"drink", "appetizer", "main course", "desert"};
+    String[] category = new String[]{"drink", "appetizer", "main course", "dessert"};
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;

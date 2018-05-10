@@ -242,7 +242,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = this.getLayoutInflater();
         final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
-        String[] items = new String[]{"--- choose ---", "drink", "appetizer", "main course", "desert"};
+        String[] items = new String[]{"--- choose ---", "drink", "appetizer", "main course", "dessert"};
         final Spinner categorySpinner = (Spinner)CreateView.findViewById(R.id.categorySpinner);
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(AdminDashboardActivity.this, android.R.layout.simple_spinner_item, items);
         ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

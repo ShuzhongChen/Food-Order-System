@@ -68,7 +68,7 @@ public class BaseFragment extends Fragment {
                     title = "Main Course";
                     break;
                 default:
-                    title = "Desert";
+                    title = "Dessert";
             }
 
             return title;
