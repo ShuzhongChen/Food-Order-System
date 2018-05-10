@@ -64,6 +64,7 @@ public class CheckOutFragment extends Fragment {
     RecyclerView recyclerView;
 
     Button checkout;
+    Button cancel;
     Button pickdate;
     Button picktime;
     DatePickerDialog datePickerDialog;
@@ -110,6 +111,23 @@ public class CheckOutFragment extends Fragment {
         }
         tot = view.findViewById(R.id.txtTotalPrice);
         tot.setText("" + totalPrice);
+
+        cancel = view.findViewById(R.id.order_cancel_btn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<FoodInOrder> newList = new ArrayList<FoodInOrder>();
+                ModelUtils.save(getContext(), MODEL_FOODLIST, newList);
+                Fragment newFragment = new BaseFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+            }
+        });
+
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {

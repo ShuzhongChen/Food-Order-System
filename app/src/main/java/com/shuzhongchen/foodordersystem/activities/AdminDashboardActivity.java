@@ -146,10 +146,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
                             case R.id.status_report:
+                                break;
 
                             case R.id.popularity_report:
+                                break;
 
                             case R.id.reset_order:
+                                break;
 //                            fragment = BaseFragment.newInstance();
 //                            setTitle(R.string.logout);
 //                                mAuth.signOut();
@@ -157,6 +160,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
 //                                Intent backToHome = new Intent(getApplicationContext(), MainActivity.class);
 //                                startActivity(backToHome);
 //                                break;
+                            case R.id.admin_log_out:
+                                Intent goMainActivity = new Intent(AdminDashboardActivity.this, MainActivity.class);
+                                startActivity(goMainActivity);
+                                finish();
+                                break;
+
                         }
 
                         mDrawerLayout.closeDrawers();

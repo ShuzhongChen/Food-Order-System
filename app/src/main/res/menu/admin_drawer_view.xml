@@ -13,5 +13,9 @@
             android:id="@+id/reset_order"
             android:title="@string/resetOrder"
             android:icon="@drawable/ic_hourglass_empty_black_24dp"/>
+        <item
+            android:id="@+id/admin_log_out"
+            android:title="@string/logout"
+            android:icon="@drawable/ic_hourglass_empty_black_24dp"/>
     </group>
 </menu>
