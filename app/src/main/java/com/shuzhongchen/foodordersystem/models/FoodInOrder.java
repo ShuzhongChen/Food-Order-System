@@ -11,8 +11,6 @@ import java.util.UUID;
  */
 
 public class FoodInOrder implements Parcelable {
-
-    public String id;
     public String name;
     public int price;
     private int preptime;
@@ -21,6 +19,8 @@ public class FoodInOrder implements Parcelable {
     public FoodInOrder() {
 
     }
+
+    public String id;
 
     public String getId() {
         return id;
@@ -61,7 +61,6 @@ public class FoodInOrder implements Parcelable {
     public void setNum(int num) {
         this.num = num;
     }
-
 
     public FoodInOrder(String id, String name, int price, int num, int preptime) {
         this.id = id;

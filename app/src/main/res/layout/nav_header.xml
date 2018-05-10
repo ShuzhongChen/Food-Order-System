@@ -12,9 +12,13 @@
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="My header title"
         android:textStyle="bold"
         android:textSize="20sp"
+=======
+        android:text="Food Order System"
+>>>>>>> origin/staging-chengcheng-branch
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>
