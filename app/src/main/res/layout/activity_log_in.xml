@@ -35,6 +35,7 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/password"
+            android:textStyle="bold"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />
