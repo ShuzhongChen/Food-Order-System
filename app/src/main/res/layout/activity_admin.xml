@@ -27,14 +27,14 @@
     <FrameLayout
         android:id="@+id/admin_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"/>
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_fab"
@@ -48,8 +48,6 @@
         android:tint="@color/white"
         app:backgroundTint="@color/btnSignUp"
         app:fabSize="normal" />
-
-    </FrameLayout>
 
 
 </RelativeLayout>

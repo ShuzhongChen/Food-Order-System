@@ -51,7 +51,7 @@ public class RangeTimePickerDialog extends TimePickerDialog {
                 currentHour = hourOfDay;
                 currentMinute = minute;
             } else {
-                Toast.makeText(getContext(), "please choose time between 6:00am - 9:00pm", Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), "please choose time between 6:00am - 9:00pm", Toast.LENGTH_LONG).show();
                 updateTime(0, 0);
             }
         }
