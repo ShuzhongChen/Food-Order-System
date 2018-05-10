@@ -1,7 +1,13 @@
 package com.shuzhongchen.foodordersystem.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,19 +24,30 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.OrderHistory;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.configuration.EmailAlarm;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
@@ -44,6 +61,7 @@ public class CustomerActivity extends AppCompatActivity {
     private String MODEL_FOODLIST = "food_list";
 
     FirebaseAuth mAuth;
+    FirebaseDatabase database;
 
     ImageButton addToCart;
 
@@ -51,6 +69,10 @@ public class CustomerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
+
+        database = FirebaseDatabase.getInstance();
+
+
 
 
 
@@ -66,7 +88,7 @@ public class CustomerActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
+        getPickupTime();
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -169,6 +191,63 @@ public class CustomerActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void getPickupTime() {
+
+        final FirebaseUser user = mAuth.getCurrentUser();
+        String uid = user.getUid();
+
+        Query query = database
+                .getReference()
+                .child("Orders").orderByChild("uid").equalTo(uid)
+                .limitToLast(10);
+        query.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Order userOrder = postSnapshot.getValue(Order.class);
+                    String time = userOrder.getPickupTime();
+                    time += "/00";
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy/HH/mm/ss");
+
+                    try{
+                        //formatting the dateString to convert it into a Date
+                        Date date = sdf.parse(time);
+                        System.out.println("Given Time in milliseconds : "+ date.getTime());
+                        Log.d("Time", "sendReminderMail: " + date.getTime());
+
+                        sendReminderMail(date.getTime(), user.getEmail());
+
+                    }catch(ParseException e){
+                        e.printStackTrace();
+                    }
+
+                    Log.d("Pickup", "onDataChange: " + time);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void sendReminderMail(long milliseconds, String email) {
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, EmailAlarm.class);
+        intent.putExtra("email", email);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager.RTC_WAKEUP, milliseconds, pendingIntent);
     }
 
 
