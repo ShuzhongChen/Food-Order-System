@@ -1,5 +1,6 @@
 package com.shuzhongchen.foodordersystem.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -18,12 +19,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.OrderHistory;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
 import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
 import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
@@ -46,13 +53,16 @@ public class CustomerActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     ImageButton addToCart;
+    Context context;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference menuDB;
+    List<Menu> menuList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
-
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 

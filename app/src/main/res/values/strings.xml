@@ -34,4 +34,10 @@
     <string name="popularityReport">Popularity Report</string>
     <string name="resetOrder">Reset Order</string>
 
+    <string-array name="country_arrays">
+        <item>Popularity</item>
+        <item>Name</item>
+        <item>Price</item>
+    </string-array>
+
 </resources>

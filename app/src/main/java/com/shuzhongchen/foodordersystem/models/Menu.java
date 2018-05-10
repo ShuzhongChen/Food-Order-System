@@ -1,30 +1,59 @@
 package com.shuzhongchen.foodordersystem.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.net.URL;
 
 /**
  * Created by jinchengcheng on 4/30/18.
  */
 
-public class Menu {
-    private String name;
-    private String category;
-    private int calories;
-    private int unitprice;
-    private int preptime;
-    private String image;
-    private int ordertimes;
+public class Menu implements Parcelable {
+    public String name;
+    public String category;
+    public int calories;
+    public int unitprice;
+    public int preptime;
+    public String image;
+    public int ordertimes;
+    public String uuid;
 
-    public String getUUID() {
-        return UUID;
+    public Menu(){
+
     }
 
-    public Menu setUUID(String UUID) {
-        this.UUID = UUID;
+    protected Menu(Parcel in) {
+        name = in.readString();
+        category = in.readString();
+        calories = in.readInt();
+        unitprice = in.readInt();
+        preptime = in.readInt();
+        image = in.readString();
+        ordertimes = in.readInt();
+        uuid = in.readString();
+    }
+
+    public static final Creator<Menu> CREATOR = new Creator<Menu>() {
+        @Override
+        public Menu createFromParcel(Parcel in) {
+            return new Menu(in);
+        }
+
+        @Override
+        public Menu[] newArray(int size) {
+            return new Menu[size];
+        }
+    };
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public Menu setUuid(String uuid) {
+        this.uuid = uuid;
         return this;
     }
-
-    private String UUID;
 
     public int getOrdertimes() {
         return ordertimes;
@@ -89,4 +118,20 @@ public class Menu {
         return this;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(category);
+        parcel.writeInt(calories);
+        parcel.writeInt(unitprice);
+        parcel.writeInt(preptime);
+        parcel.writeString(image);
+        parcel.writeInt(ordertimes);
+        parcel.writeString(uuid);
+    }
 }

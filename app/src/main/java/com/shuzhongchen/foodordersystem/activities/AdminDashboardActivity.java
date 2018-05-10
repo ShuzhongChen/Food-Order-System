@@ -395,7 +395,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 final Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
-                        .setUUID(UUID.randomUUID().toString())
+                        .setUuid(UUID.randomUUID().toString())
                         .setImage("https://firebasestorage.googleapis.com/v0/b/foodordersystem-68732.appspot.com/o/foodicon.png?alt=media&token=da6db255-a8bc-4e6b-8a97-c3ab71db2e06")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
