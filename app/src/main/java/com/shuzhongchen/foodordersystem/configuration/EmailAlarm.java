@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class EmailAlarm extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Reminder Sent", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Reminder Sent", Toast.LENGTH_SHORT).show();
 
 //        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 //        builder.setAutoCancel(true)

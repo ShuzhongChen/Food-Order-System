@@ -3,6 +3,7 @@ package com.shuzhongchen.foodordersystem.view.base;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
+import com.shuzhongchen.foodordersystem.configuration.SendMail;
 import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.helper.RangeTimePickerDialog;
 import com.shuzhongchen.foodordersystem.holders.MenuOrderViewHolder;
@@ -45,6 +47,7 @@ import com.shuzhongchen.foodordersystem.models.QuantityPicker;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -203,6 +206,12 @@ public class CheckOutFragment extends Fragment {
 
                 order.setUid(mAuth.getCurrentUser().getUid());
 
+                try {
+                    sendConfirmationEmail(getContext(), mAuth.getCurrentUser().getEmail(), sb.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String uniqueID = tsLong.toString();
 
@@ -224,6 +233,8 @@ public class CheckOutFragment extends Fragment {
                                 transaction.commit();
                             }
                         });
+
+
 
 
             }
@@ -287,6 +298,20 @@ public class CheckOutFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void sendConfirmationEmail(Context context, String email, String s) throws ParseException {
+        Log.d("Email confirmation", "sendConfirmationEmail: " + email);
+
+        String subject = "IFood Order Confirmation";
+        String message = "Your order will be ready at ";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy/HH/mm");
+        Date date = sdf.parse(s);
+        Log.d("date", "sendConfirmationEmail: " + date.toString());
+        message += date.toString();
+        Log.d("message", "sendConfirmationEmail: " + message);
+        SendMail sm = new SendMail(context, email, subject, message);
+        sm.execute();
     }
 
 
