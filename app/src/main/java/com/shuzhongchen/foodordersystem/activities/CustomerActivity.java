@@ -14,11 +14,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.reflect.TypeToken;
+import com.shuzhongchen.foodordersystem.OrderHistory;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
+import com.shuzhongchen.foodordersystem.view.base.CheckOutFragment;
+import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -28,26 +41,56 @@ import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class CustomerActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
+    private String MODEL_FOODLIST = "food_list";
 
     FirebaseAuth mAuth;
+
+    ImageButton addToCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
 
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        List<FoodInOrder> foodList = ModelUtils.read(this,
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
+        List<FoodInOrder> newList = foodList == null ? new ArrayList<FoodInOrder>() : foodList;
+        ModelUtils.save(this, MODEL_FOODLIST, newList);
+
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        addToCart = findViewById(R.id.toolbar_add_to_cart);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = CheckOutFragment.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+                setTitle(R.string.summary);
+            }
+        });
+
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(0);
+        TextView nav_user = hView.findViewById(R.id.headerTitle);
+        nav_user.setText(mAuth.getCurrentUser().getDisplayName());
 
         //set base fragment as default
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
@@ -58,11 +101,6 @@ public class CustomerActivity extends AppCompatActivity {
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
-                    if (item.isChecked()) {
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-
                     // Add code here to update the UI based on the item selected
                     // For example, swap UI fragments here
 
@@ -73,7 +111,14 @@ public class CustomerActivity extends AppCompatActivity {
                             setTitle(R.string.order);
                             break;
                         case R.id.nav_history:
-                            fragment = BaseFragment.newInstance();
+                            //fragment = BaseFragment.newInstance();
+//                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
+//                            startActivity(history);
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, new OrderHistoryFragment())
+                                    .addToBackStack(null)
+                                    .commit();
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:
@@ -136,5 +181,6 @@ public class CustomerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }

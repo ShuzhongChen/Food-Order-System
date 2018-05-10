@@ -21,9 +21,14 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.activities.CustomerActivity;
+import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Shot;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
@@ -42,41 +47,20 @@ import butterknife.ButterKnife;
  */
 public class ShotListFragment extends Fragment {
 
-    public static final int REQ_CODE_SHOT = 100;
-    public static final String KEY_LIST_TYPE = "listType";
-    public static final String KEY_BUCKET_ID = "bucketId";
-
-    public static final int LIST_TYPE_POPULAR = 1;
-    public static final int LIST_TYPE_LIKED = 2;
-    public static final int LIST_TYPE_BUCKET = 3;
-
     String[] category = new String[]{"drink", "appetizer", "main course", "desert"};
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDB;
-
+    private String MODEL_FOODLIST = "food_list";
     FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-
-
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
-    private int position;
 
     public static ShotListFragment newInstance(Bundle args) {
-        ShotListFragment fragment = new ShotListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static ShotListFragment newBucketListInstance(@NonNull String bucketId) {
-        Bundle args = new Bundle();
-        args.putInt(KEY_LIST_TYPE, LIST_TYPE_BUCKET);
-        args.putString(KEY_BUCKET_ID, bucketId);
-
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -103,6 +87,8 @@ public class ShotListFragment extends Fragment {
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
 
+        CustomerActivity activity = (CustomerActivity) getActivity();
+
         loadAllMenu(listType);
 
     }
@@ -123,13 +109,68 @@ public class ShotListFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
+            protected void onBindViewHolder(@NonNull final ShotViewHolder holder, final int position, @NonNull final Menu model) {
 
-                holder.price.setText(model.getUnitprice() + "");
-                holder.title.setText(model.getName());
+                final String name = model.getName();
+                final int price = model.getUnitprice();
+                final String id = model.getUUID();
+                final int preptime = model.getPreptime();
+                holder.price.setText(price + "");
+                holder.title.setText(name);
                 Picasso.get().load(model.getImage())
                         .into(holder.image);
 
+                boolean containsFood = false;
+
+                List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                        MODEL_FOODLIST,
+                        new TypeToken<List<FoodInOrder>>(){});
+
+                for (int i = 0; i < foodList.size(); i++) {
+                    if (foodList.get(i).name.equals(name)) {
+                        containsFood = true;
+                        break;
+                    }
+                }
+
+                if (containsFood) {
+                    holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
+                } else {
+                    holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
+                }
+                holder.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        boolean containsFood = false;
+                        int index = 0;
+
+                        List<FoodInOrder> foodList = ModelUtils.read(getContext(),
+                                MODEL_FOODLIST,
+                                new TypeToken<List<FoodInOrder>>(){});
+
+                        for (int i = 0; i < foodList.size(); i++) {
+                            if (foodList.get(i).id.equals(id)) {
+                                containsFood = true;
+                                index = i;
+                                break;
+                            }
+                        }
+
+
+
+                        if (containsFood) {
+                            foodList.remove(index);
+
+                            ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
+                            holder.btn.setImageResource(R.drawable.ic_add_black_24dp);
+                        } else {
+                            foodList.add(new FoodInOrder(id, name, price, 1, preptime));
+
+                            ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
+                            holder.btn.setImageResource(R.drawable.ic_check_black_24dp);
+                        }
+                    }
+                });
             }
         };
 

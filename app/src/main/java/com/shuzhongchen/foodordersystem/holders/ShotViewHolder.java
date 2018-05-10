@@ -2,6 +2,7 @@ package com.shuzhongchen.foodordersystem.holders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,15 +18,17 @@ public class ShotViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView title;
 
     public ImageView image;
+    public ImageButton btn;
 
-
+    public Boolean isAdd;
 
     public ShotViewHolder(View view) {
         super(view);
-
+        isAdd = true;
         price = (TextView) view.findViewById(R.id.customer_menu_price);
         title = (TextView) view.findViewById(R.id.customer_menu_title);
         image = (ImageView) view.findViewById(R.id.customer_menu_image);
+        btn = (ImageButton) view.findViewById(R.id.customer_menu_btn);
     }
 
     @Override

@@ -13,6 +13,18 @@ public class Menu {
     private int unitprice;
     private int preptime;
     private String image;
+    private int ordertimes;
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public Menu setUUID(String UUID) {
+        this.UUID = UUID;
+        return this;
+    }
+
+    private String UUID;
 
     public int getOrdertimes() {
         return ordertimes;
@@ -22,8 +34,6 @@ public class Menu {
         this.ordertimes = ordertimes;
         return this;
     }
-
-    private int ordertimes;
 
     public String getName() {
         return name;

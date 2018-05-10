@@ -20,9 +20,6 @@ android {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://dl.bintray.com/andanhm3/maven'
-    }
 }
 
 dependencies {
@@ -56,8 +53,13 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     compile 'com.andanhm.quantitypicker:quantitypicker:1.1.0'
     implementation files('libs/mail.jar')
+
+
+    compile 'com.google.code.gson:gson:2.7'
+
 }
 
 

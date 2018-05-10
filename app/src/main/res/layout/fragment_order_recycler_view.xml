@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mediumMargin"
+                android:text="Total Price: "
+                android:textSize="@dimen/mediumTextSize" />
+
+            <TextView
+                android:id="@+id/txtTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mediumMargin"
+                android:layout_marginLeft="@dimen/mediumMargin"
+                android:text="totalPrice"
+                android:textSize="@dimen/mediumTextSize" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mediumMargin"
+                android:text="Pick Up Time"
+                android:textSize="@dimen/mediumTextSize" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/selectDate"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/mediumMargin"
+                    android:layout_marginTop="@dimen/smallMargin"
+                    android:background="@color/btnGrey"
+                    android:padding="@dimen/smallMargin"
+                    android:text="Select Date"
+                    android:textSize="@dimen/smallTextSize"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/selectTime"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/mediumMargin"
+                    android:layout_marginTop="@dimen/smallMargin"
+                    android:background="@color/btnGrey"
+                    android:padding="@dimen/smallMargin"
+                    android:text="Select Time"
+                    android:textSize="@dimen/smallTextSize"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginRight="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/largeMargin"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/btnGrey"
+                android:textSize="@dimen/smallTextSize"
+                android:padding="@dimen/smallMargin"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/order_checkout_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:textSize="@dimen/smallTextSize"
+                android:padding="@dimen/smallMargin"
+                android:text="Check Out" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
