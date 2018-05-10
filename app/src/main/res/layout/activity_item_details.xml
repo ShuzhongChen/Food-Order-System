@@ -12,7 +12,7 @@
         android:layout_height="299dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/mediumMargin"
         app:srcCompat="@color/cardview_dark_background"
         tools:layout_editor_absoluteX="16dp"
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="Category"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="txtCategory"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -51,7 +51,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="Name"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="txtName"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -75,7 +75,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="Price"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="txtPrice"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -99,7 +99,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="Calories"
             android:textSize="@dimen/mediumTextSize" />
 
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:text="txtCalories"
             android:textSize="@dimen/mediumTextSize" />
 

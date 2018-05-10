@@ -2,6 +2,8 @@ package com.shuzhongchen.foodordersystem.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,10 +12,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,9 +39,13 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,9 +54,17 @@ import com.shuzhongchen.foodordersystem.holders.CustomListView;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
+import com.shuzhongchen.foodordersystem.models.Order;
+import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
+import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
+import com.shuzhongchen.foodordersystem.view.child.MenuSortFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -72,6 +93,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private ImageButton imageButton;
 
+    private int maxKey;
+
+    private DrawerLayout mDrawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,11 +106,126 @@ public class AdminDashboardActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycle_menu);
         layoutManager = new LinearLayoutManager(this);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mDrawerLayout = findViewById(R.id.admin_drawer_layout);
+
+        mDrawerLayout.addDrawerListener(
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        // Respond when the drawer's position changes
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Respond when the drawer is opened
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        // Respond when the drawer is closed
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        // Respond when the drawer motion state changes
+                    }
+                }
+        );
+
+        NavigationView navigationView = findViewById(R.id.admin_nav_view);
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem item) {
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        switch (item.getItemId()) {
+                            case R.id.status_report:
+
+                                setTitle("Order Status Report");
+                                break;
+                            case R.id.popularity_report:
+                                System.out.println("status report");
+                                break;
+                            case R.id.reset_order:
+                                System.out.println("reset order");
+                                break;
+//                            fragment = BaseFragment.newInstance();
+//                            setTitle(R.string.logout);
+//                                mAuth.signOut();
+//                                finish();
+//                                Intent backToHome = new Intent(getApplicationContext(), MainActivity.class);
+//                                startActivity(backToHome);
+//                                break;
+                            case R.id.admin_log_out:
+                                Intent goMainActivity = new Intent(AdminDashboardActivity.this, MainActivity.class);
+                                startActivity(goMainActivity);
+                                finish();
+                                break;
+
+                        }
+                        mDrawerLayout.closeDrawers();
+
+                        return false;
+                    }
+                }
+        );
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDatabase = firebaseDatabase.getReference("menu");
+
+//        DatabaseReference orderDB = firebaseDatabase.getReference("Orders");
+
+//        orderDB.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                Log.e("Count " ,""+snapshot.getChildrenCount());
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    Order order = postSnapshot.getValue(Order.class);
+//                    System.out.println("order: " + order.toString() + "\n");
+//                    System.out.println("order start time: " + order.getStartTime() + "\n");
+//                    System.out.println("order total time: " + order.getTotalPrice() + "\n");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError firebaseError) {
+//                Log.e("The read failed: " ,firebaseError.getMessage());
+//            }
+//        });
+
+        menuDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Menu menu = postSnapshot.getValue(Menu.class);
+                    System.out.println("menu: " + menu.toString() + "\n");
+                    System.out.println("menu name: " + menu.getName() + "\n");
+                    System.out.println("menu category: " + menu.getCategory());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
+
+
+
         // Create a storage reference from our app
         storageRef = FirebaseStorage.getInstance().getReference();
-
+        maxKey = 0;
 
         loadAllMenu();
 
@@ -114,7 +254,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,16 +263,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -162,6 +296,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 holder.caloriesTV.setText("" + model.getCalories());
                 holder.UnitPriceTV.setText("" + model.getUnitprice());
                 holder.PrepTimeTV.setText("" + model.getPreptime());
+
+                maxKey = Math.max(maxKey, Integer.parseInt(adapter.getRef(position).getKey()));
 
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
@@ -237,7 +373,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = this.getLayoutInflater();
         final View CreateView = layoutInflater.inflate(R.layout.activity_menu_detail,null);
 
-        String[] items = new String[]{"--- choose ---", "Drink", "Appetizer", "Main Course", "Desert"};
+        String[] items = new String[]{"--- choose ---", "drink", "appetizer", "main course", "dessert"};
         final Spinner categorySpinner = (Spinner)CreateView.findViewById(R.id.categorySpinner);
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(AdminDashboardActivity.this, android.R.layout.simple_spinner_item, items);
         ArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -273,6 +409,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                 final Menu menu = new Menu();
                 menu.setName(createName.getText().toString())
+                        .setUuid(UUID.randomUUID().toString())
                         .setImage("https://firebasestorage.googleapis.com/v0/b/foodordersystem-68732.appspot.com/o/foodicon.png?alt=media&token=da6db255-a8bc-4e6b-8a97-c3ab71db2e06")
                         .setCategory(categorySpinner.getSelectedItem().toString())
                         .setCalories(Integer.parseInt(createCalories.getText().toString()))
@@ -280,8 +417,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         .setPreptime(Integer.parseInt(createPrepTime.getText().toString()));
 
 
-                Long tsLong = System.currentTimeMillis()/1000;
-                final String uniqueId = tsLong.toString();
+                //Long tsLong = System.currentTimeMillis()/1000;
+                final String uniqueId = String.valueOf(maxKey + 1);
 
                 menuDatabase.child(uniqueId)
                         .setValue(menu)

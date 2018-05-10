@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/status_report"
+            android:title="@string/statusReport"
+            android:icon="@drawable/ic_content_copy_black_24dp"/>
+        <item
+            android:id="@+id/popularity_report"
+            android:title="@string/popularityReport"
+            android:icon="@drawable/ic_group_black_24dp"/>
+        <item
+            android:id="@+id/reset_order"
+            android:title="@string/resetOrder"
+            android:icon="@drawable/ic_hourglass_empty_black_24dp"/>
+        <item
+            android:id="@+id/admin_log_out"
+            android:title="@string/logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+    </group>
+</menu>

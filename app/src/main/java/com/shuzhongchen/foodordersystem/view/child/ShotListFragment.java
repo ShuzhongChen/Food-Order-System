@@ -15,15 +15,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.reflect.TypeToken;
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.activities.CustomerActivity;
+import com.shuzhongchen.foodordersystem.adapter.MenuOrderAdapter;
+import com.shuzhongchen.foodordersystem.adapter.ShotListAdapter;
+import com.shuzhongchen.foodordersystem.helper.FragmentCommunication;
+import com.shuzhongchen.foodordersystem.helper.ModelUtils;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.holders.ShotViewHolder;
+import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.models.Shot;
 import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.view.base.SpaceItemDecoration;
@@ -31,6 +44,8 @@ import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,41 +57,20 @@ import butterknife.ButterKnife;
  */
 public class ShotListFragment extends Fragment {
 
-    public static final int REQ_CODE_SHOT = 100;
-    public static final String KEY_LIST_TYPE = "listType";
-    public static final String KEY_BUCKET_ID = "bucketId";
+    String[] category = new String[]{"appetizer", "dessert", "drink", "main course"};
 
-    public static final int LIST_TYPE_POPULAR = 1;
-    public static final int LIST_TYPE_LIKED = 2;
-    public static final int LIST_TYPE_BUCKET = 3;
 
-    String[] category = new String[]{"drink", "appetizer", "main course", "desert"};
-
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference menuDB;
-
-    FirebaseRecyclerAdapter<Menu, ShotViewHolder> adapter;
+    private String MODEL_FOODLIST = "food_list";
+    private int pos = 0;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
 
-
     private int listType;
     public static final String POSITION_KEY = "FragmentPositionKey";
-    private int position;
 
     public static ShotListFragment newInstance(Bundle args) {
-        ShotListFragment fragment = new ShotListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static ShotListFragment newBucketListInstance(@NonNull String bucketId) {
-        Bundle args = new Bundle();
-        args.putInt(KEY_LIST_TYPE, LIST_TYPE_BUCKET);
-        args.putString(KEY_BUCKET_ID, bucketId);
-
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -89,6 +83,24 @@ public class ShotListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_swipe_recycler_view, container, false);
         ButterKnife.bind(this, view);
+        Spinner spinner = (Spinner) view.findViewById(R.id.planets_spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("Shuzhong debug "," yes");
+                pos = parentView.getSelectedItemPosition();
+                listType = getArguments().getInt(POSITION_KEY);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                loadAllMenu(listType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
         return view;
     }
 
@@ -96,12 +108,11 @@ public class ShotListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         listType = getArguments().getInt(POSITION_KEY);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        menuDB = firebaseDatabase.getReference("menu");
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpaceItemDecoration(
                 getResources().getDimensionPixelSize(R.dimen.spacing_medium)));
+
+        CustomerActivity activity = (CustomerActivity) getActivity();
 
         loadAllMenu(listType);
 
@@ -109,31 +120,60 @@ public class ShotListFragment extends Fragment {
 
     private void loadAllMenu(final int listType) {
 
-        FirebaseRecyclerOptions<Menu> allMenu = new FirebaseRecyclerOptions.Builder<Menu>()
-                .setQuery(menuDB.orderByChild("category").equalTo(category[listType]), Menu.class)
-                .build();
-
-        adapter = new FirebaseRecyclerAdapter<Menu, ShotViewHolder>(allMenu) {
-            @NonNull
-            @Override
-            public ShotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View itemview = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_iterm_shot, parent, false);
-                return new ShotViewHolder(itemview);
+        List<Menu> menuList = new ArrayList<>(ModelUtils.read(getContext(),
+                "menu_list",
+                new TypeToken<List<Menu>>(){}));
+        List<Menu> newList = new ArrayList<>();
+        for (int i = 0; i < menuList.size(); i++) {
+            if (menuList.get(i).getCategory().equals(category[listType])) {
+                newList.add(menuList.get(i));
             }
+        }
 
-            @Override
-            protected void onBindViewHolder(@NonNull ShotViewHolder holder, final int position, @NonNull final Menu model) {
+        for (int i = 0; i < newList.size(); i++) {
+            Log.d("Shuzhong debug1", newList.get(i).getName());
+        }
+        Log.d("Shuzhong debug pos", pos + "");
+        newList = sortList(new ArrayList<>(newList), pos);
 
-                holder.price.setText(model.getUnitprice() + "");
-                holder.title.setText(model.getName());
-                Picasso.get().load(model.getImage())
-                        .into(holder.image);
+        for (int i = 0; i < newList.size(); i++) {
+            Log.d("Shuzhong debug2", newList.get(i).getName());
+        }
 
-            }
-        };
+        recyclerView.setAdapter(new ShotListAdapter(newList));
+    }
 
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
+    private List<Menu> sortList(List<Menu> newList, int p) {
+        switch (p) {
+            case 2:
+                Collections.sort(newList, new Comparator<Menu>() {
+                    @Override
+                    public int compare(Menu m1, Menu m2) {
+                        return m1.getUnitprice() - m2.getUnitprice();
+                    }
+                });
+                break;
+
+            case 1:
+                Collections.sort(newList, new Comparator<Menu>() {
+                    @Override
+                    public int compare(Menu m1, Menu m2) {
+                        return m1.getName().compareTo(m2.getName());
+                    }
+                });
+                break;
+
+            case 0:
+                Collections.sort(newList, new Comparator<Menu>() {
+                    @Override
+                    public int compare(Menu m1, Menu m2) {
+                        return m1.getOrdertimes() - m2.getOrdertimes();
+                    }
+                });
+                break;
+        }
+
+        return newList;
+
     }
 }

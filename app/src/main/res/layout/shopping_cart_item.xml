@@ -3,39 +3,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/mediumMargin" >
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/order_food_name"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:hint="item name"
-            android:textSize="@dimen/mediumTextSize"
-            android:layout_marginRight="@dimen/mediumMargin"/>
+            android:layout_weight="0.25"
+            android:textSize="@dimen/mediumTextSize" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/order_food_price"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:hint="item price"
-            android:textSize="@dimen/mediumTextSize"
-            android:layout_marginRight="@dimen/mediumMargin"/>
+            android:layout_weight="0.25"
+            android:textSize="@dimen/mediumTextSize" />
 
-        <com.andanhm.quantitypicker.QuantityPicker
+        <com.shuzhongchen.foodordersystem.models.QuantityPicker
             xmlns:app="http://schemas.android.com/apk/res-auto/"
             android:id="@+id/quantityPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:minQuantity="1"
-            app:maxQuantity="5"
+            app:maxQuantity="99"
             app:textStyle="bold"
             app:quantityColor="@color/colorPrimary"
-            app:buttonColor="@color/colorAccent"/>
+            app:buttonColor="@color/colorAccent" />
 
     </LinearLayout>
 
