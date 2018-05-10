@@ -151,9 +151,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.status_report:
                                 System.out.println("status report");
-                                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                ft.replace(R.id.admin_fragment_container, new MenuSortFragment());
-                                ft.commit();
+                                FragmentManager manager = getFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                transaction.add(R.id.admin_fragment_container,MenuSortFragment,"menu");
+                                transaction.addToBackStack(null);
+                                transaction.commit();
 
                                 setTitle("Order Status Report");
                                 break;
