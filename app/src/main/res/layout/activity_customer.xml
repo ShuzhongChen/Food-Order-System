@@ -25,7 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_shopping_cart_black_24dp"
+                android:background="@color/colorPrimary"
                 android:layout_gravity="right"
+                android:layout_marginRight="@dimen/mediumMargin"
                 />
 
         </android.support.v7.widget.Toolbar>

@@ -109,7 +109,7 @@ public class CheckOutFragment extends Fragment {
             totalPrice += foodInOrder.getPrice() * foodInOrder.getNum();
         }
         tot = view.findViewById(R.id.txtTotalPrice);
-        tot.setText("" + totalPrice);
+        tot.setText("$" + totalPrice);
 
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
