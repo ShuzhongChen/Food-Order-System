@@ -68,6 +68,7 @@ public class CheckOutFragment extends Fragment {
     Button picktime;
     DatePickerDialog datePickerDialog;
     RangeTimePickerDialog timePickerDialog;
+    TextView tot;
 
     ArrayList<String> startTimes = new ArrayList<>();
     ArrayList<String> readyTimes = new ArrayList<>();
@@ -100,6 +101,16 @@ public class CheckOutFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
+        List<FoodInOrder> foodListForTot = ModelUtils.read(getContext(),
+                MODEL_FOODLIST,
+                new TypeToken<List<FoodInOrder>>(){});
+        int totalPrice = 0;
+        for (FoodInOrder foodInOrder : foodListForTot) {
+            totalPrice += foodInOrder.getPrice() * foodInOrder.getNum();
+        }
+        tot = view.findViewById(R.id.txtTotalPrice);
+        tot.setText("" + totalPrice);
+
         checkout = view.findViewById(R.id.order_checkout_btn);
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +130,6 @@ public class CheckOutFragment extends Fragment {
 
                 System.out.println("pickup date: " + pickupDate + "\n");
                 System.out.println("pickup time: " + pickupTime + "\n");
-
 
                 List<FoodInOrder> foodList = ModelUtils.read(getContext(),
                         MODEL_FOODLIST,

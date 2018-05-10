@@ -1,5 +1,6 @@
 package com.shuzhongchen.foodordersystem.models;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -291,6 +292,15 @@ public class QuantityPicker extends LinearLayout {
             if (onQuantityChangeListener != null) {
                 onQuantityChangeListener.onValueChanged(getQuantity());
             }
+
+            int totalPrice = 0;
+            for (FoodInOrder foodInOrder : foodList) {
+                totalPrice += foodInOrder.getPrice() * foodInOrder.getNum();
+            }
+            View rootView = ((Activity)mContext).getWindow().getDecorView().findViewById(android.R.id.content);
+            TextView tot = rootView.findViewById(R.id.txtTotalPrice);
+            tot.setText("" + totalPrice);
+            Log.d("total", "" + totalPrice);
 
             ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
             Log.d("items", "" + getQuantity());
