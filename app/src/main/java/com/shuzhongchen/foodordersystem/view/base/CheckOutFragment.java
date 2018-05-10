@@ -191,6 +191,17 @@ public class CheckOutFragment extends Fragment {
                                 Toast.makeText(getContext(), "order placed!", Toast.LENGTH_SHORT).show();
                                 List<FoodInOrder> newList = new ArrayList<FoodInOrder>();
                                 ModelUtils.save(getContext(), MODEL_FOODLIST, newList);
+
+                                Fragment newFragment = new OrderHistoryFragment();
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack if needed
+                                transaction.replace(R.id.fragment_container, newFragment);
+                                transaction.addToBackStack(null);
+
+// Commit the transaction
+                                transaction.commit();
                             }
                         });
 

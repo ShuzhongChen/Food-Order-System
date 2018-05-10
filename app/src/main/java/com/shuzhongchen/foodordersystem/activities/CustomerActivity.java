@@ -140,11 +140,7 @@ public class CustomerActivity extends AppCompatActivity {
                             //fragment = BaseFragment.newInstance();
 //                            Intent history = new Intent(getApplicationContext(), OrderHistory.class);
 //                            startActivity(history);
-                            getSupportFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.fragment_container, new OrderHistoryFragment())
-                                    .addToBackStack(null)
-                                    .commit();
+                            fragment = OrderHistoryFragment.newInstance();
                             setTitle(R.string.history);
                             break;
                         case R.id.nav_logout:

@@ -43,6 +43,13 @@ public class OrderHistoryFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Order, OrderViewHolder> adapter;
 
+    public static OrderHistoryFragment newInstance() {
+        Bundle args = new Bundle();
+        OrderHistoryFragment fragment = new OrderHistoryFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
