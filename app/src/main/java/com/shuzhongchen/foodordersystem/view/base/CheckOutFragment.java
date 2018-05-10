@@ -278,8 +278,10 @@ public class CheckOutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
+                //int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                //int minute = mcurrentTime.get(Calendar.MINUTE);
+                int hour = 12;
+                int minute = 0;
                 // spinner mode, build in theme: android.R.style.Theme_Holo_Light_Dialog
                 timePickerDialog = new RangeTimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
