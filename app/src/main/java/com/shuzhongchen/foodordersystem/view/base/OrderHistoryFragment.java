@@ -97,6 +97,13 @@ public class OrderHistoryFragment extends Fragment {
                 holder.txtOrderId.setText(orderID);
                 final String orderStatus = model.getStatus();
                 holder.txtOrderStatus.setText(orderStatus);
+
+                if (orderStatus.equals((String.valueOf(Order.Status.abandoned)))) {
+                    holder.txtOrderCancel.setVisibility(View.INVISIBLE);
+//                    Snackbar snackbar = Snackbar.make(getView(), "The order was already canceled!", Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+                }
+
                 holder.txtOrderCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -105,10 +112,7 @@ public class OrderHistoryFragment extends Fragment {
                             Snackbar snackbar = Snackbar.make(getView(), "Sorry, the order can't be canceled!", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
-                        else if (orderStatus.equals((String.valueOf(Order.Status.abandoned)))) {
-                            Snackbar snackbar = Snackbar.make(getView(), "The order was already canceled!", Snackbar.LENGTH_LONG);
-                            snackbar.show();
-                        }
+
                         else{
                             AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                             dialog.setIcon(R.drawable.ic_restaurant_menu_black_24dp);
@@ -123,6 +127,8 @@ public class OrderHistoryFragment extends Fragment {
                                     String key = orderID + "/status";
                                     orderUpdate.put(key, "abandoned");
                                     orders.updateChildren(orderUpdate);
+                                    holder.txtOrderCancel.setVisibility(View.INVISIBLE);
+//                                    holder.txtOrderCancel.setEnabled(false);
 
                                     //Log.d("order cancel", "onClick: " + orderId);
 
