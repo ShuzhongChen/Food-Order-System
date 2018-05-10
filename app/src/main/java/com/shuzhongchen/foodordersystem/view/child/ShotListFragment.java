@@ -130,13 +130,22 @@ public class ShotListFragment extends Fragment {
             }
         }
 
+        for (int i = 0; i < newList.size(); i++) {
+            Log.d("Shuzhong debug1", newList.get(i).getName());
+        }
+        Log.d("Shuzhong debug pos", pos + "");
         newList = sortList(new ArrayList<>(newList), pos);
+
+        for (int i = 0; i < newList.size(); i++) {
+            Log.d("Shuzhong debug2", newList.get(i).getName());
+        }
+
         recyclerView.setAdapter(new ShotListAdapter(newList));
     }
 
     private List<Menu> sortList(List<Menu> newList, int p) {
         switch (p) {
-            case 0:
+            case 2:
                 Collections.sort(newList, new Comparator<Menu>() {
                     @Override
                     public int compare(Menu m1, Menu m2) {
@@ -154,7 +163,7 @@ public class ShotListFragment extends Fragment {
                 });
                 break;
 
-            case 2:
+            case 0:
                 Collections.sort(newList, new Comparator<Menu>() {
                     @Override
                     public int compare(Menu m1, Menu m2) {
