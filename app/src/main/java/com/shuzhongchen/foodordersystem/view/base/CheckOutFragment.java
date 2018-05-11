@@ -183,6 +183,13 @@ public class CheckOutFragment extends Fragment {
 
                 String readyTime = sb.toString();
 
+                String[] newRTarray3 = startTime.split("/");
+                if(Integer.parseInt(newRTarray3[3]) < 5) {
+                    Toast.makeText(getContext(), "Sorry, It's too early! Select an latter time slot.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 boolean conflict = false;
                 for (int i = 0; i < startTimes.size(); i++) {
                     if (isConflict(startTime, readyTime, startTimes.get(i), readyTimes.get(i))) {
