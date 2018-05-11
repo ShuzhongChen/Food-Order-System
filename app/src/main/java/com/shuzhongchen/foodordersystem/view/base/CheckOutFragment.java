@@ -192,6 +192,40 @@ public class CheckOutFragment extends Fragment {
                 }
 
                 if (conflict) {
+                    for (int j = 6; j <= 20; j++) {
+                        boolean tmp = false;
+                        String newStartTime = calculateStartTime(pickupDate, j+":00", totalPrepTime);
+                        String[] newRTarray = readyTime.split("/");
+                        String newReadyTime = "";
+
+                        newRTarray[3] = j + "";
+                        newRTarray[4] = "00";
+
+                        for (int i = 0; i < newRTarray.length; i++) {
+                            newReadyTime = newReadyTime + newRTarray[i] + "/";
+                        }
+
+                        newReadyTime = newReadyTime.substring(0, newReadyTime.length() - 1);
+
+
+                        for (int i = 0; i < startTimes.size(); i++) {
+                            if (isConflict(newStartTime, newReadyTime, startTimes.get(i), readyTimes.get(i))) {
+                                tmp = true;
+                                break;
+                            }
+                        }
+
+                        if (!tmp) {
+
+                            String[] newRTarray2 = newReadyTime.split("/");
+                            String newReadyTime2 = newRTarray2[3] + ":" + newRTarray2[4];
+
+
+                            Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select " + newReadyTime2, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
                     Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select another time slot.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -339,9 +373,6 @@ public class CheckOutFragment extends Fragment {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Order order = postSnapshot.getValue(Order.class);
-                    System.out.println("Shuzhong debug order: " + order.toString() + "\n");
-                    System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
-                    System.out.println("Shuzhong debug order ready time: " + order.getReadyTime() + "\n");
 
                     if (order.getStatus() == "queued") {
                         startTimes.add(order.getStartTime());
