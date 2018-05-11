@@ -78,6 +78,9 @@ public class CheckOutFragment extends Fragment {
     ArrayList<String> readyTimes = new ArrayList<>();
 
     private String MODEL_FOODLIST = "food_list";
+    private String[] newRTarray2;
+    private String suggestion_hour;
+    private String suggestion_min;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
@@ -224,11 +227,13 @@ public class CheckOutFragment extends Fragment {
 
                         if (!tmp) {
 
-                            String[] newRTarray2 = newReadyTime.split("/");
-                            String newReadyTime2 = newRTarray2[3] + ":" + newRTarray2[4];
+                             newRTarray2 = newReadyTime.split("/");
+
+                            suggestion_hour = newRTarray2[3];
+                            suggestion_min = newRTarray2[4];
 
 
-                            Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select " + newReadyTime2, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select " + suggestion_hour + ":" + suggestion_min, Toast.LENGTH_LONG).show();
                             return;
                         }
                     }
