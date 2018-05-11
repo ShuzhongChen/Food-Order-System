@@ -8,6 +8,15 @@
     android:orientation="vertical"
     android:gravity="bottom">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circularImageId"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo" />
+
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"

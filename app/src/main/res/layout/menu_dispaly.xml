@@ -10,7 +10,6 @@
     android:background="@drawable/login_background"
     card_view:cardCornerRadius="7dp">
 
-
     <ImageView
         android:id="@+id/menu_image"
         android:layout_width="80dp"
