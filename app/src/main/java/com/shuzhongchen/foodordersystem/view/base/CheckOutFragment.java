@@ -78,6 +78,9 @@ public class CheckOutFragment extends Fragment {
     ArrayList<String> readyTimes = new ArrayList<>();
 
     private String MODEL_FOODLIST = "food_list";
+    private String[] newRTarray2;
+    private String suggestion_hour;
+    private String suggestion_min;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference orderDatabase;
@@ -183,6 +186,13 @@ public class CheckOutFragment extends Fragment {
 
                 String readyTime = sb.toString();
 
+                String[] newRTarray3 = startTime.split("/");
+                if(totalPrepTime >= 500) {
+                    Toast.makeText(getContext(), "Sorry, too much items.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 boolean conflict = false;
                 for (int i = 0; i < startTimes.size(); i++) {
                     if (isConflict(startTime, readyTime, startTimes.get(i), readyTimes.get(i))) {
@@ -192,6 +202,42 @@ public class CheckOutFragment extends Fragment {
                 }
 
                 if (conflict) {
+                    for (int j = 6; j <= 20; j++) {
+                        boolean tmp = false;
+                        String newStartTime = calculateStartTime(pickupDate, j+":00", totalPrepTime);
+                        String[] newRTarray = readyTime.split("/");
+                        String newReadyTime = "";
+
+                        newRTarray[3] = j + "";
+                        newRTarray[4] = "00";
+
+                        for (int i = 0; i < newRTarray.length; i++) {
+                            newReadyTime = newReadyTime + newRTarray[i] + "/";
+                        }
+
+                        newReadyTime = newReadyTime.substring(0, newReadyTime.length() - 1);
+
+
+                        for (int i = 0; i < startTimes.size(); i++) {
+                            if (isConflict(newStartTime, newReadyTime, startTimes.get(i), readyTimes.get(i))) {
+                                tmp = true;
+                                break;
+                            }
+                        }
+
+                        if (!tmp) {
+
+                             newRTarray2 = newReadyTime.split("/");
+
+                            suggestion_hour = newRTarray2[3];
+                            suggestion_min = newRTarray2[4];
+
+
+                            Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select " + suggestion_hour + ":" + suggestion_min, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
                     Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select another time slot.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -278,8 +324,10 @@ public class CheckOutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
+                //int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                //int minute = mcurrentTime.get(Calendar.MINUTE);
+                int hour = 12;
+                int minute = 0;
                 // spinner mode, build in theme: android.R.style.Theme_Holo_Light_Dialog
                 timePickerDialog = new RangeTimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -337,11 +385,8 @@ public class CheckOutFragment extends Fragment {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Order order = postSnapshot.getValue(Order.class);
-                    System.out.println("Shuzhong debug order: " + order.toString() + "\n");
-                    System.out.println("Shuzhong debug order start time: " + order.getStartTime() + "\n");
-                    System.out.println("Shuzhong debug order ready time: " + order.getReadyTime() + "\n");
 
-                    if (order.getStatus() == "queued") {
+                    if (order.getStatus().equals("queued")) {
                         startTimes.add(order.getStartTime());
                         readyTimes.add(order.getReadyTime());
                     }

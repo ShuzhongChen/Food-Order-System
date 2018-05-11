@@ -18,22 +18,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.shuzhongchen.foodordersystem.models.Order;
 
+import java.util.Stack;
+
 public class OrderHistory extends AppCompatActivity {
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
+
+    private LinearLayoutManager mLayoutManager;
 
     FirebaseDatabase database;
     FirebaseAuth firebaseAuth;
     DatabaseReference orders;
 
     FirebaseRecyclerAdapter<Order, OrderViewHolder> adapter;
-
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +45,19 @@ public class OrderHistory extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         orders = database.getReference("Orders");
 
-
+        // Now set the layout manager and the adapter to the RecyclerView
         recyclerView = findViewById(R.id.listOrders);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        //mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        //recyclerView.setLayoutManager(layoutManager);
 
         loadOrder(uid);
-
 
     }
 
@@ -71,6 +74,7 @@ public class OrderHistory extends AppCompatActivity {
                         .build();
 
         adapter = new FirebaseRecyclerAdapter<Order, OrderViewHolder>(options) {
+
             @NonNull
             @Override
             public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,7 +88,6 @@ public class OrderHistory extends AppCompatActivity {
                 holder.txtOrderId.setText(adapter.getRef(position).getKey());
                 holder.txtOrderStatus.setText(model.getStatus());
             }
-
 
         };
 
