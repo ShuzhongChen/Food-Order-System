@@ -40,8 +40,8 @@ public class QuantityPicker extends LinearLayout {
     private Context mContext;
     private ImageButton mImageIncrement, mImageDecrement;
     private TextView mTextViewQuantity;
-    private int minQuantity = 0;
-    private int maxQuantity = 50;
+    private int minQuantity = 1;
+    private int maxQuantity = 99;
 
     private float mTextSize = 20f;
     private OnQuantityChangeListener onQuantityChangeListener;
@@ -101,8 +101,8 @@ public class QuantityPicker extends LinearLayout {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.QuantityPicker, 0, 0);
 
         try {
-            minQuantity = typedArray.getInteger(R.styleable.QuantityPicker_minQuantity, 0);
-            maxQuantity = typedArray.getInteger(R.styleable.QuantityPicker_maxQuantity, 5);
+            minQuantity = typedArray.getInteger(R.styleable.QuantityPicker_minQuantity, 1);
+            maxQuantity = typedArray.getInteger(R.styleable.QuantityPicker_maxQuantity, 99);
             setQuantityButtonColor(typedArray.getColorStateList(R.styleable.QuantityPicker_buttonColor));
             setQuantityTextColor(typedArray.getColorStateList(R.styleable.QuantityPicker_quantityColor));
             setQuantityPicker(typedArray.getBoolean(R.styleable.QuantityPicker_enable, true));
@@ -255,7 +255,7 @@ public class QuantityPicker extends LinearLayout {
      */
     public void setQuantitySelected(int quantity) {
         if (quantity <= 0)
-            mTextViewQuantity.setText("0");
+            mTextViewQuantity.setText("1");
         else
             mTextViewQuantity.setText(String.valueOf(quantity));
     }
@@ -286,7 +286,11 @@ public class QuantityPicker extends LinearLayout {
             } else if (i == R.id.imageButtonDecrement) {
                 if (minQuantity >= 0 && quantity <= maxQuantity) {
                     setQuantitySelected(quantity - 1);
-                    foodList.get(position).num = quantity - 1;
+                    if (quantity - 1 <= 0) {
+                        foodList.get(position).num = 1;
+                    } else {
+                        foodList.get(position).num = quantity - 1;
+                    }
                 }
             }
             if (onQuantityChangeListener != null) {
