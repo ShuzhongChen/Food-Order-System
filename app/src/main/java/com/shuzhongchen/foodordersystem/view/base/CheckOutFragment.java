@@ -184,7 +184,7 @@ public class CheckOutFragment extends Fragment {
                 String readyTime = sb.toString();
 
                 String[] newRTarray3 = startTime.split("/");
-                if(totalPrepTime > 500) {
+                if(totalPrepTime >= 500) {
                     Toast.makeText(getContext(), "Sorry, too much items.", Toast.LENGTH_SHORT).show();
                     return;
                 }

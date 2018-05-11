@@ -426,6 +426,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
 
                 //Long tsLong = System.currentTimeMillis()/1000;
+                Log.d("MaxKey", "" + maxKey);
                 final String uniqueId = String.valueOf(maxKey + 1);
 
                 menuDatabase.child(uniqueId)
