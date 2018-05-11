@@ -374,7 +374,7 @@ public class CheckOutFragment extends Fragment {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Order order = postSnapshot.getValue(Order.class);
 
-                    if (order.getStatus() == "queued") {
+                    if (order.getStatus().equals("queued")) {
                         startTimes.add(order.getStartTime());
                         readyTimes.add(order.getReadyTime());
                     }
