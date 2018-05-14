@@ -39,18 +39,15 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.shuzhongchen.foodordersystem.holders.CustomListView;
+import com.shuzhongchen.foodordersystem.helper.MyRecyclerItemClickListener;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
@@ -76,7 +73,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Activity content;
 
     private FloatingActionButton floatingActionButton;
-    private final int requestCode = 20;
+    private final int requestCode = 1;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDatabase;
@@ -310,18 +307,49 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
 
-                holder.removeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        removeMenu(adapter.getRef(position).getKey());
-                    }
-                });
+
             }
-
         };
-
+        
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new MyRecyclerItemClickListener(getApplicationContext(),recyclerView,new MyRecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                System.out.println("on item clicked: " + "\n");
+            }
+
+            @Override
+            public void onLongClick(View view, final int position) {
+
+                System.out.println("position: " + position + "\n");
+                final AlertDialog.Builder alertDialog =new AlertDialog.Builder(AdminDashboardActivity.this);
+                alertDialog.setTitle("Are you want to delete this");
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage("By deleting this, item will permanently be deleted. Are you still want to delete this?");
+                alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                alertDialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("remove clicked: " + "\n");
+                        removeMenu(adapter.getRef(position).getKey());
+                        dialog.dismiss();
+                    }
+
+                });
+
+                alertDialog.show();
+            }
+        }));
+
     }
 
 
@@ -399,8 +427,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("button clicked" + "\n");
+
                 Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoCaptureIntent, requestCode);
+
+                if (photoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(photoCaptureIntent, requestCode);
+                }
+
 
             }
         });
