@@ -2,11 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.AdminDashboardActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/endDate"
@@ -14,13 +19,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="230dp"
         android:background="@color/btnLogIn"
-        android:hint="Select Order End Date"
         android:padding="15dp"
-        android:textColor="@color/btnLogIn"
+        android:text="click to select order end date"
+        android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -28,13 +33,13 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="130dp"
         android:background="@color/btnLogIn"
-        android:hint="Select Order Start Date"
         android:padding="15dp"
-        android:textColor="@color/btnLogIn"
+        android:text="click to select order start date"
+        android:textColor="@android:color/white"
         android:textColorHint="@color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <Button

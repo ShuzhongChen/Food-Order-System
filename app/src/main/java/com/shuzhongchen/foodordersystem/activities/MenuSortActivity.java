@@ -1,6 +1,8 @@
 package com.shuzhongchen.foodordersystem.activities;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -38,21 +40,70 @@ public class MenuSortActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.nextButton);
         newCalendar = Calendar.getInstance();
 
-        datePickerDialog = new DatePickerDialog(this.getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-
-
         startDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("start date picker clicked " + "\n");
+
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MenuSortActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        // set day of month , month and year value in the edit text
+                        System.out.println("day of month: "  + dayOfMonth + "month of year: " + monthOfYear
+                         + "year: " + year + "\n");
+
+                        startDatePicker.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+
+
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+//                Calendar cal = Calendar.getInstance();
+//                cal.add(Calendar.DAY_OF_WEEK, +7);
+//                datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+
+                datePickerDialog.show();
+            }
+
+        });
+
+        endDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("start date picker clicked " + "\n");
+
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MenuSortActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        endDatePicker.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+
+
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+//                Calendar cal = Calendar.getInstance();
+//                cal.add(Calendar.DAY_OF_WEEK, +7);
+//                datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+
                 datePickerDialog.show();
             }
 
