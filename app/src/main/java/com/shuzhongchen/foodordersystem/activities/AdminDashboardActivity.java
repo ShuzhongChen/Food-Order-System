@@ -2,8 +2,6 @@ package com.shuzhongchen.foodordersystem.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -51,16 +47,10 @@ import com.shuzhongchen.foodordersystem.helper.MyRecyclerItemClickListener;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
-import com.shuzhongchen.foodordersystem.models.Order;
-import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
-import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
-import com.shuzhongchen.foodordersystem.view.child.MenuSortFragment;
+import com.shuzhongchen.foodordersystem.fragments.MenuSortFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -149,12 +139,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             case R.id.status_report:
 
                                 System.out.println("status report");
-//                                FragmentManager manager = getFragmentManager();
-//                                FragmentTransaction transaction = manager.beginTransaction();
-//                                transaction.add(R.id.admin_fragment_container,MenuSortFragment,"menu");
-//                                transaction.addToBackStack(null);
-//                                transaction.commit();
-
+                                Intent i = new Intent(AdminDashboardActivity.this,MenuSortActivity.class);
+                                startActivity(i);
 
                                 setTitle("Order Status Report");
                                 break;
@@ -310,7 +296,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
             }
         };
-        
+
         adapter.startListening();
         recyclerView.setAdapter(adapter);
 
@@ -517,14 +503,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-
-
         create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
+
         adapter.notifyDataSetChanged();
         create_menu_dialog.show();
 

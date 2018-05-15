@@ -8,13 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.AdminDashboardActivity">
 
-    <EditText
+    <TextView
         android:id="@+id/endDate"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="180dp"
         android:background="@color/btnLogIn"
         android:hint="Select Order End Date"
         android:padding="15dp"
@@ -23,12 +23,12 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <EditText
+    <TextView
         android:id="@+id/startDate"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="100dp"
         android:background="@color/btnLogIn"
         android:hint="Select Order Start Date"
         android:padding="15dp"
@@ -44,8 +44,8 @@
         android:layout_alignEnd="@+id/endDate"
         android:layout_alignRight="@+id/endDate"
         android:layout_below="@+id/endDate"
-        android:layout_marginLeft="210dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="300dp"
         android:background="@drawable/round_button"
         android:text="Next" />
 
