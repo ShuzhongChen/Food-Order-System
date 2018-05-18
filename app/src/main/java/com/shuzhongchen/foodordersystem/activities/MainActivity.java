@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        ModelUtils.save(this, "food_list", new ArrayList<>());
+
         btnSignIn = findViewById(R.id.btnSignIn);
         btnSignUp = findViewById(R.id.btnSignUp);
 
