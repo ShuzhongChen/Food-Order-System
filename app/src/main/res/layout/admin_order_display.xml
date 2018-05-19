@@ -66,7 +66,7 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ready Time" />
+                android:text="Ready Time:" />
 
             <TextView
                 android:id="@+id/ready_time_textview"
@@ -136,21 +136,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="160dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Order Content" />
+                android:text="Order Content:"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"/>
 
-            <TextView
+            <ListView
                 android:id="@+id/order_content_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="30dp" />
+                android:alwaysDrawnWithCache="true"
+                android:dividerHeight="1dp"
+                android:horizontalSpacing="3dp"
+                android:paddingLeft="30dp"
+                android:scrollingCache="true"
+                android:smoothScrollbar="true"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="3dp" />
         </LinearLayout>
 
     </LinearLayout>

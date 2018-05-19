@@ -86,7 +86,6 @@ public class AdminOrderSortFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull AdminOrderHolder holder, int position, @NonNull Order model) {
                 System.out.println("onBindViewholder clalled" + "\n");
-                holder.OrderContent.setText("test1");
                 holder.TotalPrice.setText("test2");
                 holder.Status.setText("test3");
                 holder.PickupTime.setText("test4");

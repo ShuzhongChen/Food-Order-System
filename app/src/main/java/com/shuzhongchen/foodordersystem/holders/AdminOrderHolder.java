@@ -2,6 +2,7 @@ package com.shuzhongchen.foodordersystem.holders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shuzhongchen.foodordersystem.R;
@@ -19,7 +20,7 @@ public class AdminOrderHolder extends RecyclerView.ViewHolder {
     public TextView ReadyTime;
     public TextView Status;
     public TextView TotalPrice;
-    public TextView OrderContent;
+    public ListView OrderContent;
 
 
     private ItemClickListener itemClickListener;
@@ -32,7 +33,7 @@ public class AdminOrderHolder extends RecyclerView.ViewHolder {
        ReadyTime = (TextView) view.findViewById(R.id.ready_time_textview);
        Status = (TextView) view.findViewById(R.id.status_textview);
        TotalPrice = (TextView)view.findViewById(R.id.total_price_textview);
-       OrderContent = (TextView)view.findViewById(R.id.order_content_textview);
+       OrderContent = (ListView)view.findViewById(R.id.order_content_textview);
 
     }
 
