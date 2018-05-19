@@ -16,6 +16,16 @@ public class FoodInOrder implements Parcelable {
     private int preptime;
     public int num;
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    private String category;
+
     public FoodInOrder() {
 
     }

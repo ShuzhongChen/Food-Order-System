@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ import com.shuzhongchen.foodordersystem.models.FoodInOrder;
 import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.models.OrderContent;
 import com.shuzhongchen.foodordersystem.view.base.AdminOrderSortFragment;
+import com.shuzhongchen.foodordersystem.view.base.AdminPopularityFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +61,7 @@ public class MenuSortActivity extends AppCompatActivity {
     TextView startDatePicker;
     TextView endDatePicker;
     Button nextButton;
+    Button popularityButton;
     Calendar myCalendar;
 
     DatePickerDialog datePickerDialog;
@@ -81,8 +84,8 @@ public class MenuSortActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference orders;
 
-    private FirebaseRecyclerAdapter<Order, AdminOrderHolder> OrderAdapter;
     private List<Order> listOfOrder;
+    private List<Order> choosedOrder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +103,7 @@ public class MenuSortActivity extends AppCompatActivity {
         startDatePicker = (TextView) findViewById(R.id.startDate);
         endDatePicker = (TextView) findViewById(R.id.endDate);
         nextButton = (Button) findViewById(R.id.nextButton);
+        popularityButton = (Button) findViewById(R.id.popularityButton);
         myCalendar = Calendar.getInstance();
 
         startDay = myCalendar.get(Calendar.DAY_OF_MONTH);
@@ -112,11 +116,12 @@ public class MenuSortActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         orders = database.getReference("Orders");
 
-        OrderRecyclerView = (RecyclerView) findViewById(R.id.AdminListOrders);
-        OrderLayoutManager = new LinearLayoutManager(this);
-        OrderRecyclerView.setHasFixedSize(true);
-        OrderRecyclerView.setLayoutManager(OrderLayoutManager);
+//        OrderRecyclerView = (RecyclerView) findViewById(R.id.AdminListOrders);
+//        OrderLayoutManager = new LinearLayoutManager(this);
+//        OrderRecyclerView.setHasFixedSize(true);
+//        OrderRecyclerView.setLayoutManager(OrderLayoutManager);
         listOfOrder = new ArrayList<>();
+        choosedOrder = new ArrayList<>();
 
 
         startDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +153,7 @@ public class MenuSortActivity extends AppCompatActivity {
                     }
                 }, mYear, mMonth, mDay);
 
-                
+
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
                 datePickerDialog.show();
@@ -202,17 +207,44 @@ public class MenuSortActivity extends AppCompatActivity {
                 if (!startDateChoosed || !endDateChoosed) {
                     Toast.makeText(MenuSortActivity.this, "please choose date", Toast.LENGTH_LONG).show();
                 } else {
-                    List<Order> choosedOrder = new ArrayList<>();
-
+                    choosedOrder.clear();
                     for (Order o : listOfOrder) {
                         if (duringTheDate(o.getOrderPlaceTime())) {
                             choosedOrder.add(o);
                         }
                     }
+
+                    Fragment fragment = AdminOrderSortFragment.newInstance(getApplicationContext(), choosedOrder);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.orderContainer, fragment)
+                            .commit();
                     Toast.makeText(getApplicationContext(), choosedOrder.size() + " orders have been loaded", Toast.LENGTH_LONG).show();
-                    loadOrder(choosedOrder);
+                    //loadOrder(choosedOrder);
+
                 }
 
+            }
+        });
+
+        popularityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                choosedOrder.clear();
+                for (Order o : listOfOrder) {
+                    if (duringTheDate(o.getOrderPlaceTime())) {
+                        choosedOrder.add(o);
+                    }
+                }
+
+                Fragment fragment = AdminPopularityFragment.newInstance(getApplicationContext(), choosedOrder);
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.orderContainer, fragment)
+                        .commit();
+                //Toast.makeText(getApplicationContext(), choosedOrder.size() + " orders have been loaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), choosedOrder.size() + " orders have been loaded in popularity report", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -236,11 +268,11 @@ public class MenuSortActivity extends AppCompatActivity {
 
     }
 
-    private void loadOrder(List<Order> choosedOrder) {
-
-        RecyclerView.Adapter adapter = new AdminOrderAdapter( getApplicationContext(), choosedOrder);
-        OrderRecyclerView.setAdapter(adapter);
-    }
+//    private void loadOrder(List<Order> choosedOrder) {
+//
+//        RecyclerView.Adapter adapter = new AdminOrderAdapter( getApplicationContext(), choosedOrder);
+//        OrderRecyclerView.setAdapter(adapter);
+//    }
 
 
     private boolean duringTheDate(String date) {

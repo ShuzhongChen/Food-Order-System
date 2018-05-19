@@ -15,15 +15,18 @@
             android:id="@+id/orderContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginTop="200dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/AdminListOrders"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical">
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/AdminListOrders"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scrollbars="vertical">-->
 
-            </android.support.v7.widget.RecyclerView>
+            <!--</android.support.v7.widget.RecyclerView>-->
 
         </FrameLayout>
 
@@ -31,20 +34,45 @@
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
-            <Button
-                android:id="@+id/nextButton"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_alignEnd="@+id/endDate"
-                android:layout_alignRight="@+id/endDate"
-                android:layout_below="@+id/endDate"
-                android:layout_marginLeft="245dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/round_button"
-                android:text="Submit"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="150dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/popularityButton"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignBaseline="@+id/nextButton"
+                    android:layout_alignBottom="@+id/nextButton"
+                    android:layout_alignLeft="@+id/startDate"
+                    android:layout_alignStart="@+id/startDate"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_button"
+                    android:text="See popularity Report"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/nextButton"
+                    android:layout_width="140dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignEnd="@+id/endDate"
+                    android:layout_alignRight="@+id/endDate"
+                    android:layout_below="@+id/endDate"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_button"
+                    android:text="See All Orders"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/endDate"
