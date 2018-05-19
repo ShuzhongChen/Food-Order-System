@@ -112,16 +112,16 @@ public class AdminPopularityFragment extends Fragment {
             for (FoodInOrder f : list) {
                 if (f.getCategory().equalsIgnoreCase("appetizer")) {
                     appetizerOrder.add(f);
-                    appetizerCount++;
+                    appetizerCount += f.getNum();
                 } else if (f.getCategory().equalsIgnoreCase("drink")) {
                     drinkOrder.add(f);
-                    drinkCount++;
+                    drinkCount += f.getNum();
                 } else if (f.getCategory().equalsIgnoreCase("main course")) {
                     mainCourseOrder.add(f);
-                    mainCourseCount++;
+                    mainCourseCount += f.getNum();
                 } else if (f.getCategory().equalsIgnoreCase("dessert")) {
                     drinkOrder.add(f);
-                    drinkCount++;
+                    drinkCount += f.getNum();
                 }
             }
         }
@@ -133,6 +133,40 @@ public class AdminPopularityFragment extends Fragment {
         RecyclerView.Adapter adapter = new AdminOrderAdapter( fragmentContext, choosedOrder);
         OrderRecyclerView.setAdapter(adapter);
     }
+
+//    private List<Menu> sortList(List<Menu> newList, int p) {
+//        switch (p) {
+//            case 2:
+//                Collections.sort(newList, new Comparator<Menu>() {
+//                    @Override
+//                    public int compare(Menu m1, Menu m2) {
+//                        return m1.getUnitprice() - m2.getUnitprice();
+//                    }
+//                });
+//                break;
+//
+//            case 1:
+//                Collections.sort(newList, new Comparator<Menu>() {
+//                    @Override
+//                    public int compare(Menu m1, Menu m2) {
+//                        return m1.getName().compareTo(m2.getName());
+//                    }
+//                });
+//                break;
+//
+//            case 0:
+//                Collections.sort(newList, new Comparator<Menu>() {
+//                    @Override
+//                    public int compare(Menu m1, Menu m2) {
+//                        return m1.getOrdertimes() - m2.getOrdertimes();
+//                    }
+//                });
+//                break;
+//        }
+//
+//        return newList;
+//
+//    }
 
 }
 
