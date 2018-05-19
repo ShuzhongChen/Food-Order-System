@@ -61,17 +61,7 @@ public class AdminOrderSortFragment extends Fragment {
         layoutManager = new LinearLayoutManager(c);
         recyclerView.setLayoutManager(layoutManager);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                c.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadOrder();
-                    }
-                });
-            }
-        }).start();
+        loadOrder();
 
         return viewRoot;
     }
@@ -81,7 +71,7 @@ public class AdminOrderSortFragment extends Fragment {
 
         Query query = database
                 .getReference()
-                .child("Orders").orderByChild("uid");
+                .child("Orders");
 
         System.out.println("query: " + query + "\n");
 
@@ -120,5 +110,6 @@ public class AdminOrderSortFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+
 
 }
