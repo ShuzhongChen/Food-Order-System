@@ -5,13 +5,86 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AdminDashboardActivity">
 
-    <android.support.v7.widget.Toolbar
+        <FrameLayout
+            android:id="@+id/orderContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="200dp">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_alignEnd="@+id/endDate"
+                android:layout_alignRight="@+id/endDate"
+                android:layout_below="@+id/endDate"
+                android:layout_marginLeft="245dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_button"
+                android:text="Submit"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/startDate"
+                android:layout_alignBottom="@+id/startDate"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="80dp"
+                android:layout_toEndOf="@+id/startDate"
+                android:layout_toRightOf="@+id/startDate"
+                android:layout_weight="1"
+                android:background="@color/btnLogIn"
+                android:padding="15dp"
+                android:text="end date"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="80dp"
+                android:layout_weight="1"
+                android:background="@color/btnLogIn"
+                android:padding="15dp"
+                android:text="start date"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/startDate"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="30dp"
+                android:layout_toEndOf="@+id/startDate"
+                android:layout_toRightOf="@+id/startDate"
+                android:text="To" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -20,55 +93,5 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/endDate"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="230dp"
-        android:background="@color/btnLogIn"
-        android:padding="15dp"
-        android:text="click to select order end date"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/endDate"
-        android:layout_alignRight="@+id/endDate"
-        android:layout_below="@+id/endDate"
-        android:layout_marginLeft="245dp"
-        android:layout_marginTop="320dp"
-        android:background="@drawable/round_button"
-        android:text="Next" />
-
-    <TextView
-        android:id="@+id/startDate"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="130dp"
-        android:background="@color/btnLogIn"
-        android:padding="15dp"
-        android:text="click to select order start date"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/white"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="195dp"
-        android:layout_marginTop="200dp"
-        android:text="TO"
-        android:textSize="16sp" />
-
-</FrameLayout>
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

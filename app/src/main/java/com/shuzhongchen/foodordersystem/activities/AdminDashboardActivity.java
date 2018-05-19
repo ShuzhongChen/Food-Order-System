@@ -339,35 +339,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
 
-    private void showEditDialog(String key, Menu model) {
-        AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder(AdminDashboardActivity.this);
-        create_menu_dialog.setTitle("Update Menu");
-
-        //update everyfield from this input page
-        LayoutInflater layoutInflater = this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.activity_menu_detail,null);
-
-        create_menu_dialog.setView(view);
-
-        create_menu_dialog.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                // to do : update information to firebase
-            }
-        });
-
-        create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        create_menu_dialog.show();
-    }
-
 
     private void removeMenu(String key) {
         menuDatabase.child(key)

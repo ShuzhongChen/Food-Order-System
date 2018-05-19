@@ -2,6 +2,8 @@ package com.shuzhongchen.foodordersystem.activities;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.wifi.aware.Characteristics;
 import android.os.Build;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shuzhongchen.foodordersystem.R;
+import com.shuzhongchen.foodordersystem.view.base.AdminOrderSortFragment;
 
 import java.util.Calendar;
 
@@ -152,13 +155,16 @@ public class MenuSortActivity extends AppCompatActivity {
                 String startDate = startDatePicker.getText().toString();
                 String endDate = endDatePicker.getText().toString();
 
-                String[] s = startDate.split("/");
-                String[] e = endDate.split("/");
 
                 if (!startDateChoosed || !endDateChoosed) {
                     Toast.makeText(MenuSortActivity.this, "please choose date", Toast.LENGTH_LONG).show();
                 } else {
-                    //go to show the order page;
+                    AdminOrderSortFragment fragment = AdminOrderSortFragment.newInstance();
+
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.orderContainer, fragment)
+                            .commit();
                 }
 
             }
