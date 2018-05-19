@@ -72,12 +72,13 @@ public class FoodInOrder implements Parcelable {
         this.num = num;
     }
 
-    public FoodInOrder(String id, String name, int price, int num, int preptime) {
+    public FoodInOrder(String id, String name, int price, int num, int preptime, String category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.num = num;
         this.preptime = preptime;
+        this.category = category;
     }
 
     protected FoodInOrder(Parcel in) {
