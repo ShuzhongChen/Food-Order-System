@@ -433,7 +433,6 @@ public class CheckOutFragment extends Fragment {
             }
         }
 
-
         int ns1 = Integer.parseInt(s1split[3]) * 60 + Integer.parseInt(s1split[4]);
         int nr1 = Integer.parseInt(r1split[3]) * 60 + Integer.parseInt(s1split[4]);
         int ns2 = Integer.parseInt(s2split[3]) * 60 + Integer.parseInt(s1split[4]);

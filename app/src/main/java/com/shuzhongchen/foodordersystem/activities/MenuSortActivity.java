@@ -106,7 +106,7 @@ public class MenuSortActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        
+
         startDatePicker = (TextView) findViewById(R.id.startDate);
         endDatePicker = (TextView) findViewById(R.id.endDate);
         nextButton = (Button) findViewById(R.id.nextButton);
