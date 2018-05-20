@@ -5,6 +5,7 @@ package com.shuzhongchen.foodordersystem.models;
  */
 
 public class Order {
+
     private String orderPlaceTime;
     private String pickupTime;
     private String readyTime;

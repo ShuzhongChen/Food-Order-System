@@ -24,6 +24,7 @@ import java.util.List;
 public class AdminOrderAdapter extends RecyclerView.Adapter {
 
         private List<Order> data;
+        private List<String> key;
 
         public AdminOrderAdapter(@NonNull List<Order> data) {
             this.data = data;
@@ -31,9 +32,11 @@ public class AdminOrderAdapter extends RecyclerView.Adapter {
 
         private Context context;
 
-        public AdminOrderAdapter(Context context, @NonNull List<Order> data) {
+        public AdminOrderAdapter(Context context, @NonNull List<Order> data, @NonNull List<String> orderKey) {
             this.context = context;
             this.data = data;
+            this.key = orderKey;
+
         }
 
 
@@ -51,7 +54,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter {
             ((AdminOrderHolder)holder).Status.setText("" + model.getStatus());
             ((AdminOrderHolder)holder).PickupTime.setText("" + model.getPickupTime());
             ((AdminOrderHolder)holder).StartTime.setText("" + model.getStartTime());
-            ((AdminOrderHolder)holder).OrderId.setText("" + "id");
+            ((AdminOrderHolder)holder).OrderId.setText("" + key.get(position));
             ((AdminOrderHolder)holder).ReadyTime.setText("" + model.getReadyTime());
 
             List<String> content = new ArrayList<>();

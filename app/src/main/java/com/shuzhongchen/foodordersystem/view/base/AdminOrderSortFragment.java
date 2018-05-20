@@ -43,13 +43,15 @@ public class AdminOrderSortFragment extends Fragment {
     public RecyclerView.LayoutManager OrderLayoutManager;
 
     private static List<Order> listOfOrder;
+    private static List<String> orderKey;
 
     private static Context fragmentContext;
 
-    public static AdminOrderSortFragment newInstance(Context context, List<Order> choosedOrders) {
+    public static AdminOrderSortFragment newInstance(Context context, List<Order> choosedOrders, List<String> choosedOrderKey) {
         Bundle args = new Bundle();
         AdminOrderSortFragment fragment = new AdminOrderSortFragment();
         fragment.setArguments(args);
+        orderKey = choosedOrderKey;
         fragmentContext = context;
         listOfOrder = choosedOrders;
         return fragment;
@@ -70,7 +72,7 @@ public class AdminOrderSortFragment extends Fragment {
 
     private void loadOrder(List<Order> choosedOrder) {
 
-        RecyclerView.Adapter adapter = new AdminOrderAdapter( fragmentContext, choosedOrder);
+        RecyclerView.Adapter adapter = new AdminOrderAdapter( fragmentContext, choosedOrder, orderKey);
         OrderRecyclerView.setAdapter(adapter);
     }
 

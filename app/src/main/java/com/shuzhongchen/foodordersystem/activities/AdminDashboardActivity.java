@@ -155,9 +155,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
                                 setTitle("Order Status Report");
                                 break;
-                            case R.id.popularity_report:
-                                System.out.println("status report");
-                                break;
                             case R.id.reset_order:
 
                                 final AlertDialog.Builder alertDialog =new AlertDialog.Builder(AdminDashboardActivity.this);

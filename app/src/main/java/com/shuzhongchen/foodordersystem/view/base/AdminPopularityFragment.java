@@ -37,7 +37,7 @@ import java.util.Map;
  */
 
 public class AdminPopularityFragment extends Fragment {
-    
+
     public RecyclerView.LayoutManager layoutManager;
 
     private static List<Order> listOfOrder;
@@ -96,21 +96,14 @@ public class AdminPopularityFragment extends Fragment {
                 fm.beginTransaction();
                 Fragment fragTwo = null;
 
-                Toast.makeText(fragmentContext, "values: " + values[position], Toast.LENGTH_LONG).show();
                 switch (position) {
                     case 0:
-                        Toast.makeText(fragmentContext, "please choose category first!", Toast.LENGTH_LONG).show();
                         break;
                     case 1:
-
                         fragTwo = AdminPopularityFragmentChild.newInstance(fragmentContext, appetizerMenu);
-
-                        System.out.println("size1: " + appetizerMenu.size() + "\n");
                         break;
                     case 2:
                         fragTwo = AdminPopularityFragmentChild.newInstance(fragmentContext, mainCourseMenu);
-
-                        System.out.println("size2: " + mainCourseMenu.size() + "\n");
                         break;
                     case 3:
                         fragTwo = AdminPopularityFragmentChild.newInstance(fragmentContext, drinkMenu);
@@ -179,9 +172,7 @@ public class AdminPopularityFragment extends Fragment {
         for (Menu m : menus) {
             m.setOrdertimes(0);
         }
-        System.out.println("menu size in initiate: " + menus.size());
     }
-
 
 }
 

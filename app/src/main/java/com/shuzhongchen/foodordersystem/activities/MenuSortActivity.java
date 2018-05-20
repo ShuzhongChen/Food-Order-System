@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,10 +85,14 @@ public class MenuSortActivity extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference orders;
+    FirebaseAuth mAuth;
 
     private List<Order> listOfOrder;
+    private List<String> listOfOrderKey;
     private List<Order> choosedOrder;
     private List<Menu> menuList;
+    private List<String> choosedOrderKey;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,9 +122,12 @@ public class MenuSortActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         orders = database.getReference("Orders");
+        mAuth = FirebaseAuth.getInstance();
 
         listOfOrder = new ArrayList<>();
+        listOfOrderKey = new ArrayList<>();
         choosedOrder = new ArrayList<>();
+        choosedOrderKey = new ArrayList<>();
         menuList = new ArrayList<>();
 
 
@@ -207,13 +215,19 @@ public class MenuSortActivity extends AppCompatActivity {
                     Toast.makeText(MenuSortActivity.this, "please choose date", Toast.LENGTH_LONG).show();
                 } else {
                     choosedOrder.clear();
-                    for (Order o : listOfOrder) {
+                    int length = listOfOrder.size();
+
+                    for (int i = 0; i < length; i++) {
+                        Order o = listOfOrder.get(i);
+                        String k = listOfOrderKey.get(i);
+
                         if (duringTheDate(o.getOrderPlaceTime())) {
                             choosedOrder.add(o);
+                            choosedOrderKey.add(k);
                         }
                     }
 
-                    Fragment fragment = AdminOrderSortFragment.newInstance(getApplicationContext(), choosedOrder);
+                    Fragment fragment = AdminOrderSortFragment.newInstance(getApplicationContext(), choosedOrder, choosedOrderKey);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.orderContainer, fragment)
@@ -236,6 +250,7 @@ public class MenuSortActivity extends AppCompatActivity {
                         choosedOrder.add(o);
                     }
                 }
+
                 Bundle bundle = getIntent().getExtras();
                 ArrayList<Menu> menuList = bundle.getParcelableArrayList("MENU_LIST");
 
@@ -244,8 +259,6 @@ public class MenuSortActivity extends AppCompatActivity {
                         .beginTransaction()
                         .replace(R.id.orderContainer, fragment)
                         .commit();
-                //Toast.makeText(getApplicationContext(), choosedOrder.size() + " orders have been loaded", Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), choosedOrder.size() + " orders have been loaded in popularity report", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -256,6 +269,7 @@ public class MenuSortActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Order order = postSnapshot.getValue(Order.class);
                         listOfOrder.add(order);
+                        listOfOrderKey.add(postSnapshot.getKey());
                 }
                 System.out.println("list size: " + listOfOrder.size() + "\n");
             }
@@ -268,12 +282,6 @@ public class MenuSortActivity extends AppCompatActivity {
         });
 
     }
-
-//    private void loadOrder(List<Order> choosedOrder) {
-//
-//        RecyclerView.Adapter adapter = new AdminOrderAdapter( getApplicationContext(), choosedOrder);
-//        OrderRecyclerView.setAdapter(adapter);
-//    }
 
 
     private boolean duringTheDate(String date) {
