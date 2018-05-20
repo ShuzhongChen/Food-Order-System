@@ -50,6 +50,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Order model = data.get(position);
+            ((AdminOrderHolder)holder).UserEmail.setText("" + model.getUserEmail());
             ((AdminOrderHolder)holder).TotalPrice.setText("" + model.getTotalPrice());
             ((AdminOrderHolder)holder).Status.setText("" + model.getStatus());
             ((AdminOrderHolder)holder).PickupTime.setText("" + model.getPickupTime());

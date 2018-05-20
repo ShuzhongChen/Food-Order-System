@@ -1,9 +1,11 @@
 package com.shuzhongchen.foodordersystem.activities;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.aware.Characteristics;
 import android.os.Build;
@@ -93,6 +95,7 @@ public class MenuSortActivity extends AppCompatActivity {
     private List<Menu> menuList;
     private List<String> choosedOrderKey;
 
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,10 +106,7 @@ public class MenuSortActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
+        
         startDatePicker = (TextView) findViewById(R.id.startDate);
         endDatePicker = (TextView) findViewById(R.id.endDate);
         nextButton = (Button) findViewById(R.id.nextButton);
@@ -129,6 +129,32 @@ public class MenuSortActivity extends AppCompatActivity {
         choosedOrder = new ArrayList<>();
         choosedOrderKey = new ArrayList<>();
         menuList = new ArrayList<>();
+
+        mDrawerLayout = findViewById(R.id.admin_drawer_layout_two);
+
+        mDrawerLayout.addDrawerListener(
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        // Respond when the drawer's position changes
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Respond when the drawer is opened
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        // Respond when the drawer is closed
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        // Respond when the drawer motion state changes
+                    }
+                }
+        );
 
 
         startDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +232,68 @@ public class MenuSortActivity extends AppCompatActivity {
 
         });
 
+        NavigationView navigationView = findViewById(R.id.admin_nav_view_two);
+
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem item) {
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        switch (item.getItemId()) {
+                            case R.id.status_report:
+//
+//                                System.out.println("status report");
+//
+//                                Intent i = new Intent(AdminDashboardActivity.this,MenuSortActivity.class);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putParcelableArrayList("MENU_LIST", menuList);
+//                                i.putExtras(bundle);
+//                                startActivity(i);
+//
+//                                setTitle("Order Status Report");
+                                break;
+                            case R.id.reset_order:
+//
+//                                final AlertDialog.Builder alertDialog =new AlertDialog.Builder(AdminDashboardActivity.this);
+//                                alertDialog.setTitle("Are you want to delete all orders?");
+//                                alertDialog.setCancelable(false);
+//                                alertDialog.setMessage("By deleting this, item will permanently be deleted. Are you still want to delete this?");
+//                                alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                });
+//
+//                                alertDialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        System.out.println("remove clicked: " + "\n");
+//                                        removeAllOrders();
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                });
+//
+//                                alertDialog.show();
+//                                System.out.println("reset order");
+                                break;
+                            case R.id.admin_log_out:
+//                                Intent goMainActivity = new Intent(AdminDashboardActivity.this, MainActivity.class);
+//                                startActivity(goMainActivity);
+//                                finish();
+//                                break;
+                                break;
+
+                        }
+                        mDrawerLayout.closeDrawers();
+
+                        return false;
+                    }
+                }
+        );
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,21 +332,25 @@ public class MenuSortActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                choosedOrder.clear();
-                for (Order o : listOfOrder) {
-                    if (duringTheDate(o.getOrderPlaceTime())) {
-                        choosedOrder.add(o);
+                if (!startDateChoosed || !endDateChoosed) {
+                    Toast.makeText(MenuSortActivity.this, "please choose date", Toast.LENGTH_LONG).show();
+                } else {
+                    choosedOrder.clear();
+                    for (Order o : listOfOrder) {
+                        if (duringTheDate(o.getOrderPlaceTime())) {
+                            choosedOrder.add(o);
+                        }
                     }
+
+                    Bundle bundle = getIntent().getExtras();
+                    ArrayList<Menu> menuList = bundle.getParcelableArrayList("MENU_LIST");
+
+                    Fragment fragment = AdminPopularityFragment.newInstance(getApplicationContext(), choosedOrder, menuList);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.orderContainer, fragment)
+                            .commit();
                 }
-
-                Bundle bundle = getIntent().getExtras();
-                ArrayList<Menu> menuList = bundle.getParcelableArrayList("MENU_LIST");
-
-                Fragment fragment = AdminPopularityFragment.newInstance(getApplicationContext(), choosedOrder, menuList);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.orderContainer, fragment)
-                        .commit();
             }
         });
 

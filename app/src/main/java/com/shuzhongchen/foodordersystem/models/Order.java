@@ -5,7 +5,7 @@ package com.shuzhongchen.foodordersystem.models;
  */
 
 public class Order {
-
+    private String userEmail;
     private String orderPlaceTime;
     private String pickupTime;
     private String readyTime;
@@ -14,6 +14,14 @@ public class Order {
     private String uid;
     private int totalPrice;
     private OrderContent orderContent;
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 
     public String getStartTime() {
         return startTime;

@@ -15,6 +15,7 @@ import com.shuzhongchen.foodordersystem.interfaces.ItemClickListener;
 public class AdminOrderHolder extends RecyclerView.ViewHolder {
 
     public TextView OrderId;
+    public TextView UserEmail;
     public TextView StartTime;
     public TextView PickupTime;
     public TextView ReadyTime;
@@ -27,6 +28,7 @@ public class AdminOrderHolder extends RecyclerView.ViewHolder {
 
     public AdminOrderHolder(View view) {
         super(view);
+        UserEmail = (TextView) view.findViewById(R.id.user_email_textview);
        OrderId = (TextView) view.findViewById(R.id.order_id_textview);
        StartTime = (TextView) view.findViewById(R.id.start_time_textview);
        PickupTime = (TextView) view.findViewById(R.id.pickup_time_textview);

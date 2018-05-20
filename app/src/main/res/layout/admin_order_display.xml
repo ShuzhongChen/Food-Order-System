@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
@@ -32,6 +32,25 @@
 
             <TextView
                 android:id="@+id/order_id_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="User Email:" />
+
+            <TextView
+                android:id="@+id/user_email_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
