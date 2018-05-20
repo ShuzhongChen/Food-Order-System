@@ -139,6 +139,11 @@ public class CheckOutFragment extends Fragment {
                 String pickupDate = pickdate.getText().toString();
                 String pickupTime = picktime.getText().toString();
 
+                if (pickupDate.equals("Select Date") || pickupTime.equals("Select Time") ) {
+                    Toast.makeText(getContext(), "Please select pickup date and time!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 String[] str = pickupTime.split(":");
 
                 StringBuilder sb = new StringBuilder();
@@ -229,6 +234,7 @@ public class CheckOutFragment extends Fragment {
                     Toast.makeText(getContext(), "Sorry, we are too busy at this time! Select another time slot.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String useremail = mAuth.getCurrentUser().getEmail();
 
                 order.setOrderContent(orderContent)
                         .setOrderPlaceTime(dateFormat.format(date).toString())
@@ -236,7 +242,8 @@ public class CheckOutFragment extends Fragment {
                         .setReadyTime(sb.toString())
                         .setStartTime(startTime)
                         .setStatus(String.valueOf(Order.Status.queued))
-                        .setTotalPrice(totalPrice);
+                        .setTotalPrice(totalPrice)
+                        .setUserEmail(useremail);
 
                 order.setUid(mAuth.getCurrentUser().getUid());
 

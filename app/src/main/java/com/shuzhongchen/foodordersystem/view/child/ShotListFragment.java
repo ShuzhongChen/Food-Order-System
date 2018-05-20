@@ -87,7 +87,6 @@ public class ShotListFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.d("Shuzhong debug "," yes");
                 pos = parentView.getSelectedItemPosition();
                 listType = getArguments().getInt(POSITION_KEY);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -130,15 +129,7 @@ public class ShotListFragment extends Fragment {
             }
         }
 
-        for (int i = 0; i < newList.size(); i++) {
-            Log.d("Shuzhong debug1", newList.get(i).getName());
-        }
-        Log.d("Shuzhong debug pos", pos + "");
         newList = sortList(new ArrayList<>(newList), pos);
-
-        for (int i = 0; i < newList.size(); i++) {
-            Log.d("Shuzhong debug2", newList.get(i).getName());
-        }
 
         recyclerView.setAdapter(new ShotListAdapter(newList));
     }

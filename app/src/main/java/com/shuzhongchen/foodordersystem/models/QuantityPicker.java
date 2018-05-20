@@ -304,10 +304,9 @@ public class QuantityPicker extends LinearLayout {
             View rootView = ((Activity)mContext).getWindow().getDecorView().findViewById(android.R.id.content);
             TextView tot = rootView.findViewById(R.id.txtTotalPrice);
             tot.setText("" + totalPrice);
-            Log.d("total", "" + totalPrice);
 
             ModelUtils.save(getContext(), MODEL_FOODLIST, foodList);
-            Log.d("items", "" + getQuantity());
+
         }
 
     };

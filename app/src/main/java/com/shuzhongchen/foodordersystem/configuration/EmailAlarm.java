@@ -30,7 +30,6 @@ public class EmailAlarm extends BroadcastReceiver{
 //        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 //        notificationManager.notify(0, builder.build());
         String userEmail = intent.getStringExtra("email");
-        Log.d("Reminder", "onReceive: " + userEmail);
 
         String subject = "IFood Reminder";
         String message = "Your order is ready! Go grab your food!";

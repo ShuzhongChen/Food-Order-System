@@ -216,16 +216,11 @@ public class CustomerActivity extends AppCompatActivity {
                     try{
                         //formatting the dateString to convert it into a Date
                         Date date = sdf.parse(time);
-                        System.out.println("Given Time in milliseconds : "+ date.getTime());
-                        Log.d("Time", "sendReminderMail: " + date.getTime());
-
                         sendReminderMail(date.getTime(), user.getEmail());
 
                     }catch(ParseException e){
                         e.printStackTrace();
                     }
-
-                    Log.d("Pickup", "onDataChange: " + time);
                 }
 
             }
