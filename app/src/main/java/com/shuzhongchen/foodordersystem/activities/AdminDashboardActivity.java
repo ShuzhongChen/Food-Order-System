@@ -89,6 +89,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
     private List<String> keyList;
+    private ArrayList<Menu> menuList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +146,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             case R.id.status_report:
 
                                 System.out.println("status report");
+
                                 Intent i = new Intent(AdminDashboardActivity.this,MenuSortActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList("MENU_LIST", menuList);
+                                i.putExtras(bundle);
                                 startActivity(i);
 
                                 setTitle("Order Status Report");
@@ -198,6 +204,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         orderDB = firebaseDatabase.getReference("Orders");
 
         keyList = new ArrayList<>();
+        menuList = new ArrayList<>();
         orderDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -213,23 +220,21 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-//        menuDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                Log.e("Count " ,""+snapshot.getChildrenCount());
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    Menu menu = postSnapshot.getValue(Menu.class);
-//                    System.out.println("menu: " + menu.toString() + "\n");
-//                    System.out.println("menu name: " + menu.getName() + "\n");
-//                    System.out.println("menu category: " + menu.getCategory());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError firebaseError) {
-//                Log.e("The read failed: " ,firebaseError.getMessage());
-//            }
-//        });
+        menuDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    Menu menu = postSnapshot.getValue(Menu.class);
+                    menuList.add(menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
 
 
 

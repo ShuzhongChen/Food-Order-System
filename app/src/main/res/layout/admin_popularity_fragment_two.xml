@@ -6,21 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.shuzhongchen.foodordersystem.activities.MenuSortActivity">
 
-    <Spinner
-        android:id="@+id/mainSpinner"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/AdminListPopularity"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:autofillHints="please choose" />
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fragment2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
-
-    </FrameLayout>
+    </android.support.v7.widget.RecyclerView>
 
 
 

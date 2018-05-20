@@ -42,6 +42,7 @@ import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.adapter.AdminOrderAdapter;
 import com.shuzhongchen.foodordersystem.holders.AdminOrderHolder;
 import com.shuzhongchen.foodordersystem.models.FoodInOrder;
+import com.shuzhongchen.foodordersystem.models.Menu;
 import com.shuzhongchen.foodordersystem.models.Order;
 import com.shuzhongchen.foodordersystem.models.OrderContent;
 import com.shuzhongchen.foodordersystem.view.base.AdminOrderSortFragment;
@@ -86,6 +87,7 @@ public class MenuSortActivity extends AppCompatActivity {
 
     private List<Order> listOfOrder;
     private List<Order> choosedOrder;
+    private List<Menu> menuList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,12 +118,9 @@ public class MenuSortActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         orders = database.getReference("Orders");
 
-//        OrderRecyclerView = (RecyclerView) findViewById(R.id.AdminListOrders);
-//        OrderLayoutManager = new LinearLayoutManager(this);
-//        OrderRecyclerView.setHasFixedSize(true);
-//        OrderRecyclerView.setLayoutManager(OrderLayoutManager);
         listOfOrder = new ArrayList<>();
         choosedOrder = new ArrayList<>();
+        menuList = new ArrayList<>();
 
 
         startDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -237,8 +236,10 @@ public class MenuSortActivity extends AppCompatActivity {
                         choosedOrder.add(o);
                     }
                 }
+                Bundle bundle = getIntent().getExtras();
+                ArrayList<Menu> menuList = bundle.getParcelableArrayList("MENU_LIST");
 
-                Fragment fragment = AdminPopularityFragment.newInstance(getApplicationContext(), choosedOrder);
+                Fragment fragment = AdminPopularityFragment.newInstance(getApplicationContext(), choosedOrder, menuList);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.orderContainer, fragment)
