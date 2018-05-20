@@ -6,10 +6,6 @@
             android:title="@string/statusReport"
             android:icon="@drawable/ic_content_copy_black_24dp"/>
         <item
-            android:id="@+id/popularity_report"
-            android:title="@string/popularityReport"
-            android:icon="@drawable/ic_group_black_24dp"/>
-        <item
             android:id="@+id/reset_order"
             android:title="@string/resetOrder"
             android:icon="@drawable/ic_hourglass_empty_black_24dp"/>

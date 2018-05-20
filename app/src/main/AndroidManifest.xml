@@ -4,8 +4,12 @@
     package="com.shuzhongchen.foodordersystem">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.hardware.camera2.full"></uses-permission>
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+
+
 
     <application
         android:allowBackup="true"
@@ -22,6 +26,7 @@
         </activity>
         <activity android:name=".activities.SignUp" />
         <activity android:name=".activities.LogIn"></activity>
+        <activity android:name=".activities.MenuSortActivity"></activity>
         <activity android:name=".activities.CustomerActivity" />
         <activity android:name=".activities.AdminDashboardActivity"
             android:configChanges=
