@@ -404,6 +404,7 @@ public class CheckOutFragment extends Fragment {
 
     private String calculateStartTime(String pickupDate, String pickuptime, int totalPrepTime) {
         int minute = totalPrepTime % 60;
+        int hour = totalPrepTime / 60;
 
         String[] str = pickuptime.split(":");
         int currentMin = Integer.parseInt(str[1]);
@@ -411,6 +412,8 @@ public class CheckOutFragment extends Fragment {
 
         currentMin = currentMin >= minute ? currentMin - minute : currentMin + 60 - minute;
         currentHour = currentMin >= minute ? currentHour : currentHour - 1;
+
+        currentHour = currentHour - hour >= 5 ? currentHour - hour : 0;
 
         StringBuilder sb = new StringBuilder();
         return sb.append(pickupDate).append("/").append(String.valueOf(currentHour))

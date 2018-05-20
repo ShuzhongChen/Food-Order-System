@@ -1,4 +1,4 @@
-package com.shuzhongchen.foodordersystem.view.child;
+package com.shuzhongchen.foodordersystem.fragments;
 
 import android.app.DatePickerDialog;
 import android.support.v4.app.Fragment;
@@ -36,6 +36,8 @@ public class MenuSortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        System.out.println("OnCreateView Pressed!" + "\n");
+
         View viewRoot = inflater.inflate(R.layout.admin_choose_date, container, false);
 
         startDatePicker = (EditText) viewRoot.findViewById(R.id.startDate);

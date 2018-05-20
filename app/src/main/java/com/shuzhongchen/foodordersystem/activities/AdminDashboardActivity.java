@@ -2,8 +2,6 @@ package com.shuzhongchen.foodordersystem.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -21,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,31 +35,25 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.shuzhongchen.foodordersystem.holders.CustomListView;
+import com.shuzhongchen.foodordersystem.helper.MyRecyclerItemClickListener;
 import com.shuzhongchen.foodordersystem.R;
 import com.shuzhongchen.foodordersystem.holders.MenuViewHolder;
 import com.shuzhongchen.foodordersystem.models.Menu;
+import com.shuzhongchen.foodordersystem.fragments.MenuSortFragment;
 import com.shuzhongchen.foodordersystem.models.Order;
-import com.shuzhongchen.foodordersystem.view.base.BaseFragment;
-import com.shuzhongchen.foodordersystem.view.base.OrderHistoryFragment;
-import com.shuzhongchen.foodordersystem.view.child.MenuSortFragment;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -76,10 +66,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private Activity content;
 
     private FloatingActionButton floatingActionButton;
-    private final int requestCode = 20;
+    private final int requestCode = 1;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference menuDatabase;
+    DatabaseReference orderDB;
 
     StorageReference storageRef;
 
@@ -96,6 +87,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private int maxKey;
 
     private DrawerLayout mDrawerLayout;
+
+    private List<String> keyList;
+    private ArrayList<Menu> menuList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,28 +146,41 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             case R.id.status_report:
 
                                 System.out.println("status report");
-//                                FragmentManager manager = getFragmentManager();
-//                                FragmentTransaction transaction = manager.beginTransaction();
-//                                transaction.add(R.id.admin_fragment_container,MenuSortFragment,"menu");
-//                                transaction.addToBackStack(null);
-//                                transaction.commit();
 
+                                Intent i = new Intent(AdminDashboardActivity.this,MenuSortActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList("MENU_LIST", menuList);
+                                i.putExtras(bundle);
+                                startActivity(i);
 
                                 setTitle("Order Status Report");
                                 break;
-                            case R.id.popularity_report:
-                                System.out.println("status report");
-                                break;
                             case R.id.reset_order:
+
+                                final AlertDialog.Builder alertDialog =new AlertDialog.Builder(AdminDashboardActivity.this);
+                                alertDialog.setTitle("Are you want to delete all orders?");
+                                alertDialog.setCancelable(false);
+                                alertDialog.setMessage("By deleting this, item will permanently be deleted. Are you still want to delete this?");
+                                alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+
+                                alertDialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        System.out.println("remove clicked: " + "\n");
+                                        removeAllOrders();
+                                        dialog.dismiss();
+                                    }
+
+                                });
+
+                                alertDialog.show();
                                 System.out.println("reset order");
                                 break;
-//                            fragment = BaseFragment.newInstance();
-//                            setTitle(R.string.logout);
-//                                mAuth.signOut();
-//                                finish();
-//                                Intent backToHome = new Intent(getApplicationContext(), MainActivity.class);
-//                                startActivity(backToHome);
-//                                break;
                             case R.id.admin_log_out:
                                 Intent goMainActivity = new Intent(AdminDashboardActivity.this, MainActivity.class);
                                 startActivity(goMainActivity);
@@ -191,25 +198,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         menuDatabase = firebaseDatabase.getReference("menu");
 
-//        DatabaseReference orderDB = firebaseDatabase.getReference("Orders");
+        orderDB = firebaseDatabase.getReference("Orders");
 
-//        orderDB.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                Log.e("Count " ,""+snapshot.getChildrenCount());
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    Order order = postSnapshot.getValue(Order.class);
-//                    System.out.println("order: " + order.toString() + "\n");
-//                    System.out.println("order start time: " + order.getStartTime() + "\n");
-//                    System.out.println("order total time: " + order.getTotalPrice() + "\n");
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError firebaseError) {
-//                Log.e("The read failed: " ,firebaseError.getMessage());
-//            }
-//        });
+        keyList = new ArrayList<>();
+        menuList = new ArrayList<>();
+        orderDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                  keyList.add(postSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
 
         menuDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -217,9 +223,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 Log.e("Count " ,""+snapshot.getChildrenCount());
                 for (DataSnapshot postSnapshot: snapshot.getChildren()) {
                     Menu menu = postSnapshot.getValue(Menu.class);
-                    System.out.println("menu: " + menu.toString() + "\n");
-                    System.out.println("menu name: " + menu.getName() + "\n");
-                    System.out.println("menu category: " + menu.getCategory());
+                    menuList.add(menu);
                 }
             }
 
@@ -279,6 +283,24 @@ public class AdminDashboardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void removeAllOrders() {
+        for (String key : keyList) {
+           orderDB.child(key)
+                    .removeValue()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AdminDashboardActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            adapter.notifyDataSetChanged();
+        }
+        Toast.makeText(AdminDashboardActivity.this, "Orders Remove Succeed!", Toast.LENGTH_SHORT).show();
+    }
 
     private void loadAllMenu() {
 
@@ -310,49 +332,51 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 Picasso.get().load(model.getImage())
                         .into(holder.imageButton);
 
-                holder.removeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        removeMenu(adapter.getRef(position).getKey());
-                    }
-                });
-            }
 
+            }
         };
 
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new MyRecyclerItemClickListener(getApplicationContext(),recyclerView,new MyRecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                System.out.println("on item clicked: " + "\n");
+            }
+
+            @Override
+            public void onLongClick(View view, final int position) {
+
+                System.out.println("position: " + position + "\n");
+                final AlertDialog.Builder alertDialog =new AlertDialog.Builder(AdminDashboardActivity.this);
+                alertDialog.setTitle("Are you want to delete this");
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage("By deleting this, item will permanently be deleted. Are you still want to delete this?");
+                alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                alertDialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("remove clicked: " + "\n");
+                        removeMenu(adapter.getRef(position).getKey());
+                        dialog.dismiss();
+                    }
+
+                });
+
+                alertDialog.show();
+            }
+        }));
+
     }
 
-
-    private void showEditDialog(String key, Menu model) {
-        AlertDialog.Builder create_menu_dialog = new AlertDialog.Builder(AdminDashboardActivity.this);
-        create_menu_dialog.setTitle("Update Menu");
-
-        //update everyfield from this input page
-        LayoutInflater layoutInflater = this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.activity_menu_detail,null);
-
-        create_menu_dialog.setView(view);
-
-        create_menu_dialog.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                // to do : update information to firebase
-            }
-        });
-
-        create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        create_menu_dialog.show();
-    }
 
 
     private void removeMenu(String key) {
@@ -399,8 +423,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("button clicked" + "\n");
+
                 Intent photoCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoCaptureIntent, requestCode);
+
+                if (photoCaptureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(photoCaptureIntent, requestCode);
+                }
+
 
             }
         });
@@ -485,14 +514,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-
-
         create_menu_dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
+
         adapter.notifyDataSetChanged();
         create_menu_dialog.show();
 

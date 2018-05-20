@@ -57,6 +57,7 @@ public class ShotListAdapter extends RecyclerView.Adapter {
         final int price = menu.getUnitprice();
         final String id = menu.getUuid();
         final int preptime = menu.getPreptime();
+        final String category = menu.getCategory();
 
         ((ShotViewHolder) holder).price.setText(price + "");
         ((ShotViewHolder) holder).title.setText(name);
@@ -150,7 +151,7 @@ public class ShotListAdapter extends RecyclerView.Adapter {
                     ModelUtils.save(context, MODEL_FOODLIST, foodList);
                     ((ShotViewHolder) holder).btn.setImageResource(R.drawable.ic_add_black_24dp);
                 } else {
-                    foodList.add(new FoodInOrder(id, name, price, 1, preptime));
+                    foodList.add(new FoodInOrder(id, name, price, 1, preptime, category));
 
                     ModelUtils.save(context, MODEL_FOODLIST, foodList);
                     ((ShotViewHolder) holder).btn.setImageResource(R.drawable.ic_check_black_24dp);

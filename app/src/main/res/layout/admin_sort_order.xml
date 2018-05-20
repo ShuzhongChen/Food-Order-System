@@ -10,19 +10,12 @@
     android:background="@drawable/login_background"
     card_view:cardCornerRadius="7dp">
 
-    <ImageView
-        android:id="@+id/menu_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/add" />
 
     <LinearLayout
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="125dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -33,13 +26,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/id" />
+                android:text="Popularity:" />
 
             <TextView
-                android:id="@+id/menu_id_textView"
+                android:id="@+id/popularity_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -52,13 +45,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/name" />
 
             <TextView
-                android:id="@+id/menu_name_textView"
+                android:id="@+id/name_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -71,13 +64,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/category" />
 
             <TextView
-                android:id="@+id/menu_category_textview"
+                android:id="@+id/category_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -90,13 +83,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/unit_price" />
 
             <TextView
-                android:id="@+id/menu_unit_price_textView"
+                android:id="@+id/unitprice_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -110,13 +103,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/calories" />
 
             <TextView
-                android:id="@+id/menu_calories_textView"
+                android:id="@+id/calories_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -129,13 +122,13 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/prepTime" />
 
             <TextView
-                android:id="@+id/menu_preptime_textView"
+                android:id="@+id/preptime_sort_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
